@@ -56,7 +56,43 @@ function updateSummary(){summaryPast.value=getStep1Name();summaryPlace.value=get
 function fillExampleMessage(){messageInput.value='지금도 늦지 않았어요! 나의 꿈을 다시 시작해요!'}
 function showWarn(msg){warn.textContent='⚠️ '+msg;warn.style.display='block';warn.scrollIntoView({behavior:'smooth',block:'center'})}
 function hideWarn(){warn.style.display='none'}
-function makePrompt(){const past=getStep1Name();const now=getStep2Names();const place=getStep3Name();const feels=getStep4Names();const message=messageInput.value.trim()||'지금도 늦지 않았어요! 나의 꿈을 다시 시작해요!';if(!past)return showWarn('1단계에서 젊었을 때 해보고 싶었던 꿈을 선택해 주세요.');if(!now.length)return showWarn('2단계에서 지금 해보고 싶은 것을 하나 이상 골라 주세요.');if(!place)return showWarn('3단계에서 장소를 선택해 주세요.');if(!feels.length)return showWarn('4단계에서 원하는 모습을 하나 이상 골라 주세요.');const nowText=now.join(', '), feelText=feels.join(', ');const prompt=`다음 조건에 맞춰 한국어로 된 세로형 포스터 이미지 1장을 만들어 줘.\n\n[포스터 주제]\n- AI로 이루는 나의 꿈\n- 한국의 70~80대 어르신이 꿈을 이루는 따뜻하고 희망적인 포스터\n\n[기본 내용]\n- 젊었을 때 해보고 싶었던 꿈: ${past}\n- 지금 해보고 싶은 것: ${nowText}\n- 꿈을 이루고 싶은 장소: ${place}\n- 내가 되고 싶은 모습: ${feelText}\n- 포스터에 넣을 한마디: “${message}”\n\n[이미지 표현]\n- 주인공은 한국의 어르신 1명 또는 상황에 맞는 가족/주변 인물과 함께 표현\n- 표정은 밝고 희망차고 자신감 있는 모습\n- ${place} 배경에서 ${now[0]}를 하거나, ${nowText}를 상징적으로 보여 주는 장면\n- ${feelText} 느낌이 잘 드러나게 표현\n- 전체적으로 고급스럽고 따뜻한 실사 스타일\n- 큰 제목과 큰 본문 글씨, 어르신도 읽기 쉬운 또렷한 한국어 텍스트\n- 파스텔 포인트 컬러와 밝은 하늘색/분홍색 계열의 산뜻한 분위기\n\n[포스터 구성]\n1. 상단 제목: AI로 이루는 나의 꿈\n2. 큰 메인 이미지\n3. 꿈 소개 문장: “나는 ${now[0]}를(을) 해보고 싶어요.”\n4. 보조 문장: “AI로 ${feelText} 모습의 나를 만들어 주세요.”\n5. 하단 응원 문구: “${message}”\n\n[문구 작성 방식]\n- 짧고 따뜻한 한국어 문장\n- 희망적이고 응원하는 분위기\n- 실제로 포스터 안에 보기 좋게 배치된 완성 포스터 형태로 만들어 줘.`;promptOutput.textContent=prompt;resultWrap.classList.add('show');resultWrap.scrollIntoView({behavior:'smooth',block:'start'});hideWarn()}
+function makePrompt(){const past=getStep1Name();const now=getStep2Names();const place=getStep3Name();const feels=getStep4Names();const message=messageInput.value.trim()||'지금도 늦지 않았어요! 나의 꿈을 다시 시작해요!';if(!past)return showWarn('1단계에서 젊었을 때 해보고 싶었던 꿈을 선택해 주세요.');if(!now.length)return showWarn('2단계에서 지금 해보고 싶은 것을 하나 이상 골라 주세요.');if(!place)return showWarn('3단계에서 장소를 선택해 주세요.');if(!feels.length)return showWarn('4단계에서 원하는 모습을 하나 이상 골라 주세요.');const nowText=now.join(', '), feelText=feels.join(', ');const prompt=`다음 조건에 맞춰 한국어로 된 세로형 포스터 이미지 1장을 만들어 줘.
+
+[포스터 주제]
+- AI로 이루는 나의 꿈
+- 한국의 70~80대 어르신이 꿈을 이루는 따뜻하고 희망적인 포스터
+
+[기본 내용]
+- 젊었을 때 해보고 싶었던 꿈: ${past}
+- 지금 해보고 싶은 것: ${nowText}
+- 꿈을 이루고 싶은 장소: ${place}
+- 내가 되고 싶은 모습: ${feelText}
+- 포스터에 넣을 한마디: “${message}”
+
+[이미지 표현]
+- 주인공은 한국의 어르신 1명 또는 상황에 맞는 가족/주변 인물과 함께 표현
+- 표정은 밝고 희망차고 자신감 있는 모습
+- ${place}을(를) 배경으로, 지금 해보고 싶은 꿈을 이루고 있는 장면처럼 자연스럽게 표현
+- ${feelText} 분위기가 잘 드러나도록 표현
+- 전체적으로 고급스럽고 따뜻한 실사 스타일
+- 큰 제목과 큰 본문 글씨, 어르신도 읽기 쉬운 또렷한 한국어 텍스트
+- 파스텔 포인트 컬러와 밝은 하늘색/분홍색 계열의 산뜻한 분위기
+
+[포스터 구성]
+1. 상단 제목: AI로 이루는 나의 꿈
+2. 큰 메인 이미지
+3. 꿈 소개 문장 1개
+4. 보조 문장 1개
+5. 하단 응원 문구: “${message}”
+
+[문구 작성 규칙]
+- 아래의 의미를 살리되, 포스터 안 문구는 자연스럽고 어색하지 않은 한국어로 다듬어 작성해 줘
+- “나는 ${nowText}를 해보고 싶어요.”라는 뜻이 자연스럽게 전달되게 작성
+- “AI로 ${feelText} 느낌의 나를 만들어 주세요.”라는 뜻이 자연스럽게 전달되게 작성
+- 조사(은/는, 이/가, 을/를)와 문장 표현을 상황에 맞게 자연스럽게 수정해도 돼
+- 짧고 따뜻한 한국어 문장
+- 희망적이고 응원하는 분위기
+- 실제로 포스터 안에 보기 좋게 배치된 완성 포스터 형태로 만들어 줘.`;promptOutput.textContent=prompt;resultWrap.classList.add('show');resultWrap.scrollIntoView({behavior:'smooth',block:'start'});hideWarn()}
 async function copyPrompt(btn){try{await navigator.clipboard.writeText(promptOutput.textContent);const old=btn.textContent;btn.textContent='✅ 복사되었습니다!';setTimeout(()=>btn.textContent=old,1500)}catch(e){alert('복사에 실패했어요.')}}
 async function openChatGPT(e){e.preventDefault();try{await navigator.clipboard.writeText(promptOutput.textContent)}catch(err){}window.open('https://chatgpt.com/','_blank','noopener');}
 ['step1CustomInput','step2CustomInput','step3CustomInput','extraFeel'].forEach(id=>document.addEventListener('input',e=>{if(e.target&&e.target.id===id)updateSummary();}));
