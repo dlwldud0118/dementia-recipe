@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI로 만드는 치매보듬마을 포스터</title>
+<!-- REALISTIC ASSET VERSION 2: 2026-10-07 -->
 <style>
 :root{--navy:#17346b;--pink:#ff4f87;--blue:#2e9fe8;--green:#27a85b;--orange:#ff9b20;--purple:#8b57d8;--teal:#18a99b;--ink:#263550;--muted:#66758c;--shadow:0 12px 28px rgba(34,64,110,.08)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Noto Sans KR","Malgun Gothic",Arial,sans-serif;background:linear-gradient(180deg,#eefaff 0,#fff9fb 18%,#fff 100%);color:var(--ink);font-size:18px;line-height:1.5}
@@ -22,6 +23,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 .warn{display:none;margin:14px 0;padding:12px 14px;background:#fff2f5;border:2px solid #ffc9d6;color:#8e304c;border-radius:14px;font-weight:900}.result{display:none;margin-top:16px;padding:20px;border-radius:26px;background:#213250;color:#fff}.result.show{display:block}.result h3{margin:0 0 10px;color:#ffe483}.prompt{white-space:pre-wrap;background:#2c4167;border:1px solid #49618c;border-radius:16px;padding:15px;line-height:1.72;max-height:520px;overflow:auto}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px}.copy,.home{border:0;border-radius:14px;padding:12px 19px;color:#fff;font-weight:900}.copy{background:#3fbab2}.home{background:#6b78a0;text-decoration:none;display:inline-block}.note{margin-top:10px;padding:10px 12px;border-radius:13px;background:#fff8df;color:#755f22;border:1px solid #eed697;font-size:14px;font-weight:700}
 @media(max-width:980px){.hero-inner{grid-template-columns:1fr}.hero .char{display:none}.grid.five,.grid.six{grid-template-columns:repeat(3,1fr)}.summary-grid,.cta{grid-template-columns:1fr}}
 @media(max-width:700px){body{font-size:16px}.wrap{padding:8px}.panel{padding:14px}.grid,.grid.four,.grid.five,.grid.six{grid-template-columns:repeat(2,1fr)}.thumb{height:112px}.num{width:48px;height:48px;font-size:25px}.meta strong{font-size:18px}}
+.openai{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#7c5cff,#6241db);color:#fff;text-decoration:none;border:0;border-radius:14px;padding:12px 18px;font-weight:900;cursor:pointer}
 </style>
 </head>
 <body>
@@ -36,7 +38,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 <section class="panel p6"><div class="head"><div class="num n6">6</div><div><h2>내가 만들 포스터를 확인해 보세요!</h2><p class="sub">선택한 내용이 자동으로 정리됩니다.</p></div></div><div class="summary-grid"><div class="summary-box"><div class="tag">🏡 내가 고른 보듬마을 모습</div><b id="sumVillage">아직 선택하지 않았어요.</b></div><div class="summary-box"><div class="tag">💗 내가 전하고 싶은 문구</div><b id="sumPhrase">아직 선택하지 않았어요.</b></div><div class="summary-box"><div class="tag">🌷 포스터 속 나의 활동</div><b id="sumAction">아직 선택하지 않았어요.</b></div></div><div class="note">※ 이 활동은 치매에 대한 이해와 지역사회에서 함께 살아가는 모습을 생각해 보는 교육용 활동입니다.</div></section>
 <section class="cta"><div class="robot">🤖</div><div><h3>AI야!</h3><p>내가 고른 내용으로 치매보듬마을 포스터 이미지를 만들어 주세요!</p></div><button id="makePromptBtn" class="go" type="button">AI 포스터 프롬프트 만들기 →</button></section>
 <div id="warn" class="warn"></div>
-<section id="result" class="result"><h3>🖼️ 완성된 이미지 생성 프롬프트</h3><div id="promptOutput" class="prompt"></div><div class="actions"><button id="copyPromptBtn" class="copy" type="button">📋 프롬프트 복사하기</button><a class="home" href="../">🏠 다른 활동 고르기</a></div></section>
+<section id="result" class="result"><h3>🖼️ 완성된 이미지 생성 프롬프트</h3><div id="promptOutput" class="prompt"></div><div class="actions"><button id="copyPromptBtn" class="copy" type="button">📋 프롬프트 복사하기</button><button class="openai" type="button" onclick="copyAndOpenChatGPT()">🤖 ChatGPT 열기 ↗</button><a class="home" href="../">🏠 다른 활동 고르기</a></div></section>
 </div>
 <script>
 const $=id=>document.getElementById(id);
@@ -47,7 +49,7 @@ const S4=[['s4_1','치매가 있어도 함께 살아요.'],['s4_2','이웃과 �
 const S5=[['s5_1','이웃과 걷고 있어요'],['s5_2','친구들과 웃고 있어요'],['s5_3','꽃을 가꾸고 있어요'],['s5_4','함께 음식을 만들어요'],['s5_5','새로운 것을 배우고 있어요'],['s5_6','우리 마을을 알리고 있어요']];
 let v1='',v2=new Set(),v3='',v4=new Set(),v5='';
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-function asset(name){return 'assets/'+name+'.webp';}
+function asset(name){return 'assets/v2_'+name+'.webp?v=20261007b';}
 function card(img,title,selected,index,type,small=''){return `<div class="card ${selected?'selected':''}" role="button" tabindex="0" data-type="${type}" data-index="${index}"><div class="thumb"><img src="${asset(img)}" alt="${esc(title)}"></div><div class="meta"><strong>${esc(title)}</strong>${small?`<small>${esc(small)}</small>`:''}</div><div class="tick">✓</div></div>`;}
 function render(){
  $('step1').innerHTML=S1.map((x,i)=>card(x[0],x[1],v1===x[1],i,'s1')).join('');
@@ -89,6 +91,14 @@ document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.tar
 $('otherVillageBtn').addEventListener('click',useOtherVillage);$('otherPhraseBtn').addEventListener('click',addOtherPhrase);$('otherActionBtn').addEventListener('click',useOtherAction);$('makePromptBtn').addEventListener('click',makePrompt);$('copyPromptBtn').addEventListener('click',copyPrompt);
 $('otherVillage').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();useOtherVillage();}});$('otherPhrase').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addOtherPhrase();}});$('otherAction').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();useOtherAction();}});
 render();
+
+async function copyAndOpenChatGPT(){
+  const el=document.getElementById('promptOutput');
+  const t=el?el.textContent:'';
+  try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(t)}}catch(e){}
+  window.open('https://chatgpt.com/','_blank','noopener');
+}
+
 </script>
 </body>
 </html>
