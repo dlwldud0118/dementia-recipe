@@ -24,6 +24,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 @media(max-width:980px){.hero-inner{grid-template-columns:1fr}.hero .char{display:none}.grid.five,.grid.six{grid-template-columns:repeat(3,1fr)}.summary-grid,.cta{grid-template-columns:1fr}}
 @media(max-width:700px){body{font-size:16px}.wrap{padding:8px}.panel{padding:14px}.grid,.grid.four,.grid.five,.grid.six{grid-template-columns:repeat(2,1fr)}.thumb{height:112px}.num{width:48px;height:48px;font-size:25px}.meta strong{font-size:18px}}
 .openai{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#7c5cff,#6241db);color:#fff;text-decoration:none;border:0;border-radius:14px;padding:12px 18px;font-weight:900;cursor:pointer}
+.creator-signature{margin:24px auto 0;text-align:center;color:#7b879c;font-size:13px;font-weight:800;letter-spacing:.02em}.creator-signature strong{color:#50627f}
 </style>
 </head>
 <body>
@@ -39,6 +40,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 <section class="cta"><div class="robot">🤖</div><div><h3>AI야!</h3><p>내가 고른 내용으로 치매보듬마을 포스터 이미지를 만들어 주세요!</p></div><button id="makePromptBtn" class="go" type="button">AI 포스터 프롬프트 만들기 →</button></section>
 <div id="warn" class="warn"></div>
 <section id="result" class="result"><h3>🖼️ 완성된 이미지 생성 프롬프트</h3><div id="promptOutput" class="prompt"></div><div class="actions"><button id="copyPromptBtn" class="copy" type="button">📋 프롬프트 복사하기</button><button class="openai" type="button" onclick="copyAndOpenChatGPT()">🤖 ChatGPT 열기 ↗</button><a class="home" href="../">🏠 다른 활동 고르기</a></div></section>
+<footer class="creator-signature">기획·제작 <strong>IZZYON</strong></footer>
 </div>
 <script>
 const $=id=>document.getElementById(id);
@@ -79,7 +81,7 @@ function makePrompt(){
  if(!v4.size)return showWarn('4단계에서 포스터에 넣고 싶은 문구를 하나 이상 골라주세요.');
  if(!v5)return showWarn('5단계에서 포스터 속 내가 하고 싶은 활동을 골라주세요.');
  const important=[...v2].join(', '),phrases=[...v4].join(' / ');
- const text=`다음 조건에 맞춰 한국어로 된 1장의 세로형 '치매보듬마을 포스터' 이미지를 만들어 줘.\n\n[포스터 목적]\n- 치매가 있어도 살던 마을에서 이웃과 함께 살아가는 모습을 따뜻하게 보여주는 교육용 포스터\n- 어르신이 보기 쉬운 완성형 이미지\n\n[내가 선택한 내용]\n- 치매보듬마을에 대한 생각: ${v1}\n- 보듬마을에서 중요하다고 생각하는 것: ${important}\n- 내가 보여주고 싶은 보듬마을 모습: ${v3}\n- 포스터에 넣고 싶은 문구: ${phrases}\n- 포스터 속 내가 하고 싶은 활동: ${v5}\n\n[이미지 구성]\n- 4:5 세로 비율 한 장짜리 포스터\n- 밝고 따뜻한 한국의 동네와 마을 풍경\n- 70~80대 한국 어르신과 이웃들이 자연스럽게 함께 지내는 모습\n- 내가 선택한 활동인 '${v5}'가 장면에서 잘 보이게 표현\n- 포스터 중심에는 '${v3}'의 분위기가 드러나게 구성\n- 내가 고른 문구 중 핵심 문구를 큰 한국어 글씨로 또렷하게 배치\n- 부드러운 파스텔 색감, 친근하고 밝은 분위기, 너무 복잡하지 않은 구성\n- 어르신도 쉽게 읽을 수 있도록 큰 글씨와 높은 대비 사용\n\n[주의]\n- 치매를 두렵거나 부정적으로만 묘사하지 말 것\n- 치매가 있는 사람을 수동적이거나 무기력하게 표현하지 말 것\n- '함께 살아가는 이웃', '참여', '배려', '일상'이 자연스럽게 느껴지도록 할 것\n- 질병의 예방이나 치료 효과를 단정하는 문구는 넣지 말 것\n- 전체 결과물은 실제 포스터처럼 바로 사용할 수 있는 완성 이미지여야 해.`;
+ const text=`다음 조건에 맞춰 한국어로 된 1장의 세로형 '치매보듬마을 포스터' 이미지를 만들어 줘.\n\n[포스터 목적]\n- 치매가 있어도 살던 마을에서 이웃과 함께 살아가는 모습을 따뜻하게 보여주는 교육용 포스터\n- 누구나 보기 쉬운 완성형 이미지\n\n[내가 선택한 내용]\n- 치매보듬마을에 대한 생각: ${v1}\n- 보듬마을에서 중요하다고 생각하는 것: ${important}\n- 내가 보여주고 싶은 보듬마을 모습: ${v3}\n- 포스터에 넣고 싶은 문구: ${phrases}\n- 포스터 속 내가 하고 싶은 활동: ${v5}\n\n[이미지 구성]\n- 4:5 세로 비율 한 장짜리 포스터\n- 밝고 따뜻한 한국의 동네와 마을 풍경\n- 다양한 한국인 주민과 이웃들이 자연스럽게 함께 지내는 모습\n- 내가 선택한 활동인 '${v5}'가 장면에서 잘 보이게 표현\n- 포스터 중심에는 '${v3}'의 분위기가 드러나게 구성\n- 내가 고른 문구 중 핵심 문구를 큰 한국어 글씨로 또렷하게 배치\n- 부드러운 파스텔 색감, 친근하고 밝은 분위기, 너무 복잡하지 않은 구성\n- 누구나 쉽게 읽을 수 있도록 큰 글씨와 높은 대비 사용\n\n[주의]\n- 치매를 두렵거나 부정적으로만 묘사하지 말 것\n- 치매가 있는 사람을 수동적이거나 무기력하게 표현하지 말 것\n- '함께 살아가는 이웃', '참여', '배려', '일상'이 자연스럽게 느껴지도록 할 것\n- 질병의 예방이나 치료 효과를 단정하는 문구는 넣지 말 것\n- 전체 결과물은 실제 포스터처럼 바로 사용할 수 있는 완성 이미지여야 해.`;
  $('promptOutput').textContent=text;
  $('result').classList.add('show');
  hideWarn();
