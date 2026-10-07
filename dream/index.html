@@ -20,6 +20,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 .field label{display:block;font-weight:900;margin-bottom:7px}.field textarea{min-height:96px;resize:vertical}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.go{display:inline-block;border:0;border-radius:999px;background:linear-gradient(180deg,#ff6aa0,#ff2f78);color:#fff;padding:16px 26px;font-weight:900;font-size:20px;box-shadow:0 8px 0 #d91a5f}.warn{display:none;margin-top:14px;background:#fff2f5;border:2px solid #ffc7d5;color:#90304e;border-radius:14px;padding:12px 14px;font-weight:850}
 .resultWrap{display:none}.resultWrap.show{display:block}.prompt{white-space:pre-wrap;background:#283a5f;border:1px solid #49618c;border-radius:16px;padding:15px;line-height:1.7;color:#fff}.toolrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.copy{background:#41bdb5}.chatgpt{background:#16a34a}.homeLink{display:inline-flex;align-items:center;gap:8px;margin-top:14px;text-decoration:none;color:#25518c;background:#eef6ff;border:1px solid #d0e4ff;padding:10px 14px;border-radius:999px;font-weight:800}
 @media(max-width:900px){.grid,.grid.g3{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:1fr}}@media(max-width:640px){body{font-size:16px}.wrap{padding:8px}.panel{padding:14px}.photo{height:120px}.num{width:48px;height:48px;font-size:25px}.meta strong{font-size:18px}}
+.creator-signature{margin:24px auto 0;text-align:center;color:#7b879c;font-size:13px;font-weight:800;letter-spacing:.02em}.creator-signature strong{color:#50627f}
 </style>
 </head>
 <body>
@@ -31,6 +32,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 <section class="panel p5"><div class="head"><div class="num n5">5</div><div><h2>나의 이야기를 완성해요!</h2><p class="sub">선택한 내용이 자동으로 정리돼요. 마지막에 이미지 프롬프트도 만들어 드려요.</p></div></div><div class="summary-box"><div class="field"><label>젊었을 때 해보고 싶었던 꿈</label><input id="summaryPast" readonly></div><div class="field" style="margin-top:12px"><label>지금 해보고 싶은 것</label><div id="summaryCurrent" class="chips"></div></div><div class="field" style="margin-top:12px"><label>원하는 장소</label><input id="summaryPlace" readonly></div><div class="field" style="margin-top:12px"><label>원하는 모습</label><div id="summaryFeels" class="chips"></div></div><div class="field" style="margin-top:12px"><label for="messageInput">포스터에 넣고 싶은 한마디 (선택)</label><textarea id="messageInput" placeholder="예: 지금도 늦지 않았어요! 나의 꿈을 다시 시작해요!"></textarea></div><div class="actions"><button class="smallbtn" onclick="fillExampleMessage()">한마디 예시 넣기</button><button class="go" onclick="makePrompt()">이미지 프롬프트 만들기 →</button></div><div id="warn" class="warn"></div></div></section>
 <section id="resultWrap" class="panel result resultWrap"><div class="head"><div class="num nr">✓</div><div><h2>완성된 이미지 생성 프롬프트</h2><p class="sub">복사해서 ChatGPT나 이미지 생성 AI에 바로 붙여넣을 수 있어요.</p></div></div><div id="promptOutput" class="prompt"></div><div class="toolrow"><button class="copy" onclick="copyPrompt(this)">📋 프롬프트 복사</button><a class="chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener" onclick="openChatGPT(event)">🤖 ChatGPT 열기 ↗</a></div></section>
 <a class="homeLink" href="../">← 다른 활동 고르기</a>
+<footer class="creator-signature">기획·제작 <strong>IZZYON</strong></footer>
 </div>
 <script>
 const step1Data=[{id:'dress',name:'예쁜 옷 입기',desc:'드레스·한복 등',img:'assets/s1_dress.webp'},{id:'singer',name:'가수 되기',desc:'무대에서 노래하기',img:'assets/s1_singer.webp'},{id:'actor',name:'배우 하기',desc:'주인공이 되어 보기',img:'assets/s1_actor.webp'},{id:'study',name:'공부하기',desc:'학교 다니기',img:'assets/s1_study.webp'},{id:'travel',name:'여행 가기',desc:'국내·해외 여행',img:'assets/s1_travel.webp'},{id:'job',name:'멋진 일 해보기',desc:'요리사·선생님·직장인 등',img:'assets/s1_job.webp'},{id:'house',name:'좋은 집에서 살기',desc:'아름다운 집',img:'assets/s1_house.webp'},{id:'custom',name:'기타',desc:'직접 입력',img:null}];
@@ -60,39 +62,57 @@ function makePrompt(){const past=getStep1Name();const now=getStep2Names();const 
 
 [포스터 주제]
 - AI로 이루는 나의 꿈
-- 한국의 70~80대 어르신이 꿈을 이루는 따뜻하고 희망적인 포스터
+- 내가 선택한 꿈이 실제로 이루어진 순간을 보여주는 따뜻하고 희망적인 포스터
 
-[기본 내용]
-- 젊었을 때 해보고 싶었던 꿈: ${past}
+[내가 선택한 내용]
+- 예전에 해보고 싶었던 꿈: ${past}
 - 지금 해보고 싶은 것: ${nowText}
 - 꿈을 이루고 싶은 장소: ${place}
-- 내가 되고 싶은 모습: ${feelText}
+- 내가 원하는 분위기: ${feelText}
 - 포스터에 넣을 한마디: “${message}”
 
+[가장 중요한 연출 원칙]
+- '${nowText}'를 주인공의 핵심 역할과 행동으로 가장 우선해서 표현해 줘.
+- '${place}'는 그 역할이 펼쳐지는 배경으로 사용해 줘. 장소 때문에 꿈의 역할이 약해지거나 평범한 관광·일상 장면으로 바뀌면 안 돼.
+- 선택한 꿈과 장소의 조합이 조금 낯설더라도 둘을 자연스럽게 연결해 연출해 줘. 예: 배우+바닷가라면 바닷가 영화 촬영장에서 연기 중인 배우, 가수+여행지라면 여행지의 야외무대에서 공연 중인 가수처럼 표현해 줘.
+- 여러 꿈을 선택했다면 하나의 장면에서 자연스럽게 조합하되, 첫 번째 꿈을 메인 역할로 두고 나머지는 소품·상황·보조 장면으로 반영해 줘.
+
+[참고 사진을 함께 올린 경우]
+- 참고 사진은 '얼굴과 인물의 정체성'을 알아보기 위한 기준으로 사용해 줘.
+- 얼굴의 주요 특징과 인물의 느낌은 유지하되, 원본 사진의 옷·헤어스타일·액세서리·배경·포즈를 그대로 유지할 필요는 없어.
+- 오히려 꿈과 장소에 어울리지 않는 복장이나 배경은 적극적으로 바꿔 줘. 잠옷, 실내복, 평상복이 꿈의 상황과 맞지 않으면 그대로 사용하지 말 것.
+- '${nowText}'와 '${place}'에 맞게 의상, 헤어스타일, 메이크업, 액세서리, 신발, 소품, 자세와 주변 환경을 전문적으로 스타일링해 줘.
+
+[상황별 스타일링 원칙]
+- 배우/영화의 주인공: 작품 촬영 중인 배우처럼 의상·헤어·메이크업·촬영 소품과 현장 분위기를 갖출 것
+- 가수/무대에서 노래하기: 공연 의상, 헤어스타일, 마이크, 조명 등 무대 분위기를 갖출 것
+- 공부하기: 학교나 교실에 어울리는 단정한 옷차림, 책·필기구·가방 등 학습 장면을 갖출 것
+- 상 받기: 시상식에 어울리는 격식 있는 의상, 무대, 트로피나 꽃다발 등을 활용할 것
+- 여행하기: 목적지와 계절에 맞는 세련되고 편안한 여행 복장과 소품을 활용할 것
+- 예쁜 옷 입기: 선택한 장소와 분위기에 맞는 드레스·한복 등 특별한 의상을 중심으로 표현할 것
+
 [이미지 표현]
-- 주인공은 한국의 어르신 1명 또는 상황에 맞는 가족/주변 인물과 함께 표현
-- 표정은 밝고 희망차고 자신감 있는 모습
-- ${place}을(를) 배경으로, 지금 해보고 싶은 꿈을 이루고 있는 장면처럼 자연스럽게 표현
-- ${feelText} 분위기가 잘 드러나도록 표현
-- 전체적으로 고급스럽고 따뜻한 실사 스타일
-- 큰 제목과 큰 본문 글씨, 어르신도 읽기 쉬운 또렷한 한국어 텍스트
-- 파스텔 포인트 컬러와 밝은 하늘색/분홍색 계열의 산뜻한 분위기
+- 주인공은 한국인 인물 1명을 중심으로 표현하고, 필요하면 가족이나 주변 인물을 자연스럽게 추가해 줘.
+- 표정은 밝고 자신감 있으며 꿈을 이룬 순간의 만족감이 느껴지게 표현해 줘.
+- '${feelText}' 분위기가 얼굴 표정, 자세, 스타일링과 전체 연출에 잘 드러나게 해 줘.
+- '젊게'가 포함되어 있다면 숫자로 나이를 특정하지 말고, 자연스럽고 생기 있고 세련된 인상으로 표현해 줘.
+- 전체적으로 고급스럽고 따뜻한 실사 스타일, 자연스러운 피부와 현실적인 사진 품질로 표현해 줘.
+- 큰 제목과 본문은 또렷한 한국어로, 읽기 쉬운 크기와 대비로 배치해 줘.
 
 [포스터 구성]
 1. 상단 제목: AI로 이루는 나의 꿈
-2. 큰 메인 이미지
+2. 꿈을 실제로 이루고 있는 모습의 큰 메인 이미지
 3. 꿈 소개 문장 1개
 4. 보조 문장 1개
 5. 하단 응원 문구: “${message}”
 
 [문구 작성 규칙]
-- 아래의 의미를 살리되, 포스터 안 문구는 자연스럽고 어색하지 않은 한국어로 다듬어 작성해 줘
-- “나는 ${nowText}를 해보고 싶어요.”라는 뜻이 자연스럽게 전달되게 작성
-- “AI로 ${feelText} 느낌의 나를 만들어 주세요.”라는 뜻이 자연스럽게 전달되게 작성
-- 조사(은/는, 이/가, 을/를)와 문장 표현을 상황에 맞게 자연스럽게 수정해도 돼
-- 짧고 따뜻한 한국어 문장
-- 희망적이고 응원하는 분위기
-- 실제로 포스터 안에 보기 좋게 배치된 완성 포스터 형태로 만들어 줘.`;promptOutput.textContent=prompt;resultWrap.classList.add('show');resultWrap.scrollIntoView({behavior:'smooth',block:'start'});hideWarn()}
+- 선택 내용을 그대로 기계적으로 이어 붙이지 말고 자연스러운 한국어 문장으로 다시 작성해 줘.
+- 조사(은/는, 이/가, 을/를)와 어미를 문맥에 맞게 자연스럽게 수정해 줘.
+- 꿈 소개 문장은 '${nowText}'의 의미가 분명히 드러나게 작성해 줘.
+- 보조 문장은 '${feelText}'의 느낌을 살리되 어색한 '모습의 나' 같은 표현은 피하고 자연스럽게 써 줘.
+- 짧고 따뜻하며 희망적인 문장으로 작성해 줘.
+- 전체 결과물은 설명문이 아니라 바로 사용할 수 있는 완성된 포스터 이미지 한 장으로 만들어 줘.`;promptOutput.textContent=prompt;resultWrap.classList.add('show');resultWrap.scrollIntoView({behavior:'smooth',block:'start'});hideWarn()}
 async function copyPrompt(btn){try{await navigator.clipboard.writeText(promptOutput.textContent);const old=btn.textContent;btn.textContent='✅ 복사되었습니다!';setTimeout(()=>btn.textContent=old,1500)}catch(e){alert('복사에 실패했어요.')}}
 async function openChatGPT(e){
   if(e) e.preventDefault();
