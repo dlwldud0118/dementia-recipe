@@ -93,12 +93,50 @@ $('otherVillage').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDe
 render();
 
 async function copyAndOpenChatGPT(){
-  const el=document.getElementById('promptOutput');
-  const t=el?el.textContent:'';
-  try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(t)}}catch(e){}
-  window.open('https://chatgpt.com/','_blank','noopener');
+  const el=document.getElementById('promptOutput')||document.getElementById('prompt');
+  const text=el?el.textContent:'';
+  await copyForChatGPT(text);
+  launchChatGPT();
 }
 
+
+function isMobileOrTablet(){
+  const ua=navigator.userAgent||'';
+  const iPadDesktopMode=navigator.platform==='MacIntel' && navigator.maxTouchPoints>1;
+  return /Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua) || iPadDesktopMode;
+}
+function updateChatGPTButtonLabel(){
+  const label=isMobileOrTablet()?'🤖 ChatGPT 앱 열기 ↗':'🤖 ChatGPT 열기 ↗';
+  document.querySelectorAll('.openai,.chatgpt').forEach(el=>{el.textContent=label;});
+}
+async function copyForChatGPT(text){
+  if(!text) return;
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+    }else{
+      const ta=document.createElement('textarea');
+      ta.value=text;
+      ta.style.position='fixed';
+      ta.style.opacity='0';
+      document.body.appendChild(ta);
+      ta.focus();ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+  }catch(e){}
+}
+function launchChatGPT(){
+  const url='https://chatgpt.com/';
+  if(isMobileOrTablet()){
+    // 모바일/태블릿: 같은 탭 이동. OS가 ChatGPT 링크를 앱과 연결한 경우 앱으로 전환되고,
+    // 그렇지 않으면 ChatGPT 웹으로 안전하게 열립니다.
+    window.location.assign(url);
+  }else{
+    window.open(url,'_blank','noopener');
+  }
+}
+document.addEventListener('DOMContentLoaded',updateChatGPTButtonLabel);
 </script>
 </body>
 </html>
