@@ -181,15 +181,51 @@ async function copyForChatGPT(text){
     }
   }catch(e){}
 }
+function isAndroidDevice(){
+  return /Android/i.test(navigator.userAgent||'');
+}
+function isIOSDevice(){
+  const ua=navigator.userAgent||'';
+  const iPadDesktopMode=navigator.platform==='MacIntel' && navigator.maxTouchPoints>1;
+  return /iPhone|iPad|iPod/i.test(ua) || iPadDesktopMode;
+}
 function launchChatGPT(){
-  const url='https://chatgpt.com/';
-  if(isMobileOrTablet()){
-    // 모바일/태블릿: 같은 탭 이동. OS가 ChatGPT 링크를 앱과 연결한 경우 앱으로 전환되고,
-    // 그렇지 않으면 ChatGPT 웹으로 안전하게 열립니다.
-    window.location.assign(url);
-  }else{
-    window.open(url,'_blank','noopener');
+  const webUrl='https://chatgpt.com/';
+  if(!isMobileOrTablet()){
+    window.open(webUrl,'_blank','noopener');
+    return;
   }
+
+  // Android: ChatGPT 공식 앱 패키지를 직접 지정해 앱 실행을 우선 시도합니다.
+  if(isAndroidDevice()){
+    const fallback=encodeURIComponent(webUrl);
+    window.location.href=`intent://#Intent;scheme=chatgpt;package=com.openai.chatgpt;S.browser_fallback_url=${fallback};end`;
+    return;
+  }
+
+  // iPhone/iPad: ChatGPT 앱의 URL scheme을 먼저 시도하고,
+  // 앱이 열리지 않은 경우에만 잠시 후 웹으로 이동합니다.
+  if(isIOSDevice()){
+    let appOpened=false;
+    const onVisibility=()=>{
+      if(document.hidden){
+        appOpened=true;
+        document.removeEventListener('visibilitychange',onVisibility);
+      }
+    };
+    document.addEventListener('visibilitychange',onVisibility);
+    window.location.href='chatgpt://';
+    setTimeout(()=>{
+      document.removeEventListener('visibilitychange',onVisibility);
+      if(!appOpened && !document.hidden){
+        window.location.href=webUrl;
+      }
+    },1400);
+    return;
+  }
+
+  // 기타 모바일/태블릿 환경 fallback
+  window.location.href=webUrl;
 }
 document.addEventListener('DOMContentLoaded',updateChatGPTButtonLabel);
 </script>
