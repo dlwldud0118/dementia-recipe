@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI로 만드는 치매보듬마을 포스터</title>
+<style>
+:root{--navy:#17346b;--pink:#ff4f87;--blue:#2e9fe8;--green:#27a85b;--orange:#ff9b20;--purple:#8b57d8;--teal:#18a99b;--ink:#263550;--muted:#66758c;--shadow:0 12px 28px rgba(34,64,110,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Noto Sans KR","Malgun Gothic",Arial,sans-serif;background:linear-gradient(180deg,#eefaff 0,#fff9fb 18%,#fff 100%);color:var(--ink);font-size:18px;line-height:1.5}
+button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;margin:auto;padding:16px 14px 70px}
+.hero{position:relative;overflow:hidden;border:4px solid #cdeeff;border-radius:30px;background:linear-gradient(135deg,#76cdf8,#c8efff 50%,#f3fbff);padding:24px 24px 20px;box-shadow:var(--shadow);text-align:center}.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.45)}.hero:before{width:260px;height:260px;left:-90px;bottom:-150px}.hero:after{width:260px;height:260px;right:-70px;top:-140px}
+.hero-inner{position:relative;display:grid;grid-template-columns:115px 1fr 115px;align-items:center;gap:14px}.hero .char{font-size:76px;filter:drop-shadow(0 6px 5px rgba(0,0,0,.08))}.hero h1{margin:0;font-size:clamp(34px,5vw,62px);line-height:1.06;letter-spacing:-.04em;font-weight:900}.hero .blue{color:#16419b}.hero .pink{color:#ff2f78}.hero .green{color:#15924b}.hero p{margin:8px 0 0;color:#234d86;font-size:clamp(17px,2.1vw,24px);font-weight:800}
+.progress{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:14px 0 18px}.progress span{padding:7px 12px;border:2px solid #e6eaf0;border-radius:999px;background:#fff;font-size:14px;color:#6a7890;font-weight:900}.progress b{color:var(--pink)}
+.panel{background:#fff;border:3px solid #eee;border-radius:26px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow)}.p1{border-color:#f2df9d;background:linear-gradient(#fff,#fffdf1)}.p2{border-color:#f6d8e8;background:linear-gradient(#fff,#fff8fc)}.p3{border-color:#d6ebfb;background:linear-gradient(#fff,#f9fcff)}.p4{border-color:#d6efd8;background:linear-gradient(#fff,#f8fff8)}.p5{border-color:#e6d8f8;background:linear-gradient(#fff,#fcf9ff)}.p6{border-color:#f4e4a8;background:linear-gradient(#fff,#fffdf2)}
+.head{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}.num{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;color:#fff;font-size:30px;font-weight:900;flex:0 0 auto;box-shadow:inset 0 -4px 0 rgba(0,0,0,.1)}.n1{background:#1977df}.n2{background:#ff4786}.n3{background:#267be0}.n4{background:#16a34a}.n5{background:#8c55d5}.n6{background:#ff8b21}.head h2{margin:0;font-size:clamp(24px,3vw,34px);line-height:1.2;letter-spacing:-.035em}.sub{margin:5px 0 0;color:var(--muted);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid.four{grid-template-columns:repeat(4,1fr)}.grid.five{grid-template-columns:repeat(5,1fr)}.grid.six{grid-template-columns:repeat(6,1fr)}
+.card{position:relative;overflow:hidden;background:#fff;border:2px solid #e6e1e7;border-radius:18px;cursor:pointer;transition:.17s ease;box-shadow:0 3px 9px rgba(0,0,0,.03);min-width:0}.card:hover{transform:translateY(-2px);box-shadow:0 9px 18px rgba(0,0,0,.08)}.card.selected{border-color:#2e9fe8;box-shadow:0 0 0 4px rgba(46,159,232,.14)}.p2 .card.selected,.p4 .card.selected{border-color:#ff4f87;box-shadow:0 0 0 4px rgba(255,79,135,.12)}.p5 .card.selected{border-color:#8c55d5;box-shadow:0 0 0 4px rgba(140,85,213,.12)}
+.thumb{height:128px;background:#f3f3f3;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover;display:block}.meta{padding:10px 11px 12px}.meta strong{display:block;color:#17346b;font-size:20px;line-height:1.22;letter-spacing:-.025em}.meta small{display:block;margin-top:3px;color:#6c7a91;font-size:14px;font-weight:700}.tick{position:absolute;right:9px;top:9px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#1977df;border:2px solid #7fc0f5;font-weight:900;opacity:0;transform:scale(.7);transition:.15s}.selected .tick{opacity:1;transform:scale(1)}
+.custom{margin-top:12px;display:flex;gap:10px}.custom input,.field input,.field textarea{width:100%;border:2px solid #d9e4ef;background:#fff;border-radius:14px;padding:12px 14px;outline:none;color:var(--ink)}.custom input:focus,.field input:focus,.field textarea:focus{border-color:#62afe9;box-shadow:0 0 0 4px rgba(46,159,232,.1)}.custom button{border:0;border-radius:14px;background:#2e9fe8;color:#fff;padding:0 18px;font-weight:900}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.summary-box{border:2px solid #ebe4d9;background:#fff;border-radius:18px;padding:14px;min-height:128px}.summary-box .tag{font-size:14px;font-weight:900;color:#8d6b15;margin-bottom:5px}.summary-box b{display:block;color:#17346b;font-size:20px;line-height:1.3}
+.cta{display:grid;grid-template-columns:95px 1fr 250px;gap:14px;align-items:center;border:4px solid #f4d7e5;border-radius:28px;background:linear-gradient(135deg,#fff,#fff5fa);padding:18px;box-shadow:var(--shadow)}.cta .robot{font-size:62px;text-align:center}.cta h3{margin:0;color:#164baa;font-size:31px}.cta p{margin:4px 0 0;color:#ff2f78;font-weight:900}.go{border:0;border-radius:999px;background:linear-gradient(#ff6da3,#ff2f78);color:#fff;padding:17px 20px;font-size:20px;font-weight:900;box-shadow:0 7px 0 #d81f61}.go:active{transform:translateY(3px);box-shadow:0 4px 0 #d81f61}
+.warn{display:none;margin:14px 0;padding:12px 14px;background:#fff2f5;border:2px solid #ffc9d6;color:#8e304c;border-radius:14px;font-weight:900}.result{display:none;margin-top:16px;padding:20px;border-radius:26px;background:#213250;color:#fff}.result.show{display:block}.result h3{margin:0 0 10px;color:#ffe483}.prompt{white-space:pre-wrap;background:#2c4167;border:1px solid #49618c;border-radius:16px;padding:15px;line-height:1.72;max-height:520px;overflow:auto}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px}.copy,.home{border:0;border-radius:14px;padding:12px 19px;color:#fff;font-weight:900}.copy{background:#3fbab2}.home{background:#6b78a0;text-decoration:none;display:inline-block}.note{margin-top:10px;padding:10px 12px;border-radius:13px;background:#fff8df;color:#755f22;border:1px solid #eed697;font-size:14px;font-weight:700}
+@media(max-width:980px){.hero-inner{grid-template-columns:1fr}.hero .char{display:none}.grid.five,.grid.six{grid-template-columns:repeat(3,1fr)}.summary-grid,.cta{grid-template-columns:1fr}}
+@media(max-width:700px){body{font-size:16px}.wrap{padding:8px}.panel{padding:14px}.grid,.grid.four,.grid.five,.grid.six{grid-template-columns:repeat(2,1fr)}.thumb{height:112px}.num{width:48px;height:48px;font-size:25px}.meta strong{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero"><div class="hero-inner"><div class="char">👴🏻🌳</div><div><h1><span class="blue">AI로 만드는</span><br><span class="pink">치매보듬마을</span> <span class="green">포스터</span></h1><p>치매가 있어도 살던 마을에서 이웃과 함께 살아가는 마을</p></div><div class="char">👵🏻🏡</div></div></header>
+<div class="progress"><span><b>1</b> 보듬마을</span><span><b>2</b> 중요한 것</span><span><b>3</b> 마을 모습</span><span><b>4</b> 문구</span><span><b>5</b> 나의 활동</span><span><b>6</b> 확인</span></div>
+<section class="panel p1"><div class="head"><div class="num n1">1</div><div><h2>치매보듬마을이 무엇일까요?</h2><p class="sub">그림을 보고 알맞다고 생각하는 것을 하나 선택해 주세요.</p></div></div><div id="step1" class="grid"></div></section>
+<section class="panel p2"><div class="head"><div class="num n2">2</div><div><h2>치매보듬마을에서 중요한 것은 무엇일까요?</h2><p class="sub">마음에 드는 것을 여러 개 선택해도 괜찮아요.</p></div></div><div id="step2" class="grid"></div></section>
+<section class="panel p3"><div class="head"><div class="num n3">3</div><div><h2>내가 생각하는 치매보듬마을의 모습은 어떤 모습인가요?</h2><p class="sub">포스터에서 가장 보여주고 싶은 모습을 골라보세요.</p></div></div><div id="step3" class="grid four"></div><div class="custom"><input id="otherVillage" placeholder="기타 모습 직접 입력 예) 서로 인사하는 마을"><button id="otherVillageBtn" type="button">선택</button></div></section>
+<section class="panel p4"><div class="head"><div class="num n4">4</div><div><h2>포스터에 넣고 싶은 문구를 골라보세요.</h2><p class="sub">사람들에게 전하고 싶은 문구를 여러 개 선택할 수 있어요.</p></div></div><div id="step4" class="grid five"></div><div class="custom"><input id="otherPhrase" placeholder="내가 하고 싶은 말을 직접 적어보세요."><button id="otherPhraseBtn" type="button">추가</button></div></section>
+<section class="panel p5"><div class="head"><div class="num n5">5</div><div><h2>포스터 속 나는 무엇을 하고 있을까요?</h2><p class="sub">포스터에서 내가 하고 싶은 모습을 하나 골라보세요.</p></div></div><div id="step5" class="grid six"></div><div class="custom"><input id="otherAction" placeholder="기타 모습 직접 입력 예) 이웃에게 인사하고 있어요"><button id="otherActionBtn" type="button">선택</button></div></section>
+<section class="panel p6"><div class="head"><div class="num n6">6</div><div><h2>내가 만들 포스터를 확인해 보세요!</h2><p class="sub">선택한 내용이 자동으로 정리됩니다.</p></div></div><div class="summary-grid"><div class="summary-box"><div class="tag">🏡 내가 고른 보듬마을 모습</div><b id="sumVillage">아직 선택하지 않았어요.</b></div><div class="summary-box"><div class="tag">💗 내가 전하고 싶은 문구</div><b id="sumPhrase">아직 선택하지 않았어요.</b></div><div class="summary-box"><div class="tag">🌷 포스터 속 나의 활동</div><b id="sumAction">아직 선택하지 않았어요.</b></div></div><div class="note">※ 이 활동은 치매에 대한 이해와 지역사회에서 함께 살아가는 모습을 생각해 보는 교육용 활동입니다.</div></section>
+<section class="cta"><div class="robot">🤖</div><div><h3>AI야!</h3><p>내가 고른 내용으로 치매보듬마을 포스터 이미지를 만들어 주세요!</p></div><button id="makePromptBtn" class="go" type="button">AI 포스터 프롬프트 만들기 →</button></section>
+<div id="warn" class="warn"></div>
+<section id="result" class="result"><h3>🖼️ 완성된 이미지 생성 프롬프트</h3><div id="promptOutput" class="prompt"></div><div class="actions"><button id="copyPromptBtn" class="copy" type="button">📋 프롬프트 복사하기</button><a class="home" href="../">🏠 다른 활동 고르기</a></div></section>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const S1=[['s1_1','치매가 있는 사람만 사는 마을은 아니에요.'],['s1_2','치매가 있어도 이웃과 함께 살아가는 마을이에요.'],['s1_3','지금도 우리가 살고 있는 우리 마을이에요.']];
+const S2=[['s2_1','서로 도와주기','작은 관심'],['s2_2','이웃과 함께하기','함께 살아가기'],['s2_3','잘 챙겨주고 따뜻하게 대하기','따뜻한 배려'],['s2_4','치매에 대해 이해하기','이해와 존중'],['s2_5','함께 활동하기','모임과 프로그램'],['s2_6','살기 좋은 우리 마을 만들기','안전하고 편안한 마을']];
+const S3=[['s3_1','이웃과 함께 산책하는 마을'],['s3_2','친구들과 이야기하는 마을'],['s3_3','함께 배우고 활동하는 마을'],['s3_4','아름답고 안전한 우리 마을']];
+const S4=[['s4_1','치매가 있어도 함께 살아요.'],['s4_2','이웃과 함께 행복한 마을'],['s4_3','작은 관심이 큰 힘이 됩니다.'],['s4_4','우리 마을이 보듬마을이에요.'],['s4_5','함께하면 더 좋은 마을']];
+const S5=[['s5_1','이웃과 걷고 있어요'],['s5_2','친구들과 웃고 있어요'],['s5_3','꽃을 가꾸고 있어요'],['s5_4','함께 음식을 만들어요'],['s5_5','새로운 것을 배우고 있어요'],['s5_6','우리 마을을 알리고 있어요']];
+let v1='',v2=new Set(),v3='',v4=new Set(),v5='';
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function asset(name){return 'assets/'+name+'.webp';}
+function card(img,title,selected,index,type,small=''){return `<div class="card ${selected?'selected':''}" role="button" tabindex="0" data-type="${type}" data-index="${index}"><div class="thumb"><img src="${asset(img)}" alt="${esc(title)}"></div><div class="meta"><strong>${esc(title)}</strong>${small?`<small>${esc(small)}</small>`:''}</div><div class="tick">✓</div></div>`;}
+function render(){
+ $('step1').innerHTML=S1.map((x,i)=>card(x[0],x[1],v1===x[1],i,'s1')).join('');
+ $('step2').innerHTML=S2.map((x,i)=>card(x[0],x[1],v2.has(x[1]),i,'s2',x[2])).join('');
+ $('step3').innerHTML=S3.map((x,i)=>card(x[0],x[1],v3===x[1],i,'s3')).join('');
+ $('step4').innerHTML=S4.map((x,i)=>card(x[0],x[1],v4.has(x[1]),i,'s4')).join('');
+ $('step5').innerHTML=S5.map((x,i)=>card(x[0],x[1],v5===x[1],i,'s5')).join('');
+ updateSummary();
+}
+function handleCard(type,i){
+ if(type==='s1') v1=S1[i][1];
+ if(type==='s2'){const t=S2[i][1];v2.has(t)?v2.delete(t):v2.add(t);}
+ if(type==='s3'){v3=S3[i][1];$('otherVillage').value='';}
+ if(type==='s4'){const t=S4[i][1];v4.has(t)?v4.delete(t):v4.add(t);}
+ if(type==='s5'){v5=S5[i][1];$('otherAction').value='';}
+ render();hideWarn();
+}
+function useOtherVillage(){const t=$('otherVillage').value.trim();if(!t)return;v3=t;render();hideWarn();}
+function addOtherPhrase(){const t=$('otherPhrase').value.trim();if(!t)return;v4.add(t);$('otherPhrase').value='';render();hideWarn();}
+function useOtherAction(){const t=$('otherAction').value.trim();if(!t)return;v5=t;render();hideWarn();}
+function updateSummary(){$('sumVillage').textContent=v3||'아직 선택하지 않았어요.';$('sumPhrase').textContent=[...v4].join(' / ')||'아직 선택하지 않았어요.';$('sumAction').textContent=v5||'아직 선택하지 않았어요.';}
+function showWarn(t){const w=$('warn');w.textContent='⚠️ '+t;w.style.display='block';w.scrollIntoView({behavior:'smooth',block:'center'});}function hideWarn(){$('warn').style.display='none';}
+function makePrompt(){
+ if(!v1)return showWarn('1단계에서 치매보듬마을에 대한 설명을 하나 골라주세요.');
+ if(!v2.size)return showWarn('2단계에서 보듬마을에서 중요하다고 생각하는 것을 하나 이상 골라주세요.');
+ if(!v3)return showWarn('3단계에서 보여주고 싶은 보듬마을 모습을 골라주세요.');
+ if(!v4.size)return showWarn('4단계에서 포스터에 넣고 싶은 문구를 하나 이상 골라주세요.');
+ if(!v5)return showWarn('5단계에서 포스터 속 내가 하고 싶은 활동을 골라주세요.');
+ const important=[...v2].join(', '),phrases=[...v4].join(' / ');
+ const text=`다음 조건에 맞춰 한국어로 된 1장의 세로형 '치매보듬마을 포스터' 이미지를 만들어 줘.\n\n[포스터 목적]\n- 치매가 있어도 살던 마을에서 이웃과 함께 살아가는 모습을 따뜻하게 보여주는 교육용 포스터\n- 어르신이 보기 쉬운 완성형 이미지\n\n[내가 선택한 내용]\n- 치매보듬마을에 대한 생각: ${v1}\n- 보듬마을에서 중요하다고 생각하는 것: ${important}\n- 내가 보여주고 싶은 보듬마을 모습: ${v3}\n- 포스터에 넣고 싶은 문구: ${phrases}\n- 포스터 속 내가 하고 싶은 활동: ${v5}\n\n[이미지 구성]\n- 4:5 세로 비율 한 장짜리 포스터\n- 밝고 따뜻한 한국의 동네와 마을 풍경\n- 70~80대 한국 어르신과 이웃들이 자연스럽게 함께 지내는 모습\n- 내가 선택한 활동인 '${v5}'가 장면에서 잘 보이게 표현\n- 포스터 중심에는 '${v3}'의 분위기가 드러나게 구성\n- 내가 고른 문구 중 핵심 문구를 큰 한국어 글씨로 또렷하게 배치\n- 부드러운 파스텔 색감, 친근하고 밝은 분위기, 너무 복잡하지 않은 구성\n- 어르신도 쉽게 읽을 수 있도록 큰 글씨와 높은 대비 사용\n\n[주의]\n- 치매를 두렵거나 부정적으로만 묘사하지 말 것\n- 치매가 있는 사람을 수동적이거나 무기력하게 표현하지 말 것\n- '함께 살아가는 이웃', '참여', '배려', '일상'이 자연스럽게 느껴지도록 할 것\n- 질병의 예방이나 치료 효과를 단정하는 문구는 넣지 말 것\n- 전체 결과물은 실제 포스터처럼 바로 사용할 수 있는 완성 이미지여야 해.`;
+ $('promptOutput').textContent=text;
+ $('result').classList.add('show');
+ hideWarn();
+ requestAnimationFrame(()=>$('result').scrollIntoView({behavior:'smooth',block:'start'}));
+}
+async function copyPrompt(){const t=$('promptOutput').textContent;if(!t)return;const btn=$('copyPromptBtn');try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(t);}else{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}const old=btn.textContent;btn.textContent='✅ 복사되었습니다!';setTimeout(()=>btn.textContent=old,1500);}catch(e){alert('복사에 실패했어요. 프롬프트를 직접 선택해 복사해 주세요.');}}
+document.addEventListener('click',e=>{const c=e.target.closest('.card[data-type]');if(c)handleCard(c.dataset.type,Number(c.dataset.index));});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.card[data-type]')){e.preventDefault();handleCard(e.target.dataset.type,Number(e.target.dataset.index));}});
+$('otherVillageBtn').addEventListener('click',useOtherVillage);$('otherPhraseBtn').addEventListener('click',addOtherPhrase);$('otherActionBtn').addEventListener('click',useOtherAction);$('makePromptBtn').addEventListener('click',makePrompt);$('copyPromptBtn').addEventListener('click',copyPrompt);
+$('otherVillage').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();useOtherVillage();}});$('otherPhrase').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addOtherPhrase();}});$('otherAction').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();useOtherAction();}});
+render();
+</script>
+</body>
+</html>
