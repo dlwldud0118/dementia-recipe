@@ -37,7 +37,7 @@ button,input,textarea{font:inherit}.wrap{max-width:1180px;margin:auto;padding:16
 
 <section class="cta"><div class="robot">🤖</div><div><h3>AI야!</h3><p>내가 고른 내용으로 치매예방 포스터 이미지를 만들어 주세요!</p></div><button class="go" onclick="makePrompt()">이미지 프롬프트 만들기 →</button></section>
 <div id="warn" class="warn"></div>
-<section id="result" class="result"><h3>🖼️ 완성된 이미지 생성 프롬프트</h3><div id="promptOutput" class="prompt"></div><div class="result-actions"><button class="copy" onclick="copyPrompt(this)">📋 프롬프트 복사</button><a class="openai" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT 열기 ↗</a></div></section>
+<section id="result" class="result"><h3>🖼️ 완성된 이미지 생성 프롬프트</h3><div id="promptOutput" class="prompt"></div><div class="result-actions"><button class="copy" onclick="copyPrompt(this)">📋 프롬프트 복사</button><button class="openai" type="button" onclick="copyAndOpenChatGPT()">🤖 ChatGPT 열기 ↗</button></div></section>
 </div>
 <script>
 const ACTIVITIES=[
@@ -94,4 +94,12 @@ async function copyPrompt(btn){const t=$('promptOutput').textContent;if(!t)retur
 function resetAll(){activityIds.clear();activityCustom=[];messageIds.clear();messageCustom=[];sceneId='';sceneCustom='';placeId='';placeCustom='';['activityOther','messageOther','sceneOther','placeOther'].forEach(id=>$(id).value='');renderActivities();renderMessages();renderScenes();renderPlaces();updateSummary();$('result').classList.remove('show');hideWarn();window.scrollTo({top:0,behavior:'smooth'})}
 $('activityOther').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addOtherActivity()}});$('messageOther').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addOtherMessage()}});$('sceneOther').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();setOtherScene()}});$('placeOther').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();setOtherPlace()}});
 renderActivities();renderMessages();renderScenes();renderPlaces();updateSummary();
+
+async function copyAndOpenChatGPT(){
+  const el=document.getElementById('promptOutput');
+  const t=el?el.textContent:'';
+  try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(t)}}catch(e){}
+  window.open('https://chatgpt.com/','_blank','noopener');
+}
+
 </script></body></html>
