@@ -32,7 +32,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 <section class="panel p5"><div class="head"><div class="num n5">5</div><div><h2>나의 이야기를 완성해요!</h2><p class="sub">선택한 내용이 자동으로 정리돼요. 마지막에 이미지 프롬프트도 만들어 드려요.</p></div></div><div class="summary-box"><div class="field"><label>젊었을 때 해보고 싶었던 꿈</label><input id="summaryPast" readonly></div><div class="field" style="margin-top:12px"><label>지금 해보고 싶은 것</label><div id="summaryCurrent" class="chips"></div></div><div class="field" style="margin-top:12px"><label>원하는 장소</label><input id="summaryPlace" readonly></div><div class="field" style="margin-top:12px"><label>원하는 모습</label><div id="summaryFeels" class="chips"></div></div><div class="field" style="margin-top:12px"><label for="messageInput">포스터에 넣고 싶은 한마디 (선택)</label><textarea id="messageInput" placeholder="예: 지금도 늦지 않았어요! 나의 꿈을 다시 시작해요!"></textarea></div><div class="actions"><button class="smallbtn" onclick="fillExampleMessage()">한마디 예시 넣기</button><button class="go" onclick="makePrompt()">이미지 프롬프트 만들기 →</button></div><div id="warn" class="warn"></div></div></section>
 <section id="resultWrap" class="panel result resultWrap"><div class="head"><div class="num nr">✓</div><div><h2>완성된 이미지 생성 프롬프트</h2><p class="sub">복사해서 ChatGPT나 이미지 생성 AI에 바로 붙여넣을 수 있어요.</p></div></div><div id="promptOutput" class="prompt"></div><div class="toolrow"><button class="copy" onclick="copyPrompt(this)">📋 프롬프트 복사</button><a class="chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener" onclick="openChatGPT(event)">🤖 ChatGPT 열기 ↗</a></div></section>
 <a class="homeLink" href="../">← 다른 활동 고르기</a>
-<footer class="creator-signature">기획·제작 <strong>IZZYON</strong></footer>
+<footer class="creator-signature">기획·제작 <strong>IZZYON</strong> · 강사 <strong>이지영</strong></footer>
 </div>
 <script>
 const step1Data=[{id:'dress',name:'예쁜 옷 입기',desc:'드레스·한복 등',img:'assets/s1_dress.webp'},{id:'singer',name:'가수 되기',desc:'무대에서 노래하기',img:'assets/s1_singer.webp'},{id:'actor',name:'배우 하기',desc:'주인공이 되어 보기',img:'assets/s1_actor.webp'},{id:'study',name:'공부하기',desc:'학교 다니기',img:'assets/s1_study.webp'},{id:'travel',name:'여행 가기',desc:'국내·해외 여행',img:'assets/s1_travel.webp'},{id:'job',name:'멋진 일 해보기',desc:'요리사·선생님·직장인 등',img:'assets/s1_job.webp'},{id:'house',name:'좋은 집에서 살기',desc:'아름다운 집',img:'assets/s1_house.webp'},{id:'custom',name:'기타',desc:'직접 입력',img:null}];
@@ -77,10 +77,12 @@ function makePrompt(){const past=getStep1Name();const now=getStep2Names();const 
 - 선택한 꿈과 장소의 조합이 조금 낯설더라도 둘을 자연스럽게 연결해 연출해 줘. 예: 배우+바닷가라면 바닷가 영화 촬영장에서 연기 중인 배우, 가수+여행지라면 여행지의 야외무대에서 공연 중인 가수처럼 표현해 줘.
 - 여러 꿈을 선택했다면 하나의 장면에서 자연스럽게 조합하되, 첫 번째 꿈을 메인 역할로 두고 나머지는 소품·상황·보조 장면으로 반영해 줘.
 
-[참고 사진을 함께 올린 경우]
-- 참고 사진은 '얼굴과 인물의 정체성'을 알아보기 위한 기준으로 사용해 줘.
-- 얼굴의 주요 특징과 인물의 느낌은 유지하되, 원본 사진의 옷·헤어스타일·액세서리·배경·포즈를 그대로 유지할 필요는 없어.
-- 오히려 꿈과 장소에 어울리지 않는 복장이나 배경은 적극적으로 바꿔 줘. 잠옷, 실내복, 평상복이 꿈의 상황과 맞지 않으면 그대로 사용하지 말 것.
+[본인 사진 사용 - 가장 중요]
+- 이 프롬프트와 함께 내가 올리는 본인 사진 속 인물을 반드시 주인공으로 사용해 줘.
+- 얼굴의 핵심 특징, 인상, 피부톤과 본인임을 알아볼 수 있는 정체성은 유지해 줘.
+- 사진만 보고 나이를 임의로 더 많게 표현하거나 과도하게 나이 들어 보이게 만들지 말고, 사진 속 실제 인상을 기준으로 자연스럽게 표현해 줘.
+- 원본 사진의 옷·헤어스타일·액세서리·배경·포즈는 고정 조건이 아니야. 꿈의 역할과 장소에 맞지 않으면 적극적으로 바꿔 줘.
+- 잠옷, 실내복, 평상복이 꿈의 상황과 맞지 않으면 그대로 사용하지 말 것.
 - '${nowText}'와 '${place}'에 맞게 의상, 헤어스타일, 메이크업, 액세서리, 신발, 소품, 자세와 주변 환경을 전문적으로 스타일링해 줘.
 
 [상황별 스타일링 원칙]
@@ -92,7 +94,7 @@ function makePrompt(){const past=getStep1Name();const now=getStep2Names();const 
 - 예쁜 옷 입기: 선택한 장소와 분위기에 맞는 드레스·한복 등 특별한 의상을 중심으로 표현할 것
 
 [이미지 표현]
-- 주인공은 한국인 인물 1명을 중심으로 표현하고, 필요하면 가족이나 주변 인물을 자연스럽게 추가해 줘.
+- 본인 사진 속 인물을 중심으로 표현하고, 필요하면 가족이나 주변 인물을 자연스럽게 추가해 줘.
 - 표정은 밝고 자신감 있으며 꿈을 이룬 순간의 만족감이 느껴지게 표현해 줘.
 - '${feelText}' 분위기가 얼굴 표정, 자세, 스타일링과 전체 연출에 잘 드러나게 해 줘.
 - '젊게'가 포함되어 있다면 숫자로 나이를 특정하지 말고, 자연스럽고 생기 있고 세련된 인상으로 표현해 줘.

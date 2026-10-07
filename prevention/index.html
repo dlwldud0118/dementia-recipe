@@ -19,7 +19,7 @@ button,input,textarea{font:inherit}.wrap{max-width:1180px;margin:auto;padding:16
 .warn{display:none;margin:14px 0;background:#fff1f5;border:2px solid #ffc8d7;color:#8f3150;border-radius:14px;padding:12px 14px;font-weight:900}.result{display:none;margin-top:16px;background:#203252;color:#fff;border-radius:26px;padding:20px}.result.show{display:block}.result h3{margin:0 0 10px;color:#ffe37b}.prompt{white-space:pre-wrap;background:#2b4269;border:1px solid #4b648f;border-radius:16px;padding:15px;line-height:1.72}.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}.copy,.openai{border:0;border-radius:14px;padding:12px 18px;font-weight:900;cursor:pointer;text-decoration:none}.copy{background:#42bdb5;color:#fff}.openai{background:#fff;color:#203252}
 .note{margin-top:10px;background:#fff7e5;border:1px solid #f0d28e;color:#715b1f;border-radius:12px;padding:9px 11px;font-size:14px;font-weight:700}
 @media(max-width:950px){.grid{grid-template-columns:repeat(3,1fr)}.grid.g6{grid-template-columns:repeat(3,1fr)}.summary,.cta{grid-template-columns:1fr}.robot{display:none}}@media(max-width:620px){body{font-size:16px}.wrap{padding:8px}.panel{padding:13px}.grid,.grid.g3,.grid.g6{grid-template-columns:repeat(2,1fr)}.photo{height:105px}.num{width:48px;height:48px;font-size:25px}.meta strong{font-size:18px}}
-.creator-signature{margin:24px auto 0;text-align:center;color:#7b879c;font-size:13px;font-weight:800;letter-spacing:.02em}.creator-signature strong{color:#50627f}
+.creator-signature{margin:24px auto 0;text-align:center;color:#7b879c;font-size:13px;font-weight:800;letter-spacing:.02em}.creator-signature strong{color:#50627f}.activity-home{display:inline-flex;align-items:center;gap:8px;margin:16px 0 0;text-decoration:none;color:#25518c;background:#eef6ff;border:1px solid #d0e4ff;padding:10px 14px;border-radius:999px;font-weight:850}
 </style>
 </head>
 <body><div class="wrap">
@@ -39,7 +39,8 @@ button,input,textarea{font:inherit}.wrap{max-width:1180px;margin:auto;padding:16
 <section class="cta"><div class="robot">🤖</div><div><h3>AI야!</h3><p>내가 고른 내용으로 치매예방 포스터 이미지를 만들어 주세요!</p></div><button class="go" onclick="makePrompt()">이미지 프롬프트 만들기 →</button></section>
 <div id="warn" class="warn"></div>
 <section id="result" class="result"><h3>🖼️ 완성된 이미지 생성 프롬프트</h3><div id="promptOutput" class="prompt"></div><div class="result-actions"><button class="copy" onclick="copyPrompt(this)">📋 프롬프트 복사</button><button class="openai" type="button" onclick="copyAndOpenChatGPT()">🤖 ChatGPT 열기 ↗</button></div></section>
-<footer class="creator-signature">기획·제작 <strong>IZZYON</strong></footer>
+<a class="activity-home" href="../">← 다른 활동 고르기</a>
+<footer class="creator-signature">기획·제작 <strong>IZZYON</strong> · 강사 <strong>이지영</strong></footer>
 </div>
 <script>
 const ACTIVITIES=[
@@ -91,7 +92,42 @@ function sceneName(){return sceneCustom||(SCENES.find(x=>x.id===sceneId)||{}).na
 function placeName(){return placeCustom||(PLACES.find(x=>x.id===placeId)||{}).name||''}
 function updateSummary(){const a=activityNames(),m=messageNames(),s=sceneName(),p=placeName();$('sumActivities').textContent=a.length?a.map(x=>'• '+x).join('\n'):'아직 선택하지 않았어요.';$('sumMessages').textContent=m.length?m.map(x=>'• '+x).join('\n'):'아직 선택하지 않았어요.';$('sumScene').textContent=s||'아직 선택하지 않았어요.';$('sumPlace').textContent=p||'아직 선택하지 않았어요.'}
 function showWarn(t){$('warn').textContent='⚠️ '+t;$('warn').style.display='block';$('warn').scrollIntoView({behavior:'smooth',block:'center'})}function hideWarn(){$('warn').style.display='none'}
-function makePrompt(){const a=activityNames(),m=messageNames(),s=sceneName(),p=placeName();if(!a.length)return showWarn('1단계에서 예방 활동을 하나 이상 골라주세요.');if(!m.length)return showWarn('2단계에서 포스터 문구를 하나 이상 골라주세요.');if(!s)return showWarn('3단계에서 포스터 속 모습을 골라주세요.');if(!p)return showWarn('4단계에서 장소를 골라주세요.');const prompt=`다음 조건에 맞춰 한국어로 된 1장의 세로형 '치매예방 포스터' 이미지를 만들어 줘.\n\n[포스터 목적]\n- 건강한 생활습관과 사회적 활동을 쉽고 따뜻하게 보여주는 교육용 포스터\n- 누구나 보기 쉬운 완성형 이미지\n\n[내가 선택한 내용]\n- 내가 실천하고 싶은 활동: ${a.join(', ')}\n- 사람들에게 전하고 싶은 말: ${m.join(' / ')}\n- 포스터 속 나의 모습: ${s}\n- 장소: ${p}\n\n[이미지 구성]\n- 4:5 세로 비율 한 장짜리 포스터\n- 밝고 따뜻한 한국의 일상 풍경\n- 친근한 한국인 인물이 중심이 되는 장면\n- ${s} 모습이 자연스럽게 드러나게 표현\n- 장소는 ${p}로 표현\n- 내가 고른 활동(${a.join(', ')})을 작은 장면이나 아이콘으로 자연스럽게 반영\n- 포스터 문구는 ${m.map(x=>'“'+x+'”').join(', ')} 중 핵심 문구를 크고 또렷하게 배치\n- 파스텔 색감, 밝은 분위기, 큰 한국어 글씨, 읽기 쉬운 정보 구조\n- 너무 많은 문장을 넣지 말고 핵심 정보만 간결하게 배치\n\n[표현 주의]\n- 치매를 완전히 예방하거나 치료할 수 있다고 단정하지 말 것\n- 건강한 생활습관, 사회적 교류, 검진 등 일반적인 건강 정보로 표현할 것\n- 공포스럽거나 병원 중심의 무거운 분위기는 피하고 긍정적이고 존중감 있는 분위기로 만들 것\n\n전체 결과물은 설명문이 아니라 실제로 완성된 포스터 이미지 한 장으로 만들어 줘.`;$('promptOutput').textContent=prompt;$('result').classList.add('show');$('result').scrollIntoView({behavior:'smooth',block:'start'});hideWarn()}
+function makePrompt(){const a=activityNames(),m=messageNames(),s=sceneName(),p=placeName();if(!a.length)return showWarn('1단계에서 예방 활동을 하나 이상 골라주세요.');if(!m.length)return showWarn('2단계에서 포스터 문구를 하나 이상 골라주세요.');if(!s)return showWarn('3단계에서 포스터 속 모습을 골라주세요.');if(!p)return showWarn('4단계에서 장소를 골라주세요.');const presetMessages=MESSAGES.filter(x=>messageIds.has(x.id)).map(x=>x.name);const customMessages=[...messageCustom];const prompt=`다음 선택 내용을 바탕으로, 내가 올리는 본인 사진을 활용한 세로형 건강생활 포스터 이미지 1장을 만들어 줘.
+
+[내가 선택한 방향]
+- 실천하고 싶은 활동: ${a.join(', ')}
+- 메시지의 방향: ${presetMessages.join(' / ')||'선택한 활동에 맞게 자연스럽게 작성'}
+- 내가 직접 입력한 문구: ${customMessages.join(' / ')||'없음'}
+- 포스터 속 나의 모습: ${s}
+- 장소: ${p}
+
+[본인 사진 사용 - 가장 중요]
+- 이 프롬프트와 함께 내가 올리는 본인 사진 속 인물을 반드시 주인공으로 사용해 줘.
+- 얼굴의 핵심 특징과 본인임을 알아볼 수 있는 인상은 유지해 줘.
+- 사진 속 실제 인상을 기준으로 자연스럽게 표현하고, 나이를 임의로 더 많게 보이게 만들지 말아 줘.
+- 원본 사진의 옷·헤어스타일·액세서리·배경·포즈는 고정하지 말고 '${s}'와 '${p}'에 어울리도록 자연스럽게 바꿔 줘.
+- 운동, 공부, 취미, 검진 등 선택한 행동에 필요한 복장과 소품을 상황에 맞게 갖춰 줘.
+
+[장면 구성]
+- 사진 속 본인이 '${s}'를 실제로 하고 있는 모습이 가장 먼저 보이게 해 줘.
+- 장소 '${p}'는 배경으로 자연스럽게 사용하고, 장소 때문에 핵심 활동이 약해지지 않게 해 줘.
+- 여러 활동을 골랐다면 모두를 작은 아이콘으로 나열하지 말고, 핵심 활동 1개를 메인 장면으로 두고 나머지는 주변 상황이나 소품으로 자연스럽게 반영해 줘.
+- 전체가 체크리스트형 교육 포스터보다 '나의 건강한 하루를 담은 개인 포스터'처럼 느껴지게 해 줘.
+
+[문구 생성 원칙]
+- 선택지에 적힌 문구를 그대로 복사해 붙이지 말고, 선택한 활동과 장면을 보고 자연스러운 한국어 제목과 메시지를 새로 작성해 줘.
+- 내가 직접 입력한 문구가 있다면 그 의미와 말투를 가장 우선해서 반영해 줘.
+- 직접 입력한 문구가 없다면 '${s}', '${p}', '${a.join(', ')}'의 조합에서 자연스럽게 떠오르는 짧은 문구를 새로 만들어 줘.
+- '우리 같이 걸어요!', '친구들과 자주 만나요!' 같은 선택 문구는 의미 참고용이며 그대로 출력할 필요는 없어.
+- 문구는 1~3개 정도만, 짧고 긍정적이며 과장 없이 작성해 줘.
+
+[표현 원칙]
+- 4:5 세로 비율, 밝고 따뜻한 고급 실사 스타일
+- 특정 행동이 치매를 완전히 예방하거나 치료한다고 단정하지 말 것
+- 건강한 생활습관, 사회적 교류, 검진 등 일반적인 건강 정보로 표현할 것
+- 공포스럽거나 병원 중심의 무거운 분위기는 피할 것
+
+전체 결과물은 설명문이 아니라 바로 사용할 수 있는 완성 포스터 이미지 한 장으로 만들어 줘.`;$('promptOutput').textContent=prompt;$('result').classList.add('show');$('result').scrollIntoView({behavior:'smooth',block:'start'});hideWarn()}
 async function copyPrompt(btn){const t=$('promptOutput').textContent;if(!t)return;try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(t)}else{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}const old=btn.textContent;btn.textContent='✅ 복사되었습니다!';setTimeout(()=>btn.textContent=old,1600)}catch(e){alert('복사에 실패했어요. 프롬프트를 직접 선택해 복사해 주세요.')}}
 function resetAll(){activityIds.clear();activityCustom=[];messageIds.clear();messageCustom=[];sceneId='';sceneCustom='';placeId='';placeCustom='';['activityOther','messageOther','sceneOther','placeOther'].forEach(id=>$(id).value='');renderActivities();renderMessages();renderScenes();renderPlaces();updateSummary();$('result').classList.remove('show');hideWarn();window.scrollTo({top:0,behavior:'smooth'})}
 $('activityOther').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addOtherActivity()}});$('messageOther').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addOtherMessage()}});$('sceneOther').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();setOtherScene()}});$('placeOther').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();setOtherPlace()}});
