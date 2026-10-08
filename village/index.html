@@ -25,6 +25,14 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 @media(max-width:700px){body{font-size:16px}.wrap{padding:8px}.panel{padding:14px}.grid,.grid.four,.grid.five,.grid.six{grid-template-columns:repeat(2,1fr)}.thumb{height:112px}.num{width:48px;height:48px;font-size:25px}.meta strong{font-size:18px}}
 .openai{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#7c5cff,#6241db);color:#fff;text-decoration:none;border:0;border-radius:14px;padding:12px 18px;font-weight:900;cursor:pointer}
 .creator-signature{margin:24px auto 0;text-align:center;color:#7b879c;font-size:13px;font-weight:800;letter-spacing:.02em}.creator-signature strong{color:#50627f}.activity-home{display:inline-flex;align-items:center;gap:8px;margin:16px 0 0;text-decoration:none;color:#25518c;background:#eef6ff;border:1px solid #d0e4ff;padding:10px 14px;border-radius:999px;font-weight:850}
+
+/* Optional voice dictation controls near free-text fields */
+.voice-button{flex:0 0 46px;min-width:46px;height:46px;margin:4px 5px 4px 0;border:2px solid #b7d4ee;border-radius:14px;background:#f1f8ff;color:#164f86;font-size:23px;line-height:1;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;box-shadow:0 2px 5px rgba(0,0,0,.06);cursor:pointer}
+.voice-button:focus-visible{outline:3px solid #298bca;outline-offset:2px}
+.voice-button.listening{border-color:#e85b75;background:#ffedf2;animation:voice-pulse 1s ease-in-out infinite alternate}
+@keyframes voice-pulse{to{box-shadow:0 0 0 6px rgba(232,91,117,.18)}}
+.voice-status{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(12px);z-index:9999;max-width:min(94vw,570px);width:max-content;padding:13px 18px;border-radius:16px;background:#163864;color:#fff;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(0,0,0,.24);opacity:0;pointer-events:none;transition:.15s}
+.voice-status.visible{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
@@ -220,6 +228,89 @@ function launchChatGPT(){
   window.location.href=webUrl;
 }
 document.addEventListener('DOMContentLoaded',updateChatGPTButtonLabel);
+
+/* 손쉬운 음성 입력: SpeechRecognition이 지원되는 브라우저에서만 동작합니다. */
+(function(){
+  const FIELD_IDS=["otherVillage", "otherPhrase", "otherAction"];
+  const SpeechAPI=window.SpeechRecognition||window.webkitSpeechRecognition;
+  let activeRecognition=null;
+  let activeButton=null;
+  let statusBox=null;
+
+  function status(text){
+    if(!statusBox){
+      statusBox=document.createElement('div');
+      statusBox.className='voice-status';
+      statusBox.setAttribute('role','status');
+      statusBox.setAttribute('aria-live','polite');
+      document.body.appendChild(statusBox);
+    }
+    statusBox.textContent=text;
+    statusBox.classList.add('visible');
+    if(statusBox.hideTimer)clearTimeout(statusBox.hideTimer);
+    statusBox.hideTimer=setTimeout(()=>statusBox.classList.remove('visible'),4400);
+  }
+  function resetButton(btn){if(btn){btn.classList.remove('listening');btn.setAttribute('aria-pressed','false');btn.textContent='🎤';}}
+  function bindField(el){
+    if(!el || el.dataset.voiceReady==='1'||el.readOnly||el.disabled)return;
+    el.dataset.voiceReady='1';
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='voice-button';
+    btn.textContent='🎤';
+    btn.title='말로 입력하기';
+    btn.setAttribute('aria-label','마이크로 음성 입력');
+    btn.setAttribute('aria-pressed','false');
+    el.insertAdjacentElement('afterend',btn);
+    btn.addEventListener('click',function(){
+      if(!SpeechAPI){
+        status('이 브라우저는 음성 인식을 지원하지 않아요. 키보드의 🎤 음성입력을 이용해 주세요.');
+        el.focus();
+        return;
+      }
+      if(activeRecognition){
+        const wasSame=activeButton===btn;
+        try{activeRecognition.abort()}catch(e){}
+        resetButton(activeButton);
+        activeRecognition=null;activeButton=null;
+        if(wasSame){status('음성 입력을 중지했어요.');return;}
+      }
+      const recognition=new SpeechAPI();
+      recognition.lang='ko-KR';
+      recognition.interimResults=false;
+      recognition.continuous=false;
+      recognition.maxAlternatives=1;
+      activeRecognition=recognition;
+      activeButton=btn;
+      btn.classList.add('listening');
+      btn.setAttribute('aria-pressed','true');
+      btn.textContent='⏹';
+      status('말씀해 주세요. 마이크가 듣고 있어요.');
+      recognition.onresult=function(event){
+        const transcript=Array.from(event.results).map(r=>r[0]&&r[0].transcript||'').join(' ').trim();
+        if(!transcript)return;
+        const before=el.value.trim();
+        el.value=before?before+' '+transcript:transcript;
+        el.dispatchEvent(new Event('input',{bubbles:true}));
+        el.dispatchEvent(new Event('change',{bubbles:true}));
+        status('말씀하신 내용을 입력했어요. 선택하거나 추가 버튼을 눌러 적용해 주세요.');
+      };
+      recognition.onerror=function(e){
+        if(e.error==='not-allowed'||e.error==='service-not-allowed')status('마이크 권한을 허용해 주세요. 설정에서 허용 후 다시 시도할 수 있어요.');
+        else if(e.error==='no-speech')status('말씀이 들리지 않았어요. 다시 눌러 주세요.');
+        else if(e.error!=='aborted')status('음성 인식을 사용할 수 없어요. 직접 입력하거나 키보드 마이크를 이용해 주세요.');
+      };
+      recognition.onend=function(){
+        resetButton(btn);
+        if(activeRecognition===recognition){activeRecognition=null;activeButton=null;}
+      };
+      try{recognition.start()}catch(e){resetButton(btn);activeRecognition=null;activeButton=null;status('마이크를 시작할 수 없어요. 직접 입력해 주세요.');}
+    });
+  }
+  function init(){FIELD_IDS.forEach(id=>bindField(document.getElementById(id)));}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
 </script>
 </body>
 </html>

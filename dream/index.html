@@ -21,6 +21,14 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 .resultWrap{display:none}.resultWrap.show{display:block}.prompt{white-space:pre-wrap;background:#283a5f;border:1px solid #49618c;border-radius:16px;padding:15px;line-height:1.7;color:#fff}.toolrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.copy{background:#41bdb5}.chatgpt{background:#16a34a}.homeLink{display:inline-flex;align-items:center;gap:8px;margin-top:14px;text-decoration:none;color:#25518c;background:#eef6ff;border:1px solid #d0e4ff;padding:10px 14px;border-radius:999px;font-weight:800}
 @media(max-width:900px){.grid,.grid.g3{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:1fr}}@media(max-width:640px){body{font-size:16px}.wrap{padding:8px}.panel{padding:14px}.photo{height:120px}.num{width:48px;height:48px;font-size:25px}.meta strong{font-size:18px}}
 .creator-signature{margin:24px auto 0;text-align:center;color:#7b879c;font-size:13px;font-weight:800;letter-spacing:.02em}.creator-signature strong{color:#50627f}
+
+/* Optional voice dictation controls near free-text fields */
+.voice-button{flex:0 0 46px;min-width:46px;height:46px;margin:4px 5px 4px 0;border:2px solid #b7d4ee;border-radius:14px;background:#f1f8ff;color:#164f86;font-size:23px;line-height:1;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;box-shadow:0 2px 5px rgba(0,0,0,.06);cursor:pointer}
+.voice-button:focus-visible{outline:3px solid #298bca;outline-offset:2px}
+.voice-button.listening{border-color:#e85b75;background:#ffedf2;animation:voice-pulse 1s ease-in-out infinite alternate}
+@keyframes voice-pulse{to{box-shadow:0 0 0 6px rgba(232,91,117,.18)}}
+.voice-status{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(12px);z-index:9999;max-width:min(94vw,570px);width:max-content;padding:13px 18px;border-radius:16px;background:#163864;color:#fff;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(0,0,0,.24);opacity:0;pointer-events:none;transition:.15s}
+.voice-status.visible{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
@@ -29,7 +37,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 <section class="panel p1"><div class="head"><div class="num n1">1</div><div><h2>젊었을 때 한번 해보고 싶었던 것은 무엇이었나요?</h2><p class="sub">마음에 드는 것을 하나 선택해 주세요.</p></div></div><div id="step1Grid" class="grid"></div><div id="step1CustomRow" class="customrow" style="display:none"><input id="step1CustomInput" placeholder="직접 해보고 싶었던 꿈을 적어보세요."></div></section>
 <section class="panel p2"><div class="head"><div class="num n2">2</div><div><h2>지금이라도 한번 해보고 싶은 것은 무엇인가요?</h2><p class="sub">해보고 싶은 것을 여러 개 골라도 괜찮아요.</p></div></div><div id="step2Grid" class="grid"></div><div id="step2CustomRow" class="customrow" style="display:none"><input id="step2CustomInput" placeholder="직접 해보고 싶은 것을 적어보세요."></div></section>
 <div class="row"><section class="panel p3"><div class="head"><div class="num n3">3</div><div><h2>어디에서 해보고 싶어요?</h2><p class="sub">마음에 드는 장소를 하나 선택해 주세요.</p></div></div><div id="step3Grid" class="grid g3"></div><div id="step3CustomRow" class="customrow" style="display:none"><input id="step3CustomInput" placeholder="원하는 장소를 직접 적어보세요."></div></section><section class="panel p4"><div class="head"><div class="num n4">4</div><div><h2>어떤 모습의 내가 되고 싶어요?</h2><p class="sub">마음에 드는 모습을 여러 개 골라도 괜찮아요.</p></div></div><div id="step4Grid" class="grid g3"></div><div class="field" style="margin-top:12px"><label for="extraFeel">더 넣고 싶은 모습이 있나요? (선택)</label><input id="extraFeel" placeholder="예: 당당하게, 우아하게"></div></section></div>
-<section class="panel p5"><div class="head"><div class="num n5">5</div><div><h2>나의 이야기를 완성해요!</h2><p class="sub">선택한 내용이 자동으로 정리돼요. 마지막에 이미지 프롬프트도 만들어 드려요.</p></div></div><div class="summary-box"><div class="field"><label>젊었을 때 해보고 싶었던 꿈</label><input id="summaryPast" readonly></div><div class="field" style="margin-top:12px"><label>지금 해보고 싶은 것</label><div id="summaryCurrent" class="chips"></div></div><div class="field" style="margin-top:12px"><label>원하는 장소</label><input id="summaryPlace" readonly></div><div class="field" style="margin-top:12px"><label>원하는 모습</label><div id="summaryFeels" class="chips"></div></div><div class="field" style="margin-top:12px"><label for="messageInput">포스터에 넣고 싶은 한마디 (선택)</label><textarea id="messageInput" placeholder="예: 지금도 늦지 않았어요! 나의 꿈을 다시 시작해요!"></textarea></div><div class="actions"><button class="smallbtn" onclick="fillExampleMessage()">한마디 예시 넣기</button><button class="go" onclick="makePrompt()">이미지 프롬프트 만들기 →</button></div><div id="warn" class="warn"></div></div></section>
+<section class="panel p5"><div class="head"><div class="num n5">5</div><div><h2>나의 이야기를 완성해요!</h2><p class="sub">선택한 내용이 자동으로 정리돼요. 마지막에 이미지 프롬프트도 만들어 드려요.</p></div></div><div class="summary-box"><div class="field"><label>젊었을 때 해보고 싶었던 꿈</label><input id="summaryPast" readonly></div><div class="field" style="margin-top:12px"><label>지금 해보고 싶은 것</label><div id="summaryCurrent" class="chips"></div></div><div class="field" style="margin-top:12px"><label>원하는 장소</label><input id="summaryPlace" readonly></div><div class="field" style="margin-top:12px"><label>원하는 모습</label><div id="summaryFeels" class="chips"></div></div><div class="field" style="margin-top:12px"><label for="messageInput">포스터에 넣고 싶은 한마디 (선택)</label><textarea id="messageInput" placeholder="원하는 말이 있으면 입력하세요. 비워도 괜찮아요."></textarea></div><div class="actions"><button class="go" onclick="makePrompt()">이미지 프롬프트 만들기 →</button></div><div id="warn" class="warn"></div></div></section>
 <section id="resultWrap" class="panel result resultWrap"><div class="head"><div class="num nr">✓</div><div><h2>완성된 이미지 생성 프롬프트</h2><p class="sub">복사해서 ChatGPT나 이미지 생성 AI에 바로 붙여넣을 수 있어요.</p></div></div><div id="promptOutput" class="prompt"></div><div class="toolrow"><button class="copy" onclick="copyPrompt(this)">📋 프롬프트 복사</button><a class="chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener" onclick="openChatGPT(event)">🤖 ChatGPT 열기 ↗</a></div></section>
 <a class="homeLink" href="../">← 다른 활동 고르기</a>
 <footer class="creator-signature">기획·제작 <strong>IZZYON</strong> · 강사 <strong>이지영</strong></footer>
@@ -55,66 +63,75 @@ function getStep2Names(){const names=[];selectedStep2.forEach(id=>{if(id==='cust
 function getStep3Name(){return selectedStep3==='custom'?step3CustomInput.value.trim():getName(step3Data,selectedStep3)}
 function getStep4Names(){const names=[];selectedStep4.forEach(id=>names.push(getName(step4Data,id)));const extra=extraFeel.value.trim();if(extra)names.push(extra);return names.filter(Boolean)}
 function updateSummary(){summaryPast.value=getStep1Name();summaryPlace.value=getStep3Name();const now=getStep2Names(), feels=getStep4Names();summaryCurrent.innerHTML=now.length?now.map(x=>`<span class="chip">${x}</span>`).join(''):'<span style="color:#6d85a4;font-weight:700">아직 선택하지 않았어요.</span>';summaryFeels.innerHTML=feels.length?feels.map(x=>`<span class="chip">${x}</span>`).join(''):'<span style="color:#6d85a4;font-weight:700">아직 선택하지 않았어요.</span>'}
-function fillExampleMessage(){messageInput.value='지금도 늦지 않았어요! 나의 꿈을 다시 시작해요!'}
 function showWarn(msg){warn.textContent='⚠️ '+msg;warn.style.display='block';warn.scrollIntoView({behavior:'smooth',block:'center'})}
 function hideWarn(){warn.style.display='none'}
-function makePrompt(){const past=getStep1Name();const now=getStep2Names();const place=getStep3Name();const feels=getStep4Names();const message=messageInput.value.trim()||'지금도 늦지 않았어요! 나의 꿈을 다시 시작해요!';if(!past)return showWarn('1단계에서 젊었을 때 해보고 싶었던 꿈을 선택해 주세요.');if(!now.length)return showWarn('2단계에서 지금 해보고 싶은 것을 하나 이상 골라 주세요.');if(!place)return showWarn('3단계에서 장소를 선택해 주세요.');if(!feels.length)return showWarn('4단계에서 원하는 모습을 하나 이상 골라 주세요.');const nowText=now.join(', '), feelText=feels.join(', ');const prompt=`다음 조건에 맞춰 한국어로 된 세로형 포스터 이미지 1장을 만들어 줘.
+function makePrompt(){
+  const past=getStep1Name();
+  const now=getStep2Names();
+  const place=getStep3Name();
+  const feels=getStep4Names();
+  const message=messageInput.value.trim();
+  if(!past)return showWarn('1단계에서 예전에 해보고 싶었던 꿈을 선택해 주세요.');
+  if(!now.length)return showWarn('2단계에서 지금 해보고 싶은 것을 하나 이상 골라 주세요.');
+  if(!place)return showWarn('3단계에서 장소를 선택해 주세요.');
+  if(!feels.length)return showWarn('4단계에서 원하는 모습을 하나 이상 골라 주세요.');
+  const nowText=now.join(', '),feelText=feels.join(', ');
+  const wantsYoung=selectedStep4.has('young') || /젊(게|은|어|었)|어려\s*보/i.test(extraFeel.value);
+  const ageRule=wantsYoung?`
+[‘젊게’ 선택 — 최우선 외모 변환 지시]
+- 사용자가 '젊게'를 분명히 선택했다. 이 항목을 단순히 생기 있게 보정하는 것으로 처리하지 말 것.
+- 첨부한 본인 사진을 참고하되, 인물의 외모를 확연히 젊어진 성인 시절(약 20~30대의 젊은 얼굴 인상)로 재구성할 것.
+- 현재 사진의 깊은 주름, 피부 처짐, 백발 등 노화 징후를 그대로 유지하지 말고 자연스러운 젊은 성인의 피부·윤곽·헤어와 생기를 보여 줄 것.
+- 본인임을 알아볼 수 있는 눈·코·입의 특징과 전체적인 인상은 최대한 이어가되, 외모가 젊어진 변화가 한눈에 확실히 보여야 한다.
+- 헤어·의상·메이크업·액세서리 역시 젊어진 모습과 선택한 꿈의 역할에 맞게 새로 스타일링할 것.
+- '나이를 바꾸면 안 된다'는 일반적인 보존 규칙보다 사용자가 선택한 '젊게'를 우선할 것.
+- 최종 점검: 사진 속 원래 나이대로 보이거나 살짝 피부 보정만 한 결과라면 실패다.
+`:`
+[인물 표현]
+- 첨부한 본인 사진의 주요 얼굴 특징을 유지하고, 사용자가 선택하지 않은 나이 변화는 임의로 강요하지 말 것.
+`;
+  const messageRule=message?`- 사용자가 직접 적은 문구: “${message}”. 이 문구는 사용자의 의도와 말투를 우선하여 사용하되, 중복 표기하지 말 것.`:`- 사용자가 직접 입력한 문구는 없음. 미리 준비된 기본 응원 문장이나 반복되는 상투어를 자동 삽입하지 말 것. 장면과 꿈의 맥락에 맞는 짧은 문구를 새롭게 만들어도 되고, 어색하다면 문구 개수를 줄일 것.`;
+  const prompt=`내가 함께 올리는 본인 사진을 활용하여 한국어 4:5 세로 비율의 '나의 꿈을 이루는 모습' 포스터 이미지 1장을 완성해 줘.
 
-[포스터 주제]
-- AI로 이루는 나의 꿈
-- 내가 선택한 꿈이 실제로 이루어진 순간을 보여주는 따뜻하고 희망적인 포스터
-
-[내가 선택한 내용]
+[내 선택 — 설명용 재료일 뿐, 그대로 인쇄할 문구가 아님]
 - 예전에 해보고 싶었던 꿈: ${past}
-- 지금 해보고 싶은 것: ${nowText}
-- 꿈을 이루고 싶은 장소: ${place}
-- 내가 원하는 분위기: ${feelText}
-- 포스터에 넣을 한마디: “${message}”
+- 지금 실현하고 싶은 꿈·역할: ${nowText}
+- 장면의 장소: ${place}
+- 원하는 외모와 연출: ${feelText}
+${messageRule}
 
-[가장 중요한 연출 원칙]
-- '${nowText}'를 주인공의 핵심 역할과 행동으로 가장 우선해서 표현해 줘.
-- '${place}'는 그 역할이 펼쳐지는 배경으로 사용해 줘. 장소 때문에 꿈의 역할이 약해지거나 평범한 관광·일상 장면으로 바뀌면 안 돼.
-- 선택한 꿈과 장소의 조합이 조금 낯설더라도 둘을 자연스럽게 연결해 연출해 줘. 예: 배우+바닷가라면 바닷가 영화 촬영장에서 연기 중인 배우, 가수+여행지라면 여행지의 야외무대에서 공연 중인 가수처럼 표현해 줘.
-- 여러 꿈을 선택했다면 하나의 장면에서 자연스럽게 조합하되, 첫 번째 꿈을 메인 역할로 두고 나머지는 소품·상황·보조 장면으로 반영해 줘.
+[장면 연출의 핵심 우선순위]
+1. 인물의 실제 역할과 행동이 가장 중요하다. '${nowText}'를 누구나 즉시 알아볼 수 있는 직업·무대·행동·소품으로 시각화할 것.
+2. '${place}'는 그 꿈이 펼쳐지는 장소이자 배경이다. 장소 때문에 꿈의 역할이 평범한 관광·산책 사진처럼 바뀌지 않도록 할 것.
+3. 둘의 조합이 이례적이면 해당 장소에서 꿈의 역할이 자연스럽게 드러나는 상황을 창의적으로 구성할 것.
+4. 여러 활동을 고른 경우 주요 활동을 중심 장면으로, 나머지는 자연스러운 보조 장면·소품으로 표현할 것.
+5. 원본 사진의 복장·헤어·액세서리·배경·포즈를 그대로 복제하지 말 것. 선택한 상황에 맞는 스타일링으로 교체할 것. 학교라면 학교에 맞는 단정한 복장, 공연이라면 공연 의상처럼 상황에 맞춰 꾸밀 것.
 
-[본인 사진 사용 - 가장 중요]
-- 이 프롬프트와 함께 내가 올리는 본인 사진 속 인물을 반드시 주인공으로 사용해 줘.
-- 얼굴의 핵심 특징, 인상, 피부톤과 본인임을 알아볼 수 있는 정체성은 유지해 줘.
-- 사진만 보고 나이를 임의로 더 많게 표현하거나 과도하게 나이 들어 보이게 만들지 말고, 사진 속 실제 인상을 기준으로 자연스럽게 표현해 줘.
-- 원본 사진의 옷·헤어스타일·액세서리·배경·포즈는 고정 조건이 아니야. 꿈의 역할과 장소에 맞지 않으면 적극적으로 바꿔 줘.
-- 잠옷, 실내복, 평상복이 꿈의 상황과 맞지 않으면 그대로 사용하지 말 것.
-- '${nowText}'와 '${place}'에 맞게 의상, 헤어스타일, 메이크업, 액세서리, 신발, 소품, 자세와 주변 환경을 전문적으로 스타일링해 줘.
+[본인 사진과 외모]
+- 이 프롬프트와 함께 올리는 실제 본인 사진 속 인물을 주인공으로 사용할 것.
+- 실존 본인임을 알아볼 수 있는 주요 얼굴 특징과 인상은 유지하되, 사진 속 의상·머리·배경은 고정하지 말 것.
+${ageRule}
+[이미지 품질]
+- 고급 사진 촬영 수준의 자연스러운 실사, 인물 중심, 생동감 있는 표정과 상황에 맞는 조명.
+- 영화 포스터의 모호한 감성 연출보다, 꿈을 실제로 이룬 장면과 인물의 역할이 직관적으로 보이도록 구성할 것.
+- 인물과 배경이 일치하는지, 필요한 소품·복장이 빠지지 않았는지 확인할 것.
 
-[상황별 스타일링 원칙]
-- 배우/영화의 주인공: 작품 촬영 중인 배우처럼 의상·헤어·메이크업·촬영 소품과 현장 분위기를 갖출 것
-- 가수/무대에서 노래하기: 공연 의상, 헤어스타일, 마이크, 조명 등 무대 분위기를 갖출 것
-- 공부하기: 학교나 교실에 어울리는 단정한 옷차림, 책·필기구·가방 등 학습 장면을 갖출 것
-- 상 받기: 시상식에 어울리는 격식 있는 의상, 무대, 트로피나 꽃다발 등을 활용할 것
-- 여행하기: 목적지와 계절에 맞는 세련되고 편안한 여행 복장과 소품을 활용할 것
-- 예쁜 옷 입기: 선택한 장소와 분위기에 맞는 드레스·한복 등 특별한 의상을 중심으로 표현할 것
+[포스터에 표시할 한국어 문구]
+- 제목과 짧은 보조 문구는 지금 선택한 꿈, 장소, 인물의 상황을 바탕으로 새롭게 지을 것.
+- 프로그램 이름이나 예시 문장을 고정 제목·고정 카피로 매번 인쇄하지 말 것.
+- 사용자가 선택한 보기(예: '젊게', 활동 이름)를 단순 나열하거나 조사만 붙여 어색한 문장을 만들지 말 것.
+- '${nowText}'를 꿈으로, '${place}'를 장소로 자연스럽게 해석해 상황 맞춤형 문장으로 다시 쓸 것.
+- '지금도 늦지 않았어요', '새로운 시작', '나의 꿈' 같은 상투적인 응원 문구를 자동 반복하지 말 것.
+- 실제 이미지에 넣을 문장은 제목 1개와 짧은 설명 1~2개면 충분하다. 내용 없는 감성 문구로 지면을 채우지 말 것.
+- 사용자의 직접 작성 문구가 없으면 인위적인 하단 고정 멘트나 따옴표 문장을 추가하지 말 것.
+- 이미지 속 한글이 또렷하게 읽히도록 하되, 사진 속 인물과 꿈의 장면이 중심이 되게 할 것.
 
-[이미지 표현]
-- 본인 사진 속 인물을 중심으로 표현하고, 필요하면 가족이나 주변 인물을 자연스럽게 추가해 줘.
-- 표정은 밝고 자신감 있으며 꿈을 이룬 순간의 만족감이 느껴지게 표현해 줘.
-- '${feelText}' 분위기가 얼굴 표정, 자세, 스타일링과 전체 연출에 잘 드러나게 해 줘.
-- '젊게'가 포함되어 있다면 숫자로 나이를 특정하지 말고, 자연스럽고 생기 있고 세련된 인상으로 표현해 줘.
-- 전체적으로 고급스럽고 따뜻한 실사 스타일, 자연스러운 피부와 현실적인 사진 품질로 표현해 줘.
-- 큰 제목과 본문은 또렷한 한국어로, 읽기 쉬운 크기와 대비로 배치해 줘.
-
-[포스터 구성]
-1. 상단 제목: AI로 이루는 나의 꿈
-2. 꿈을 실제로 이루고 있는 모습의 큰 메인 이미지
-3. 꿈 소개 문장 1개
-4. 보조 문장 1개
-5. 하단 응원 문구: “${message}”
-
-[문구 작성 규칙]
-- 선택 내용을 그대로 기계적으로 이어 붙이지 말고 자연스러운 한국어 문장으로 다시 작성해 줘.
-- 조사(은/는, 이/가, 을/를)와 어미를 문맥에 맞게 자연스럽게 수정해 줘.
-- 꿈 소개 문장은 '${nowText}'의 의미가 분명히 드러나게 작성해 줘.
-- 보조 문장은 '${feelText}'의 느낌을 살리되 어색한 '모습의 나' 같은 표현은 피하고 자연스럽게 써 줘.
-- 짧고 따뜻하며 희망적인 문장으로 작성해 줘.
-- 전체 결과물은 설명문이 아니라 바로 사용할 수 있는 완성된 포스터 이미지 한 장으로 만들어 줘.`;promptOutput.textContent=prompt;resultWrap.classList.add('show');resultWrap.scrollIntoView({behavior:'smooth',block:'start'});hideWarn()}
+설명이나 시안이 아닌, 바로 활용할 수 있는 완성된 포스터 이미지 1장만 생성해 줘.`;
+  promptOutput.textContent=prompt;
+  resultWrap.classList.add('show');
+  resultWrap.scrollIntoView({behavior:'smooth',block:'start'});
+  hideWarn();
+}
 async function copyPrompt(btn){try{await navigator.clipboard.writeText(promptOutput.textContent);const old=btn.textContent;btn.textContent='✅ 복사되었습니다!';setTimeout(()=>btn.textContent=old,1500)}catch(e){alert('복사에 실패했어요.')}}
 async function openChatGPT(e){
   if(e) e.preventDefault();
@@ -199,6 +216,89 @@ function launchChatGPT(){
   window.location.href=webUrl;
 }
 document.addEventListener('DOMContentLoaded',updateChatGPTButtonLabel);
+
+/* 손쉬운 음성 입력: SpeechRecognition이 지원되는 브라우저에서만 동작합니다. */
+(function(){
+  const FIELD_IDS=["step1CustomInput", "step2CustomInput", "step3CustomInput", "extraFeel", "messageInput"];
+  const SpeechAPI=window.SpeechRecognition||window.webkitSpeechRecognition;
+  let activeRecognition=null;
+  let activeButton=null;
+  let statusBox=null;
+
+  function status(text){
+    if(!statusBox){
+      statusBox=document.createElement('div');
+      statusBox.className='voice-status';
+      statusBox.setAttribute('role','status');
+      statusBox.setAttribute('aria-live','polite');
+      document.body.appendChild(statusBox);
+    }
+    statusBox.textContent=text;
+    statusBox.classList.add('visible');
+    if(statusBox.hideTimer)clearTimeout(statusBox.hideTimer);
+    statusBox.hideTimer=setTimeout(()=>statusBox.classList.remove('visible'),4400);
+  }
+  function resetButton(btn){if(btn){btn.classList.remove('listening');btn.setAttribute('aria-pressed','false');btn.textContent='🎤';}}
+  function bindField(el){
+    if(!el || el.dataset.voiceReady==='1'||el.readOnly||el.disabled)return;
+    el.dataset.voiceReady='1';
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='voice-button';
+    btn.textContent='🎤';
+    btn.title='말로 입력하기';
+    btn.setAttribute('aria-label','마이크로 음성 입력');
+    btn.setAttribute('aria-pressed','false');
+    el.insertAdjacentElement('afterend',btn);
+    btn.addEventListener('click',function(){
+      if(!SpeechAPI){
+        status('이 브라우저는 음성 인식을 지원하지 않아요. 키보드의 🎤 음성입력을 이용해 주세요.');
+        el.focus();
+        return;
+      }
+      if(activeRecognition){
+        const wasSame=activeButton===btn;
+        try{activeRecognition.abort()}catch(e){}
+        resetButton(activeButton);
+        activeRecognition=null;activeButton=null;
+        if(wasSame){status('음성 입력을 중지했어요.');return;}
+      }
+      const recognition=new SpeechAPI();
+      recognition.lang='ko-KR';
+      recognition.interimResults=false;
+      recognition.continuous=false;
+      recognition.maxAlternatives=1;
+      activeRecognition=recognition;
+      activeButton=btn;
+      btn.classList.add('listening');
+      btn.setAttribute('aria-pressed','true');
+      btn.textContent='⏹';
+      status('말씀해 주세요. 마이크가 듣고 있어요.');
+      recognition.onresult=function(event){
+        const transcript=Array.from(event.results).map(r=>r[0]&&r[0].transcript||'').join(' ').trim();
+        if(!transcript)return;
+        const before=el.value.trim();
+        el.value=before?before+' '+transcript:transcript;
+        el.dispatchEvent(new Event('input',{bubbles:true}));
+        el.dispatchEvent(new Event('change',{bubbles:true}));
+        status('말씀하신 내용을 입력했어요. 선택하거나 추가 버튼을 눌러 적용해 주세요.');
+      };
+      recognition.onerror=function(e){
+        if(e.error==='not-allowed'||e.error==='service-not-allowed')status('마이크 권한을 허용해 주세요. 설정에서 허용 후 다시 시도할 수 있어요.');
+        else if(e.error==='no-speech')status('말씀이 들리지 않았어요. 다시 눌러 주세요.');
+        else if(e.error!=='aborted')status('음성 인식을 사용할 수 없어요. 직접 입력하거나 키보드 마이크를 이용해 주세요.');
+      };
+      recognition.onend=function(){
+        resetButton(btn);
+        if(activeRecognition===recognition){activeRecognition=null;activeButton=null;}
+      };
+      try{recognition.start()}catch(e){resetButton(btn);activeRecognition=null;activeButton=null;status('마이크를 시작할 수 없어요. 직접 입력해 주세요.');}
+    });
+  }
+  function init(){FIELD_IDS.forEach(id=>bindField(document.getElementById(id)));}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
 </script>
 </body>
 </html>
