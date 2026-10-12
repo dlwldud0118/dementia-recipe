@@ -9,16 +9,16 @@
 </head>
 <body>
 <div class="wrap">
-<section class="hero"><h1>AI로 입어보는 <span class="pink">요즘 교복</span> <span class="mint">학창 시절</span></h1><p>현재 본인 사진을 바탕으로 요즘 한국 학교의 자연스러운 교복 사진을 만들어 보세요.</p><div class="notice"><strong>사용 방법</strong><br>이 활동은 <strong>이 페이지에서 프롬프트를 만든 뒤, ChatGPT에 현재 본인 사진을 함께 첨부</strong>해서 사용해요. 얼굴의 고유한 인상은 살리고, 요즘 학교에 다니는 학생다운 분위기로 자연스럽게 재구성하도록 안내합니다.</div></section>
+<section class="hero"><h1>AI로 입어보는 <span class="pink">요즘 교복</span> <span class="mint">학창 시절</span></h1><p>현재 본인 사진을 바탕으로 요즘 한국 중학교의 자연스러운 교복 사진을 만들어 보세요.</p><div class="notice"><strong>사용 방법</strong><br>이 활동은 <strong>이 페이지에서 프롬프트를 만든 뒤, ChatGPT에 현재 본인 사진을 함께 첨부</strong>해서 사용해요. 얼굴의 고유한 인상은 은은하게 참고하고, 요즘 한국 여중생다운 분위기로 자연스럽게 재구성하도록 안내합니다.</div></section>
 <section class="panel p1"><div class="head"><div class="num n1">1</div><div><h2>어떤 교복 스타일이 좋을까요?</h2><p class="sub">하나를 선택해 주세요.</p></div></div><div id="uniformGrid" class="grid"></div></section>
 <section class="panel p2"><div class="head"><div class="num n2">2</div><div><h2>어떤 머리스타일로 표현할까요?</h2><p class="sub">하나를 선택해 주세요.</p></div></div><div id="hairGrid" class="grid"></div></section>
-<section class="panel p3"><div class="head"><div class="num n3">3</div><div><h2>어떤 학창 시절 분위기가 좋을까요?</h2><p class="sub">학교 공간과 사진 무드를 하나 선택해 주세요.</p></div></div><div id="moodGrid" class="grid"></div></section>
+<section class="panel p3"><div class="head"><div class="num n3">3</div><div><h2>어떤 여중생 학창 분위기가 좋을까요?</h2><p class="sub">학교 공간과 사진 무드를 하나 선택해 주세요.</p></div></div><div id="moodGrid" class="grid"></div></section>
 <section class="panel p4"><div class="head"><div class="num n4">4</div><div><h2>꼭 살리고 싶은 인상이나 추가 요청이 있나요?</h2><p class="sub">선택 사항이에요. 비워도 괜찮아요.</p></div></div><div class="field"><label for="identityInput">사진 속 인물의 느낌 중 꼭 살리고 싶은 점</label><input id="identityInput" placeholder="예: 부드러운 눈매, 조용한 미소, 또렷한 코 라인"></div><div class="field" style="margin-top:12px"><label for="extraInput">추가 요청</label><textarea id="extraInput" placeholder="예: 창가 쪽 자연광, 책가방을 든 모습, 스마트폰 없이 단정한 학생 분위기"></textarea></div></section>
 <section class="panel p5"><div class="head"><div class="num n5">5</div><div><h2>선택한 내용을 확인해요!</h2><p class="sub">확인 후 프롬프트를 만들 수 있어요.</p></div></div><div class="summary-box"><div class="summary-list"><div class="summary-item"><b>교복 스타일</b><span id="summaryUniform">아직 선택하지 않았어요.</span></div><div class="summary-item"><b>머리스타일</b><span id="summaryHair">아직 선택하지 않았어요.</span></div><div class="summary-item"><b>학창 분위기</b><span id="summaryMood">아직 선택하지 않았어요.</span></div><div class="summary-item"><b>추가 메모</b><span id="summaryExtra">없음</span></div></div><div class="actions"><button class="smallbtn" onclick="fillExample()">예시 메모 넣기</button><button class="go" onclick="makePrompt()">이미지 프롬프트 만들기 →</button></div><div id="warn" class="warn"></div></div></section>
 <section id="resultWrap" class="panel result resultWrap"><div class="head"><div class="num nr">✓</div><div><h2>완성된 이미지 생성 프롬프트</h2><p class="sub">현재 본인 사진과 함께 ChatGPT에 넣으면 돼요.</p></div></div><div id="promptOutput" class="prompt"></div><div class="toolrow"><button class="copy" onclick="copyPrompt(this)">📋 프롬프트 복사</button><a class="chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener" onclick="openChatGPT(event)">🤖 ChatGPT 열기 ↗</a></div></section><a class="homeLink" href="../">← 다른 활동 고르기</a><div class="credit">기획·제작 <span>IZZYON</span> · 강사 <span>이지영</span></div></div>
 <script>
 const uniformOptions=[
-{id:'blazer',name:'블레이저 교복',desc:'요즘 한국 고등학교에서 많이 보는 단정한 재킷 스타일',src:'assets/uniform_blazer_v2.webp'},
+{id:'blazer',name:'블레이저 교복',desc:'요즘 한국 중학교에서 많이 보는 단정한 재킷 스타일',src:'assets/uniform_blazer_v2.webp'},
 {id:'vest',name:'니트 조끼 교복',desc:'셔츠 위에 니트 조끼를 레이어드한 학생다운 스타일',src:'assets/uniform_vest_v2.webp'},
 {id:'cardigan',name:'가디건 교복',desc:'조금 더 부드럽고 편안한 분위기의 교복 스타일',src:'assets/uniform_cardigan_v2.webp'}
 ];
@@ -30,36 +30,61 @@ const hairOptions=[
 const moodOptions=[
 {id:'classroom',name:'교실 창가 분위기',desc:'밝은 창가와 책상, 자연광이 있는 학창 시절 사진',src:'assets/mood_classroom_v2.webp'},
 {id:'campus',name:'햇살 가득한 교정',desc:'요즘 학교 교정에서 찍은 밝고 자연스러운 사진',src:'assets/mood_campus_v2.webp'},
-{id:'portrait',name:'학생증·프로필 느낌',desc:'깔끔하고 또렷한 요즘 학창 시절 인물사진',src:'assets/mood_portrait_v2.webp'}
+{id:'portrait',name:'학생증·프로필 느낌',desc:'깔끔하고 또렷한 요즘 여중생 인물사진',src:'assets/mood_portrait_v2.webp'}
 ];
 let selectedUniform='', selectedHair='', selectedMood='';
 function cardHTML(item, selected, fn){return `<div class="card ${selected?'selected':''}" role="button" tabindex="0" aria-pressed="${selected}" onclick="${fn}('${item.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${fn}('${item.id}')}" ><div class="visual"><img src="${item.src}" alt="${item.name} 예시 이미지" loading="lazy"></div><div class="meta"><strong>${item.name}</strong><small>${item.desc}</small></div><div class="tick">✓</div></div>`}
 function render(){uniformGrid.innerHTML=uniformOptions.map(x=>cardHTML(x, selectedUniform===x.id, 'selectUniform')).join('');hairGrid.innerHTML=hairOptions.map(x=>cardHTML(x, selectedHair===x.id, 'selectHair')).join('');moodGrid.innerHTML=moodOptions.map(x=>cardHTML(x, selectedMood===x.id, 'selectMood')).join('');updateSummary();}
-function selectUniform(id){selectedUniform=id;render();hideWarn()} function selectHair(id){selectedHair=id;render();hideWarn()} function selectMood(id){selectedMood=id;render();hideWarn()}
+function selectUniform(id){selectedUniform=id;render();hideWarn();refreshPromptIfVisible()} function selectHair(id){selectedHair=id;render();hideWarn();refreshPromptIfVisible()} function selectMood(id){selectedMood=id;render();hideWarn();refreshPromptIfVisible()}
 function getById(list,id){return list.find(x=>x.id===id)||null}
 function updateSummary(){summaryUniform.textContent=getById(uniformOptions,selectedUniform)?.name||'아직 선택하지 않았어요.';summaryHair.textContent=getById(hairOptions,selectedHair)?.name||'아직 선택하지 않았어요.';summaryMood.textContent=getById(moodOptions,selectedMood)?.name||'아직 선택하지 않았어요.';const a=identityInput.value.trim(), b=extraInput.value.trim();summaryExtra.textContent=(a||b)?[a,b].filter(Boolean).join(' / '):'없음';}
-function fillExample(){identityInput.value='부드러운 눈매와 또렷한 미소';extraInput.value='요즘 한국 고등학교에 다니는 학생처럼 자연스럽고 세련된 분위기로 표현해 주세요. 교복, 헤어스타일, 배경은 선택한 스타일에 맞게 바꿔 주세요.';updateSummary();}
+function fillExample(){identityInput.value='부드러운 눈매와 또렷한 미소';extraInput.value='요즘 한국 중학교에 다니는 여중생처럼 자연스럽고 세련된 분위기로 표현해 주세요. 교복, 헤어스타일, 배경은 선택한 스타일에 맞게 바꿔 주세요.';updateSummary();}
 function showWarn(msg){warn.textContent='⚠️ '+msg;warn.style.display='block';warn.scrollIntoView({behavior:'smooth',block:'center'})}
 function hideWarn(){warn.style.display='none'}
-function makePrompt(){const uniform=getById(uniformOptions,selectedUniform);const hair=getById(hairOptions,selectedHair);const mood=getById(moodOptions,selectedMood);const identity=identityInput.value.trim();const extra=extraInput.value.trim();if(!uniform)return showWarn('교복 스타일을 선택해 주세요.');if(!hair)return showWarn('머리스타일을 선택해 주세요.');if(!mood)return showWarn('학창 시절 분위기를 선택해 주세요.');const uniformDetail={blazer:'선택한 교복 스타일은 블레이저 교복입니다. 요즘 한국 고등학교에서 볼 수 있는 단정한 교복 재킷, 깔끔한 셔츠, 자연스러운 학생다운 스타일로 표현해 주세요.',vest:'선택한 교복 스타일은 니트 조끼 교복입니다. 셔츠 위에 니트 조끼를 겹쳐 입은 단정한 현대 학생 교복 스타일로 표현해 주세요.',cardigan:'선택한 교복 스타일은 가디건 교복입니다. 셔츠와 가디건 조합의 부드럽고 편안한 현대 학생 교복 스타일로 표현해 주세요.'}[selectedUniform];const hairDetail={bob:'선택한 머리스타일은 단정한 단발입니다. 요즘 학생다운 자연스러운 단발머리, 과장되지 않은 손질, 깔끔한 옆가르마 또는 자연스러운 정돈감이 느껴지게 표현해 주세요.',long:'선택한 머리스타일은 긴 생머리입니다. 차분하고 단정한 긴 생머리, 학생다운 자연스러운 윤기, 과한 스타일링 없는 모습으로 표현해 주세요.',pony:'선택한 머리스타일은 포니테일입니다. 깔끔하게 묶은 포니테일 또는 하나로 묶은 학생다운 스타일로 표현해 주세요.'}[selectedHair];const moodDetail={classroom:'배경과 분위기는 밝은 교실 창가 또는 교실 안 책상 주변입니다. 요즘 한국 학교의 깨끗한 교실, 자연광, 차분한 학창 분위기가 느껴지게 해 주세요.',campus:'배경과 분위기는 햇살이 드는 현대 학교 교정입니다. 요즘 한국 학교 건물, 교정, 밝고 맑은 분위기의 학창 시절 사진처럼 표현해 주세요.',portrait:'배경과 분위기는 또렷하고 깔끔한 요즘 학생 인물사진입니다. 프로필 사진처럼 지나치게 연출되지 않으면서도, 자연스럽고 선명한 학창 시절 초상 느낌으로 표현해 주세요.'}[selectedMood];const identityLine=identity?`얼굴 재현 시에는 첨부한 본인 사진 속 눈매, 눈 사이 거리, 코 모양, 입술 형태, 얼굴 윤곽의 기본 특징, 그리고 ${identity} 인상을 특히 잘 살려 주세요.`:`얼굴 재현 시에는 첨부한 본인 사진 속 눈매, 눈 사이 거리, 코 모양, 입술 형태, 얼굴 윤곽의 기본 특징과 자연스러운 미소를 참고해 주세요.`;const extraLine=extra?`추가 요청: ${extra}`:'';const prompt=`다음 조건에 맞춰 한국어 세로형 4:5 인물사진 1장을 만들어 주세요. 이 작업에서는 내가 함께 첨부하는 현재 본인 사진을 참고해 주세요.
+function makePrompt(scrollToResult=true){
+  const uniform=getById(uniformOptions,selectedUniform);
+  const hair=getById(hairOptions,selectedHair);
+  const mood=getById(moodOptions,selectedMood);
+  if(!uniform){if(scrollToResult)showWarn('교복 스타일을 선택해 주세요.');return;}
+  if(!hair){if(scrollToResult)showWarn('머리스타일을 선택해 주세요.');return;}
+  if(!mood){if(scrollToResult)showWarn('학창 시절 분위기를 선택해 주세요.');return;}
+  const identity=identityInput.value.trim();
+  const extra=extraInput.value.trim();
+  const uniformDetail={
+    blazer:'단정한 블레이저 재킷과 셔츠',
+    vest:'셔츠 위에 입은 니트 조끼',
+    cardigan:'셔츠와 부드러운 가디건'
+  }[selectedUniform];
+  const hairDetail={
+    bob:'윤기 있고 단정한 단발머리',
+    long:'건강하고 윤기 있는 긴 생머리',
+    pony:'깔끔하게 하나로 묶은 포니테일'
+  }[selectedHair];
+  const moodDetail={
+    classroom:'햇살이 드는 한국 학교의 교실 창가와 책상',
+    campus:'햇살 가득한 현대 한국 학교 교정',
+    portrait:'깔끔한 배경의 학생증·프로필 스타일'
+  }[selectedMood];
+  const identityLine=identity?`특히 참고할 본인 인상: ${identity}.\n`:'';
+  const extraLine=extra?`\n추가 요청: ${extra}`:'';
+  const prompt=`첨부한 현재 본인 사진을 참고해 세로 4:5 컬러 인물사진 1장을 만들어 주세요.
 
-- 원본 사진의 눈매와 미소, 전체 분위기만 은은하게 참고하고, 얼굴 전체는 더 어리고 더 예쁘고 더 화려한 미인형 10대초반 학생상으로 새롭게 재구성해 주세요.
-- 현재 얼굴을 그대로 복사하지 말고, 성인 느낌이 남지 않도록 더 맑고 화사하고 슬림한 학생 인상으로 표현해 주세요.
-- 결과는 누가 봐도 교복이 잘 어울리는 예쁜 학생 사진처럼 보여야 합니다.
-- 얼굴은 주름, 처짐, 팔자주름, 성숙한 인상, 어른스러운 분위기가 남지 않게 해 주세요.
-- 피부는 맑고 부드럽고 화사하게, 눈빛은 또렷하고 예쁘게, 입가는 자연스럽고 아름답게 표현해 주세요.
-- 전체 인상은 세련되고 화려한 미인형 10대초반 학생상으로 표현해 주세요.
-- 얼굴선은 매끈하고 갸름하게, 체형은 마르고 슬림한 학생 느낌으로 표현해 주세요.
-- 머리카락은 건강하고 윤기 있게, 자연스럽고 예쁜 학생 머리스타일로 표현해 주세요.
-- 선택한 현대 교복 스타일이 잘 드러나게 표현해 주세요.
-- 밝고 자연스러운 컬러 사진으로, 교실·창가·복도·교정 등 학교 분위기가 느껴지게 표현해 주세요.
-- 전체적으로 깨끗하고 고급스러운 에디토리얼 인물사진 느낌으로 만들어 주세요.
-- 교복을 입은 성인 여성처럼 보이면 안 됩니다.
-- 텍스트, 워터마크, 콜라주 없이 여성 1명의 사실적인 인물사진으로 만들어 주세요.
-
-${extraLine}`;promptOutput.textContent=prompt.trim();resultWrap.classList.add('show');resultWrap.scrollIntoView({behavior:'smooth',block:'start'});hideWarn();updateChatGPTButtonLabel();}
+원본의 눈매와 미소, 분위기만 은은하게 참고하고 얼굴 전체는 세련되고 화려하게 예쁜 여중생 모습으로 새롭게 재구성해 주세요. 완전히 똑같은 얼굴보다 풋풋하고 맑은 여중생 인상을 우선해 주세요. 또렷한 눈빛과 자연스러운 미소, 부드럽고 매끈한 얼굴선, 화사한 피부, 윤기 있는 머릿결, 갸름한 얼굴과 슬림한 체형으로 표현해 주세요. 성숙한 얼굴이나 주름은 남기지 마세요.
+${identityLine}
+교복: ${uniformDetail}.
+머리: ${hairDetail}.
+배경·분위기: ${moodDetail}.
+사진: 밝은 자연광, 깨끗하고 화사한 현대 한국 중학교 기념사진. 여중생답고 자연스러운 포즈로 표현해 주세요.
+여성 1명, 글자·워터마크·콜라주 없음.${extraLine}`;
+  promptOutput.textContent=prompt.trim();
+  resultWrap.classList.add('show');
+  if(scrollToResult)resultWrap.scrollIntoView({behavior:'smooth',block:'start'});
+  hideWarn();
+  updateChatGPTButtonLabel();
+}
+function refreshPromptIfVisible(){if(resultWrap.classList.contains('show'))makePrompt(false);}
 async function copyPrompt(btn){try{await navigator.clipboard.writeText(promptOutput.textContent);const old=btn.textContent;btn.textContent='✅ 복사되었습니다!';setTimeout(()=>btn.textContent=old,1500)}catch(e){alert('복사에 실패했어요.')}}
 function isAndroidDevice(){return /Android/i.test(navigator.userAgent)} function isIOSDevice(){return /iPhone|iPad|iPod/i.test(navigator.userAgent)||((navigator.platform==='MacIntel'||navigator.platform==='MacPPC')&&navigator.maxTouchPoints>1)} function isMobileOrTablet(){return /Android|iPhone|iPad|iPod|Tablet|Mobile/i.test(navigator.userAgent)||((navigator.platform==='MacIntel'||navigator.platform==='MacPPC')&&navigator.maxTouchPoints>1)} function updateChatGPTButtonLabel(){const btn=document.querySelector('.chatgpt'); if(btn) btn.textContent=isMobileOrTablet() ? '🤖 ChatGPT 앱 열기 ↗' : '🤖 ChatGPT 열기 ↗';} function openChatGPT(event){event.preventDefault(); launchChatGPT();} function launchChatGPT(){const webUrl='https://chatgpt.com/'; if(!isMobileOrTablet()){window.open(webUrl,'_blank','noopener'); return;} if(isAndroidDevice()){const fallback=encodeURIComponent(webUrl); window.location.href=`intent://#Intent;scheme=chatgpt;package=com.openai.chatgpt;S.browser_fallback_url=${fallback};end`; return;} if(isIOSDevice()){let appOpened=false; const onVisibility=()=>{if(document.hidden){appOpened=true; document.removeEventListener('visibilitychange',onVisibility);}}; document.addEventListener('visibilitychange',onVisibility); window.location.href='chatgpt://'; setTimeout(()=>{document.removeEventListener('visibilitychange',onVisibility); if(!appOpened && !document.hidden) window.location.href=webUrl;},1400); return;} window.location.href=webUrl;}
 (function(){ const FIELD_IDS=['identityInput','extraInput']; const SpeechAPI=window.SpeechRecognition||window.webkitSpeechRecognition; let activeRecognition=null, activeButton=null, statusBox=null; function status(text){ if(!statusBox){statusBox=document.createElement('div');statusBox.className='voice-status';statusBox.setAttribute('role','status');statusBox.setAttribute('aria-live','polite');document.body.appendChild(statusBox);} statusBox.textContent=text; statusBox.classList.add('visible'); if(statusBox.hideTimer)clearTimeout(statusBox.hideTimer); statusBox.hideTimer=setTimeout(()=>statusBox.classList.remove('visible'),4400);} function resetButton(btn){if(btn){btn.classList.remove('listening');btn.setAttribute('aria-pressed','false');btn.textContent='🎤';}} function bindField(el){ if(!el||el.dataset.voiceReady==='1'||el.readOnly||el.disabled) return; el.dataset.voiceReady='1'; const btn=document.createElement('button'); btn.type='button'; btn.className='voice-button'; btn.textContent='🎤'; btn.title='말로 입력하기'; btn.setAttribute('aria-label','마이크로 음성 입력'); btn.setAttribute('aria-pressed','false'); el.insertAdjacentElement('afterend',btn); btn.addEventListener('click',function(){ if(!SpeechAPI){status('이 브라우저는 음성 인식을 지원하지 않아요. 키보드의 🎤 음성입력을 이용해 주세요.'); el.focus(); return;} if(activeRecognition){ const wasSame=activeButton===btn; try{activeRecognition.abort()}catch(e){} resetButton(activeButton); activeRecognition=null; activeButton=null; if(wasSame){status('음성 입력을 중지했어요.'); return;}} const recognition=new SpeechAPI(); recognition.lang='ko-KR'; recognition.interimResults=false; recognition.continuous=false; recognition.maxAlternatives=1; activeRecognition=recognition; activeButton=btn; btn.classList.add('listening'); btn.setAttribute('aria-pressed','true'); btn.textContent='⏹'; status('말씀해 주세요. 마이크가 듣고 있어요.'); recognition.onresult=function(event){ const transcript=Array.from(event.results).map(r=>r[0]&&r[0].transcript||'').join(' ').trim(); if(!transcript) return; const before=el.value.trim(); el.value=before?before+' '+transcript:transcript; el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true})); status('말씀하신 내용을 입력했어요.');}; recognition.onerror=function(e){ if(e.error==='not-allowed'||e.error==='service-not-allowed')status('마이크 권한을 허용해 주세요.'); else if(e.error==='no-speech')status('말씀이 들리지 않았어요. 다시 눌러 주세요.'); else if(e.error!=='aborted')status('음성 인식을 사용할 수 없어요. 직접 입력해 주세요.');}; recognition.onend=function(){resetButton(btn); if(activeRecognition===recognition){activeRecognition=null; activeButton=null;}}; try{recognition.start()}catch(e){resetButton(btn); activeRecognition=null; activeButton=null; status('마이크를 시작할 수 없어요. 직접 입력해 주세요.');}})} function init(){FIELD_IDS.forEach(id=>bindField(document.getElementById(id))); updateChatGPTButtonLabel(); render();} if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true}); else init();})();
-identityInput.addEventListener('input',updateSummary); extraInput.addEventListener('input',updateSummary);
+identityInput.addEventListener('input',()=>{updateSummary();refreshPromptIfVisible()}); extraInput.addEventListener('input',()=>{updateSummary();refreshPromptIfVisible()});
 </script></body></html>

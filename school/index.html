@@ -32,7 +32,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
   <section class="hero">
     <h1>AI로 다시 만나는 <span class="pink">학창</span> <span class="blue">시절</span></h1>
     <p>지금의 본인 사진을 바탕으로 교복 입은 학창 시절 흑백사진을 재현해 보세요.</p>
-    <div class="notice"><strong>사용 방법</strong><br>이 활동은 <strong>이 페이지에서 프롬프트를 만든 뒤, ChatGPT에 현재 본인 사진을 함께 첨부</strong>해서 사용해요. 얼굴의 고유한 인상은 살리고, 고등학교 재학 시절의 자연스러운 학생 사진처럼 재구성하도록 안내합니다.</div>
+    <div class="notice"><strong>사용 방법</strong><br>이 활동은 <strong>이 페이지에서 프롬프트를 만든 뒤, ChatGPT에 현재 본인 사진을 함께 첨부</strong>해서 사용해요. 얼굴의 고유한 인상은 은은하게 참고하고, 여중생 시절의 자연스럽고 예쁜 학생 사진처럼 재구성하도록 안내합니다.</div>
   </section>
 
   <section class="panel p1">
@@ -81,7 +81,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;
 </div>
 <script>
 const hairOptions=[
-{id:'bob',name:'단발머리',desc:'1960~1970년대 한국 여고생의 단정한 검은색 단발',emoji:'✂️',mini:'턱선~목 중간 길이\n자연스러운 옆가르마\n작은 실핀 1개'},
+{id:'bob',name:'단발머리',desc:'1960~1970년대 한국 여중생의 단정한 검은색 단발',emoji:'✂️',mini:'턱선~목 중간 길이\n자연스러운 옆가르마\n작은 실핀 1개'},
 {id:'braid',name:'땋은 양갈래',desc:'단정한 두 갈래 땋은 머리',emoji:'🎀',mini:'가운데 또는 약간 옆가르마\n양쪽 어깨 앞으로 내려오는 땋은 머리'}
 ];
 const placeOptions=[
@@ -110,46 +110,54 @@ function cardHTML(item, selected, fn){
  return `<div class="card ${selected?'selected':''}" role="button" tabindex="0" aria-pressed="${selected}" onclick="${fn}('${item.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${fn}('${item.id}')}" ><div class="visual"><img src="${src}" alt="${item.name} 선택 예시 사진" loading="lazy"></div><div class="meta"><strong>${item.name}</strong><small>${item.desc}</small></div><div class="tick">✓</div></div>`;
 }
 function render(){hairGrid.innerHTML=hairOptions.map(x=>cardHTML(x, selectedHair===x.id, 'selectHair')).join('');placeGrid.innerHTML=placeOptions.map(x=>cardHTML(x, selectedPlace===x.id, 'selectPlace')).join('');moodGrid.innerHTML=moodOptions.map(x=>cardHTML(x, selectedMood===x.id, 'selectMood')).join('');updateSummary();}
-function selectHair(id){selectedHair=id;render();hideWarn()} function selectPlace(id){selectedPlace=id;render();hideWarn()} function selectMood(id){selectedMood=id;render();hideWarn()}
+function selectHair(id){selectedHair=id;render();hideWarn();refreshPromptIfVisible()} function selectPlace(id){selectedPlace=id;render();hideWarn();refreshPromptIfVisible()} function selectMood(id){selectedMood=id;render();hideWarn();refreshPromptIfVisible()}
 function getById(list,id){return list.find(x=>x.id===id)||null}
 function updateSummary(){summaryHair.textContent=getById(hairOptions,selectedHair)?.name||'아직 선택하지 않았어요.';summaryPlace.textContent=getById(placeOptions,selectedPlace)?.name||'아직 선택하지 않았어요.';summaryMood.textContent=getById(moodOptions,selectedMood)?.name||'아직 선택하지 않았어요.';const a=identityInput.value.trim(), b=extraInput.value.trim();summaryExtra.textContent=(a||b)?[a,b].filter(Boolean).join(' / '):'없음';}
 function fillExample(){identityInput.value='부드러운 눈매와 수줍은 미소';extraInput.value='사진 가장자리에만 은은한 세월의 흔적이 보이게 하고, 얼굴은 깨끗하고 또렷하게 표현해 주세요.';updateSummary();}
 function showWarn(msg){warn.textContent='⚠️ '+msg;warn.style.display='block';warn.scrollIntoView({behavior:'smooth',block:'center'})}
 function hideWarn(){warn.style.display='none'}
-function makePrompt(){const hair=getById(hairOptions,selectedHair);const place=getById(placeOptions,selectedPlace);const mood=getById(moodOptions,selectedMood);const identity=identityInput.value.trim();const extra=extraInput.value.trim();if(!hair)return showWarn('머리스타일을 선택해 주세요.');if(!place)return showWarn('배경을 선택해 주세요.');if(!mood)return showWarn('사진 분위기를 선택해 주세요.');
-const hairDetail = selectedHair==='bob'
-? `선택한 머리스타일은 단발머리입니다. 1960~1970년대 한국 여고생들이 하던 단정한 검은색 단발머리로 표현해 주세요. 턱선에서 목 중간 정도까지 내려오는 자연스러운 단발, 풍성하지만 과장되지 않은 머리숱, 자연스러운 옆가르마, 머리 한쪽에 작은 실핀 하나, 얼굴을 부드럽게 감싸는 단정한 형태로 표현해 주세요. 현대적인 보브컷이나 과장된 스타일링은 금지합니다.`
-: `선택한 머리스타일은 땋은 양갈래 머리입니다. 1960~1970년대 한국 여고생의 순수하고 단정한 땋은 양갈래 머리로 표현해 주세요. 자연스러운 검은색 긴 머리를 가운데 또는 약간 옆으로 가르고, 양쪽 머리를 가지런하게 세 가닥으로 땋아 양쪽 어깨 앞으로 자연스럽게 내려오게 해 주세요. 머리끝은 검정색 또는 어두운색 머리끈으로 단정하게 묶어 주세요. 지나치게 굵거나 화려한 현대식 땋은 머리는 금지합니다.`;
-const placeDetail = {
-front:`배경은 1960~1970년대 초반 대한민국의 오래된 여자고등학교 교정이며, 학교 건물 앞에서 촬영한 사진처럼 표현해 주세요. 낡은 2층 콘크리트 학교 건물, 길게 이어지는 직사각형 유리창, 현관과 계단, 흙 운동장이 자연스럽게 보이게 해 주세요.`,
-yard:`배경은 1960~1970년대 초반 대한민국 학교의 운동장 쪽 교정입니다. 학교 건물과 흙 운동장, 작은 나무와 관목이 함께 보이도록 자연스럽게 구성해 주세요.`,
-hall:`배경은 1960~1970년대 초반 대한민국 학교의 교실동 앞 복도와 계단 근처입니다. 학교 창문 라인과 복도, 계단이 은은하게 보이게 해 주세요.`
-}[selectedPlace];
-const moodDetail = {
-snapshot:`전체 분위기는 친구나 가족이 학교 앞에서 자연스럽게 촬영해 준 학창 시절 기념사진처럼 표현해 주세요. 억지로 포즈를 취한 스튜디오 사진이 아니라 편안한 기념사진 느낌이어야 합니다.`,
-album:`전체 분위기는 실제 오래된 졸업앨범이나 학창 시절 초상사진처럼 단정하고 또렷하게 표현해 주세요. 상반신부터 허리 근처까지 보이는 세로형 인물사진 구도로, 얼굴과 눈매는 선명하게 표현해 주세요.`,
-shy:`전체 분위기는 수줍고 온화한 학창 시절의 느낌이 살아나도록 표현해 주세요. 조용히 미소 짓는 순수한 학생 사진처럼 보여야 합니다.`
-}[selectedMood];
-const identityLine = identity ? `얼굴 재현 시에는 첨부한 본인 사진 속 눈매, 눈 사이 거리, 코 모양, 입술 형태, 얼굴 윤곽의 기본 특징, 그리고 ${identity} 인상을 특히 잘 살려 주세요.` : `얼굴 재현 시에는 첨부한 본인 사진 속 눈매, 눈 사이 거리, 코 모양, 입술 형태, 얼굴 윤곽의 기본 특징과 부드러운 미소를 참고해 주세요.`;
-const extraLine = extra ? `추가 요청: ${extra} 이 요청은 전체 분위기에 자연스럽게 반영하되, 1960~1970년대 초반의 한국 학창 시절 사진이라는 시대감은 유지해 주세요.` : '';
-const prompt = `다음 조건에 맞춰 한국어 세로형 4:5 인물사진 1장을 만들어 주세요. 이 작업에서는 내가 함께 첨부하는 현재 본인 사진을 참고해 주세요.
+function makePrompt(scrollToResult=true){
+  const hair=getById(hairOptions,selectedHair);
+  const place=getById(placeOptions,selectedPlace);
+  const mood=getById(moodOptions,selectedMood);
+  if(!hair){if(scrollToResult)showWarn('머리스타일을 선택해 주세요.');return;}
+  if(!place){if(scrollToResult)showWarn('배경을 선택해 주세요.');return;}
+  if(!mood){if(scrollToResult)showWarn('사진 분위기를 선택해 주세요.');return;}
+  const identity=identityInput.value.trim();
+  const extra=extraInput.value.trim();
+  const hairDetail={
+    bob:'단정하고 윤기 있는 검은 단발머리, 자연스러운 옆가르마와 작은 실핀',
+    braid:'윤기 있는 검은 머리를 두 갈래로 땋아 양쪽 어깨 앞으로 내린 양갈래 머리'
+  }[selectedHair];
+  const placeDetail={
+    front:'오래된 한국 학교 건물과 계단 앞',
+    yard:'학교 건물과 흙 운동장이 보이는 교정',
+    hall:'교실동 앞 복도와 계단 근처'
+  }[selectedPlace];
+  const moodDetail={
+    snapshot:'친구가 찍어 준 듯 편안하고 자연스러운 기념사진',
+    album:'단정하고 선명한 옛날 졸업앨범 사진',
+    shy:'살짝 수줍게 웃는 온화한 기념사진'
+  }[selectedMood];
+  const identityLine=identity?`특히 참고할 본인 인상: ${identity}.\n`:'';
+  const extraLine=extra?`\n추가 요청: ${extra}`:'';
+  const prompt=`첨부한 현재 본인 사진을 참고해 세로 4:5 흑백 인물사진 1장을 만들어 주세요.
 
-- 원본 사진의 눈매와 미소, 전체 분위기만 은은하게 참고하고, 얼굴 전체는 더 어리고 더 예쁘고 더 화려한 미인형 10대초반 학생상으로 새롭게 재구성해 주세요.
-- 현재 얼굴을 그대로 복사하지 말고, 성인 느낌이 남지 않도록 더 맑고 화사하고 슬림한 학생 인상으로 표현해 주세요.
-- 결과는 누가 봐도 교복이 잘 어울리는 예쁜 학생 사진처럼 보여야 합니다.
-- 얼굴은 주름, 처짐, 팔자주름, 성숙한 인상, 어른스러운 분위기가 남지 않게 해 주세요.
-- 피부는 맑고 부드럽고 화사하게, 눈빛은 또렷하고 예쁘게, 입가는 자연스럽고 아름답게 표현해 주세요.
-- 전체 인상은 청초하면서도 화려한 미인형 10대초반 학생상으로 표현해 주세요.
-- 얼굴선은 매끈하고 갸름하게, 체형은 마르고 슬림한 학생 느낌으로 표현해 주세요.
-- 머리카락은 건강하고 윤기 있게, 학생다운 단정하고 예쁜 머리스타일로 표현해 주세요.
-- 1960년대~1970년대 초반 한국 학창 시절 느낌의 단정한 전통 교복을 입혀 주세요.
-- 흑백 필름사진처럼 자연스럽고 부드러운 빈티지 질감으로 표현해 주세요.
-- 한국 학교 교정이나 학교 건물 앞에서 찍은 자연스러운 기념사진 느낌으로 만들어 주세요.
-- 교복을 입은 성인 여성처럼 보이면 안 됩니다.
-- 텍스트, 워터마크, 콜라주 없이 여성 1명의 사실적인 인물사진으로 만들어 주세요.
-
-${extraLine}`;
-promptOutput.textContent=prompt.trim();resultWrap.classList.add('show');resultWrap.scrollIntoView({behavior:'smooth',block:'start'});hideWarn();updateChatGPTButtonLabel();}
+원본의 눈매와 미소, 분위기만 은은하게 참고하고 얼굴 전체는 청초하면서도 화려하게 예쁜 여중생 모습으로 새롭게 재구성해 주세요. 완전히 똑같은 얼굴보다 풋풋하고 맑은 여중생 인상을 우선해 주세요. 또렷한 눈빛과 자연스러운 미소, 부드럽고 매끈한 얼굴선, 화사한 피부, 윤기 있는 머릿결, 갸름한 얼굴과 슬림한 체형으로 표현해 주세요. 성숙한 얼굴이나 주름은 남기지 마세요.
+${identityLine}
+머리: ${hairDetail}.
+교복: 1960~1970년대 한국 여중생의 전통 교복, 짙은색 옷과 흰 칼라.
+배경: ${placeDetail}.
+분위기: ${moodDetail}.
+사진: 실제 옛날 흑백 필름 기념사진처럼 자연스럽고 선명하게. 얼굴은 깨끗하게, 사진 가장자리에만 은은한 필름 질감을 주세요.
+여성 1명, 글자·워터마크·콜라주 없음.${extraLine}`;
+  promptOutput.textContent=prompt.trim();
+  resultWrap.classList.add('show');
+  if(scrollToResult)resultWrap.scrollIntoView({behavior:'smooth',block:'start'});
+  hideWarn();
+  updateChatGPTButtonLabel();
+}
+function refreshPromptIfVisible(){if(resultWrap.classList.contains('show'))makePrompt(false);}
 async function copyPrompt(btn){try{await navigator.clipboard.writeText(promptOutput.textContent);const old=btn.textContent;btn.textContent='✅ 복사되었습니다!';setTimeout(()=>btn.textContent=old,1500)}catch(e){alert('복사에 실패했어요.')}}
 function isAndroidDevice(){return /Android/i.test(navigator.userAgent)}
 function isIOSDevice(){return /iPhone|iPad|iPod/i.test(navigator.userAgent)||((navigator.platform==='MacIntel'||navigator.platform==='MacPPC')&&navigator.maxTouchPoints>1)}
@@ -158,7 +166,7 @@ function updateChatGPTButtonLabel(){const btn=document.querySelector('.chatgpt')
 function openChatGPT(event){event.preventDefault(); launchChatGPT();}
 function launchChatGPT(){const webUrl='https://chatgpt.com/'; if(!isMobileOrTablet()){window.open(webUrl,'_blank','noopener'); return;} if(isAndroidDevice()){const fallback=encodeURIComponent(webUrl); window.location.href=`intent://#Intent;scheme=chatgpt;package=com.openai.chatgpt;S.browser_fallback_url=${fallback};end`; return;} if(isIOSDevice()){let appOpened=false; const onVisibility=()=>{if(document.hidden){appOpened=true; document.removeEventListener('visibilitychange',onVisibility);}}; document.addEventListener('visibilitychange',onVisibility); window.location.href='chatgpt://'; setTimeout(()=>{document.removeEventListener('visibilitychange',onVisibility); if(!appOpened && !document.hidden) window.location.href=webUrl;},1400); return;} window.location.href=webUrl;}
 (function(){ const FIELD_IDS=['identityInput','extraInput']; const SpeechAPI=window.SpeechRecognition||window.webkitSpeechRecognition; let activeRecognition=null, activeButton=null, statusBox=null; function status(text){ if(!statusBox){statusBox=document.createElement('div');statusBox.className='voice-status';statusBox.setAttribute('role','status');statusBox.setAttribute('aria-live','polite');document.body.appendChild(statusBox);} statusBox.textContent=text; statusBox.classList.add('visible'); if(statusBox.hideTimer)clearTimeout(statusBox.hideTimer); statusBox.hideTimer=setTimeout(()=>statusBox.classList.remove('visible'),4400);} function resetButton(btn){if(btn){btn.classList.remove('listening');btn.setAttribute('aria-pressed','false');btn.textContent='🎤';}} function bindField(el){ if(!el||el.dataset.voiceReady==='1'||el.readOnly||el.disabled) return; el.dataset.voiceReady='1'; const btn=document.createElement('button'); btn.type='button'; btn.className='voice-button'; btn.textContent='🎤'; btn.title='말로 입력하기'; btn.setAttribute('aria-label','마이크로 음성 입력'); btn.setAttribute('aria-pressed','false'); el.insertAdjacentElement('afterend',btn); btn.addEventListener('click',function(){ if(!SpeechAPI){status('이 브라우저는 음성 인식을 지원하지 않아요. 키보드의 🎤 음성입력을 이용해 주세요.'); el.focus(); return;} if(activeRecognition){ const wasSame=activeButton===btn; try{activeRecognition.abort()}catch(e){} resetButton(activeButton); activeRecognition=null; activeButton=null; if(wasSame){status('음성 입력을 중지했어요.'); return;}} const recognition=new SpeechAPI(); recognition.lang='ko-KR'; recognition.interimResults=false; recognition.continuous=false; recognition.maxAlternatives=1; activeRecognition=recognition; activeButton=btn; btn.classList.add('listening'); btn.setAttribute('aria-pressed','true'); btn.textContent='⏹'; status('말씀해 주세요. 마이크가 듣고 있어요.'); recognition.onresult=function(event){ const transcript=Array.from(event.results).map(r=>r[0]&&r[0].transcript||'').join(' ').trim(); if(!transcript) return; const before=el.value.trim(); el.value=before?before+' '+transcript:transcript; el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true})); status('말씀하신 내용을 입력했어요.');}; recognition.onerror=function(e){ if(e.error==='not-allowed'||e.error==='service-not-allowed')status('마이크 권한을 허용해 주세요.'); else if(e.error==='no-speech')status('말씀이 들리지 않았어요. 다시 눌러 주세요.'); else if(e.error!=='aborted')status('음성 인식을 사용할 수 없어요. 직접 입력해 주세요.');}; recognition.onend=function(){resetButton(btn); if(activeRecognition===recognition){activeRecognition=null; activeButton=null;}}; try{recognition.start()}catch(e){resetButton(btn); activeRecognition=null; activeButton=null; status('마이크를 시작할 수 없어요. 직접 입력해 주세요.');}})} function init(){FIELD_IDS.forEach(id=>bindField(document.getElementById(id))); updateChatGPTButtonLabel(); render();} if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true}); else init();})();
-identityInput.addEventListener('input',updateSummary); extraInput.addEventListener('input',updateSummary);
+identityInput.addEventListener('input',()=>{updateSummary();refreshPromptIfVisible()}); extraInput.addEventListener('input',()=>{updateSummary();refreshPromptIfVisible()});
 </script>
 </body>
 </html>
