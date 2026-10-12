@@ -9,10 +9,10 @@
 </head>
 <body>
 <div class="wrap">
-<section class="hero"><h1>AI로 입어보는 <span class="pink">요즘 교복</span> <span class="mint">학창 시절</span></h1><p>현재 본인 사진을 바탕으로 요즘 한국 중학교의 자연스러운 교복 사진을 만들어 보세요.</p><div class="notice"><strong>사용 방법</strong><br>이 활동은 <strong>이 페이지에서 프롬프트를 만든 뒤, ChatGPT에 현재 본인 사진을 함께 첨부</strong>해서 사용해요. 얼굴의 고유한 인상은 은은하게 참고하고, 요즘 한국 여중생다운 분위기로 자연스럽게 재구성하도록 안내합니다.</div></section>
+<section class="hero"><h1>AI로 입어보는 <span class="pink">요즘 교복</span> <span class="mint">학창 시절</span></h1><p>현재 본인 사진을 바탕으로 교복이 잘 어울리는 화사한 아이돌 분위기의 인물사진을 만들어 보세요.</p><div class="notice"><strong>사용 방법</strong><br>이 활동은 <strong>이 페이지에서 프롬프트를 만든 뒤, ChatGPT에 현재 본인 사진을 함께 첨부</strong>해서 사용해요. 얼굴의 고유한 인상은 은은하게 참고하고, 교복이 잘 어울리는 아이돌 같은 인물사진으로 재구성하도록 안내합니다.</div></section>
 <section class="panel p1"><div class="head"><div class="num n1">1</div><div><h2>어떤 교복 스타일이 좋을까요?</h2><p class="sub">하나를 선택해 주세요.</p></div></div><div id="uniformGrid" class="grid"></div></section>
 <section class="panel p2"><div class="head"><div class="num n2">2</div><div><h2>어떤 머리스타일로 표현할까요?</h2><p class="sub">하나를 선택해 주세요.</p></div></div><div id="hairGrid" class="grid"></div></section>
-<section class="panel p3"><div class="head"><div class="num n3">3</div><div><h2>어떤 여중생 학창 분위기가 좋을까요?</h2><p class="sub">학교 공간과 사진 무드를 하나 선택해 주세요.</p></div></div><div id="moodGrid" class="grid"></div></section>
+<section class="panel p3"><div class="head"><div class="num n3">3</div><div><h2>어떤 학창 분위기가 좋을까요?</h2><p class="sub">학교 공간과 사진 무드를 하나 선택해 주세요.</p></div></div><div id="moodGrid" class="grid"></div></section>
 <section class="panel p4"><div class="head"><div class="num n4">4</div><div><h2>꼭 살리고 싶은 인상이나 추가 요청이 있나요?</h2><p class="sub">선택 사항이에요. 비워도 괜찮아요.</p></div></div><div class="field"><label for="identityInput">사진 속 인물의 느낌 중 꼭 살리고 싶은 점</label><input id="identityInput" placeholder="예: 부드러운 눈매, 조용한 미소, 또렷한 코 라인"></div><div class="field" style="margin-top:12px"><label for="extraInput">추가 요청</label><textarea id="extraInput" placeholder="예: 창가 쪽 자연광, 책가방을 든 모습, 스마트폰 없이 단정한 학생 분위기"></textarea></div></section>
 <section class="panel p5"><div class="head"><div class="num n5">5</div><div><h2>선택한 내용을 확인해요!</h2><p class="sub">확인 후 프롬프트를 만들 수 있어요.</p></div></div><div class="summary-box"><div class="summary-list"><div class="summary-item"><b>교복 스타일</b><span id="summaryUniform">아직 선택하지 않았어요.</span></div><div class="summary-item"><b>머리스타일</b><span id="summaryHair">아직 선택하지 않았어요.</span></div><div class="summary-item"><b>학창 분위기</b><span id="summaryMood">아직 선택하지 않았어요.</span></div><div class="summary-item"><b>추가 메모</b><span id="summaryExtra">없음</span></div></div><div class="actions"><button class="smallbtn" onclick="fillExample()">예시 메모 넣기</button><button class="go" onclick="makePrompt()">이미지 프롬프트 만들기 →</button></div><div id="warn" class="warn"></div></div></section>
 <section id="resultWrap" class="panel result resultWrap"><div class="head"><div class="num nr">✓</div><div><h2>완성된 이미지 생성 프롬프트</h2><p class="sub">현재 본인 사진과 함께 ChatGPT에 넣으면 돼요.</p></div></div><div id="promptOutput" class="prompt"></div><div class="toolrow"><button class="copy" onclick="copyPrompt(this)">📋 프롬프트 복사</button><a class="chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener" onclick="openChatGPT(event)">🤖 ChatGPT 열기 ↗</a></div></section><a class="homeLink" href="../">← 다른 활동 고르기</a><div class="credit">기획·제작 <span>IZZYON</span> · 강사 <span>이지영</span></div></div>
@@ -30,7 +30,7 @@ const hairOptions=[
 const moodOptions=[
 {id:'classroom',name:'교실 창가 분위기',desc:'밝은 창가와 책상, 자연광이 있는 학창 시절 사진',src:'assets/mood_classroom_v2.webp'},
 {id:'campus',name:'햇살 가득한 교정',desc:'요즘 학교 교정에서 찍은 밝고 자연스러운 사진',src:'assets/mood_campus_v2.webp'},
-{id:'portrait',name:'학생증·프로필 느낌',desc:'깔끔하고 또렷한 요즘 여중생 인물사진',src:'assets/mood_portrait_v2.webp'}
+{id:'portrait',name:'학생증·프로필 느낌',desc:'깔끔하고 또렷한 요즘 중학생 인물사진',src:'assets/mood_portrait_v2.webp'}
 ];
 let selectedUniform='', selectedHair='', selectedMood='';
 function cardHTML(item, selected, fn){return `<div class="card ${selected?'selected':''}" role="button" tabindex="0" aria-pressed="${selected}" onclick="${fn}('${item.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${fn}('${item.id}')}" ><div class="visual"><img src="${item.src}" alt="${item.name} 예시 이미지" loading="lazy"></div><div class="meta"><strong>${item.name}</strong><small>${item.desc}</small></div><div class="tick">✓</div></div>`}
@@ -38,7 +38,7 @@ function render(){uniformGrid.innerHTML=uniformOptions.map(x=>cardHTML(x, select
 function selectUniform(id){selectedUniform=id;render();hideWarn();refreshPromptIfVisible()} function selectHair(id){selectedHair=id;render();hideWarn();refreshPromptIfVisible()} function selectMood(id){selectedMood=id;render();hideWarn();refreshPromptIfVisible()}
 function getById(list,id){return list.find(x=>x.id===id)||null}
 function updateSummary(){summaryUniform.textContent=getById(uniformOptions,selectedUniform)?.name||'아직 선택하지 않았어요.';summaryHair.textContent=getById(hairOptions,selectedHair)?.name||'아직 선택하지 않았어요.';summaryMood.textContent=getById(moodOptions,selectedMood)?.name||'아직 선택하지 않았어요.';const a=identityInput.value.trim(), b=extraInput.value.trim();summaryExtra.textContent=(a||b)?[a,b].filter(Boolean).join(' / '):'없음';}
-function fillExample(){identityInput.value='부드러운 눈매와 또렷한 미소';extraInput.value='요즘 한국 중학교에 다니는 여중생처럼 자연스럽고 세련된 분위기로 표현해 주세요. 교복, 헤어스타일, 배경은 선택한 스타일에 맞게 바꿔 주세요.';updateSummary();}
+function fillExample(){identityInput.value='부드러운 눈매와 또렷한 미소';extraInput.value='요즘 한국 중학교에 다니는 학생처럼 자연스럽고 세련된 분위기로 표현해 주세요. 교복, 헤어스타일, 배경은 선택한 스타일에 맞게 바꿔 주세요.';updateSummary();}
 function showWarn(msg){warn.textContent='⚠️ '+msg;warn.style.display='block';warn.scrollIntoView({behavior:'smooth',block:'center'})}
 function hideWarn(){warn.style.display='none'}
 function makePrompt(scrollToResult=true){
@@ -67,15 +67,23 @@ function makePrompt(scrollToResult=true){
   }[selectedMood];
   const identityLine=identity?`특히 참고할 본인 인상: ${identity}.\n`:'';
   const extraLine=extra?`\n추가 요청: ${extra}`:'';
-  const prompt=`첨부한 현재 본인 사진을 참고해 세로 4:5 컬러 인물사진 1장을 만들어 주세요.
+  const prompt=`첨부한 인물 사진을 참고하여, 사진 속 인물을 교복을 입은 아이돌 같은 분위기의 매우 아름답고 화사한 인물로 재구성한 세로형 4:5 컬러 인물사진 1장을 만들어 주세요.
 
-원본의 눈매와 미소, 분위기만 은은하게 참고하고 얼굴 전체는 세련되고 화려하게 예쁜 여중생 모습으로 새롭게 재구성해 주세요. 완전히 똑같은 얼굴보다 풋풋하고 맑은 여중생 인상을 우선해 주세요. 또렷한 눈빛과 자연스러운 미소, 부드럽고 매끈한 얼굴선, 화사한 피부, 윤기 있는 머릿결, 갸름한 얼굴과 슬림한 체형으로 표현해 주세요. 성숙한 얼굴이나 주름은 남기지 마세요.
-${identityLine}
-교복: ${uniformDetail}.
-머리: ${hairDetail}.
-배경·분위기: ${moodDetail}.
-사진: 밝은 자연광, 깨끗하고 화사한 현대 한국 중학교 기념사진. 여중생답고 자연스러운 포즈로 표현해 주세요.
-여성 1명, 글자·워터마크·콜라주 없음.${extraLine}`;
+원본 사진의 눈매와 미소, 전체적인 분위기만 은은하게 참고하고, 얼굴 전체는 더 어려 보이고 더 화사하며 더 눈에 띄는 비주얼의 아이돌 같은 인물로 새롭게 재구성해 주세요.
+
+현재 얼굴을 그대로 유지한 채 교복만 입히는 것이 아니라, 또렷한 이목구비, 맑고 반짝이는 눈빛, 깨끗하고 화사한 피부, 갸름하고 매끈한 얼굴선, 자연스럽고 예쁜 미소를 가진 매력적인 아이돌 비주얼로 표현해 주세요.
+
+특히 참고할 분위기: 교복이 잘 어울리는 화사하고 세련된 아이돌 같은 인상.
+${identityLine}의상은 ${uniformDetail} 느낌의 단정하고 예쁜 한국식 교복 스타일로 표현해 주세요. 머리스타일은 ${hairDetail} 느낌으로 반영해 주세요. 배경과 사진 분위기는 ${moodDetail} 느낌으로 표현해 주세요.
+
+인물은 카메라를 바라보며 밝고 자연스럽게 미소 짓고 있고, 전체적으로 교복이 잘 어울리는 화사한 아이돌 분위기로 표현해 주세요.
+
+중요:
+- 교복을 입은 성인처럼 보이지 않게 해 주세요.
+- 현재 얼굴의 주름, 처짐, 성숙한 인상은 남지 않게 해 주세요.
+- 과하게 인위적인 느낌보다는 자연스럽고 매우 예쁜 아이돌 비주얼로 표현해 주세요.
+- 사진은 사실적이고 고급스러운 컬러 인물사진 스타일로 만들어 주세요.
+- 텍스트, 워터마크, 콜라주 없이 인물 1명만 표현해 주세요.${extraLine}`;
   promptOutput.textContent=prompt.trim();
   resultWrap.classList.add('show');
   if(scrollToResult)resultWrap.scrollIntoView({behavior:'smooth',block:'start'});
