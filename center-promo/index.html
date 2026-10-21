@@ -1,384 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>치매안심센터 홍보 포스터 만들기 | IZZYON AI Studio</title>
-  <style>
-    :root{
-      --bg:#f6f8fb;
-      --card:#ffffff;
-      --line:#e6eaf2;
-      --text:#233043;
-      --sub:#617086;
-      --hot:#ff2d8d;
-      --yellow:#fff149;
-      --teal:#21b4a7;
-      --blue:#53b6ff;
-      --shadow:0 16px 40px rgba(31,57,89,.12);
-      --radius:24px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#eef7ff 0%,#f8fbff 35%,#fff 100%);color:var(--text);line-height:1.55}
-    a{text-decoration:none;color:inherit}
-    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
-    .brand{font-size:16px;font-weight:900;color:#315885;letter-spacing:.02em}
-    .tag{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);padding:10px 14px;border-radius:999px;font-size:13px;font-weight:800;color:#5f6f85;box-shadow:var(--shadow)}
-    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:32px;padding:26px;box-shadow:var(--shadow);margin-bottom:26px}
-    .hero-copy h1{font-size:clamp(34px,5vw,56px);line-height:1.04;margin:0 0 14px;font-weight:1000;letter-spacing:-.04em}
-    .hero-copy h1 .pink{color:var(--hot)}
-    .hero-copy h1 .teal{color:var(--teal)}
-    .hero-copy p{margin:0 0 18px;font-size:18px;color:#526178;font-weight:700}
-    .hero-list{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px;padding:0;list-style:none}
-    .hero-list li{background:#f7fbff;border:1px solid #dfeaf6;color:#42607a;padding:10px 14px;border-radius:999px;font-size:14px;font-weight:800}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
-    .btn{border:none;cursor:pointer;border-radius:16px;padding:14px 18px;font-size:15px;font-weight:900;transition:.15s transform ease,.15s opacity ease}
-    .btn:hover{transform:translateY(-1px)}
-    .btn.primary{background:linear-gradient(90deg,var(--hot),#ff5aa7);color:#fff;box-shadow:0 12px 24px rgba(255,45,141,.28)}
-    .btn.secondary{background:#fff;border:1px solid var(--line);color:#415067}
-    .hero-card img{width:100%;display:block;border-radius:24px;border:1px solid var(--line);box-shadow:var(--shadow)}
-    .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px}
-    .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
-    .panel h2{margin:0 0 4px;font-size:26px;letter-spacing:-.03em}
-    .panel .desc{margin:0 0 22px;color:var(--sub);font-weight:600}
-    .section{padding:18px 0;border-top:1px dashed #e3e8f2}
-    .section:first-of-type{border-top:none;padding-top:0}
-    .section h3{margin:0 0 12px;font-size:18px;display:flex;align-items:center;gap:10px}
-    .badge{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:999px;background:linear-gradient(180deg,#ffe3f0,#ffd0e5);color:#d6136f;font-size:13px;font-weight:900;padding:0 8px}
-    .label{display:block;font-size:14px;font-weight:800;margin-bottom:7px;color:#3d4c62}
-    .help{display:block;margin-top:7px;font-size:12px;color:#73839a;font-weight:600}
-    .field{margin-bottom:14px}
-    input[type=text], textarea, select{width:100%;padding:15px 16px;border-radius:16px;border:1px solid #d9e1ec;background:#fff;color:#263346;font-size:15px;font-weight:700;outline:none}
-    textarea{min-height:150px;resize:vertical;line-height:1.6}
-    .readonly{background:#f8fafc}
-    .muted-box{background:#f8fbff;border:1px solid #dfe9f5;border-radius:18px;padding:14px 16px;color:#4e627c;font-size:14px;font-weight:700}
-    .options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .option, .check-item{position:relative}
-    .option input, .check-item input{position:absolute;opacity:0;pointer-events:none}
-    .option label, .check-item label{display:flex;align-items:center;gap:10px;padding:13px 14px;border:1px solid #dce5f0;border-radius:16px;background:#fff;font-size:14px;font-weight:800;color:#42546b;cursor:pointer;min-height:56px}
-    .option input:focus-visible + label,.check-item input:focus-visible + label{outline:3px solid #008dbe;outline-offset:2px}
-    .option input:checked + label{border-color:var(--hot);background:#fff2f8;color:#cf166d;box-shadow:inset 0 0 0 2px rgba(255,45,141,.15)}
-    .check-grid{display:grid;grid-template-columns:1fr;gap:10px}
-    .check-item input:checked + label{border-color:#22b7aa;background:#effcf9;color:#1d7168}
-    .checkmark{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:999px;background:#f5f7fb;border:1px solid #dbe2ed;font-size:13px;flex:0 0 24px}
-    .option input:checked + label .checkmark, .check-item input:checked + label .checkmark{background:currentColor;color:#fff;border-color:currentColor}
-    .preset-card{border:1px solid #e2e8f1;border-radius:20px;padding:18px;background:linear-gradient(180deg,#fff,#fbfdff)}
-    .preset-kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff5bd;color:#8d7200;font-size:12px;font-weight:900;margin-bottom:10px}
-    .preset-main{font-size:26px;line-height:1.18;letter-spacing:-.03em;font-weight:1000;margin-bottom:8px}
-    .preset-sub{color:#53637a;font-size:15px;font-weight:700;margin-bottom:10px}
-    .preset-lines{display:grid;gap:8px;margin-top:10px}
-    .pill-line{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;background:#fff;border:1px solid #e5eaf3;padding:9px 12px;border-radius:999px;font-size:13px;font-weight:800;color:#485a72}
-    .pill-line strong{color:#d51670}
-    .prompt-box textarea{min-height:520px;font-size:14px;background:#fcfdff}
-    .tiny{font-size:12px;color:#7b879a;font-weight:600}
-    .footer-note{margin-top:18px;padding:16px 18px;border-radius:18px;background:#f8fbff;border:1px solid #dce7f4;color:#54657e;font-size:14px;font-weight:700}
-    @media (max-width:960px){
-      .topbar{flex-wrap:wrap}.topbar .tag{border-radius:14px}
-      .hero,.grid{grid-template-columns:1fr}
-      .options{grid-template-columns:1fr}
-      .hero{padding:18px}
-      .panel{padding:18px}
-      .preset-main{font-size:22px}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI로 만드는 치매안심센터 홍보 포스터</title>
+<style>
+:root{--navy:#15366f;--pink:#ff4e8a;--blue:#2b9ee8;--yellow:#ffb524;--green:#2db763;--bg:#fffafb;--muted:#68778f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Noto Sans KR","Malgun Gothic",sans-serif;background:linear-gradient(180deg,#f5fcff,#fff9fc 24%,#fff);color:#23314b;font-size:18px;line-height:1.45}
+button,input,textarea{font:inherit}button{cursor:pointer}a{text-decoration:none}.wrap{max-width:1180px;margin:auto;padding:16px 14px 70px}
+.hero{position:relative;overflow:hidden;border:4px solid #d7efff;border-radius:30px;background:linear-gradient(135deg,#76cdf8,#caefff 50%,#f1fbff);padding:23px 26px;text-align:center;box-shadow:0 16px 34px rgba(31,114,173,.12)}.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.4)}.hero:before{width:250px;height:250px;left:-100px;bottom:-160px}.hero:after{width:220px;height:220px;right:-60px;top:-130px}.hero h1{position:relative;margin:0;font-size:clamp(35px,5vw,64px);line-height:1.05;font-weight:900;letter-spacing:-.04em}.hero .a{color:#19419a}.hero .b{color:#ff2f79}.hero .c{color:#1a9a55}.hero p{position:relative;margin:9px 0 0;font-size:clamp(17px,2vw,24px);font-weight:850;color:#244e87}
+.topnav{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:14px 0}.home{display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:#fff;border:2px solid #f0d9e6;border-radius:999px;padding:10px 14px;font-weight:900;color:#6b3b7e}.reset{border:0;border-radius:999px;background:#ff4e8a;color:#fff;padding:10px 14px;font-weight:900;cursor:pointer}
+.panel{background:#fff;border:3px solid #eee;border-radius:26px;padding:18px;margin-bottom:16px;box-shadow:0 10px 24px rgba(30,60,90,.06)}.p1{border-color:#ffe7b8;background:linear-gradient(#fff,#fffdf6)}.p2{border-color:#ffd6e8;background:linear-gradient(#fff,#fff9fc)}.p3{border-color:#ffe8ac;background:linear-gradient(#fff,#fffdf6)}.p4{border-color:#d4f1d8;background:linear-gradient(#fff,#f9fff9)}.p5{border-color:#d7ecff;background:linear-gradient(#fff,#f8fcff)}
+.head{display:flex;gap:13px;align-items:flex-start;margin-bottom:13px}.num{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;color:#fff;font-size:30px;font-weight:900;flex:0 0 auto;box-shadow:inset 0 -5px 0 rgba(0,0,0,.08)}.n1{background:#168ee5}.n2{background:#ff3d79}.n3{background:#ffb018}.n4{background:#2aae5d}.n5{background:#2e9ee8}.head h2{margin:0;font-size:clamp(25px,3vw,34px);line-height:1.2;letter-spacing:-.035em}.sub{margin:4px 0 0;color:var(--muted);font-weight:700}
+.text-field{width:100%;max-width:640px;border:2px solid #d9e5ef;border-radius:15px;padding:12px 14px;background:#fff;color:#203252;font-weight:850;font-size:19px;outline:none}.text-field:focus{border-color:#67b3ec;box-shadow:0 0 0 4px rgba(43,158,232,.1)}.basics{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:18px;align-items:center}.field-title{display:block;font-weight:900;margin-bottom:8px}.fixed{display:inline-block;background:#fff;border:2px solid #e9eaf3;border-radius:14px;padding:10px 14px;font-weight:900;color:#506782;margin:8px 0 0}.preview-img{display:block;width:100%;max-height:205px;object-fit:cover;object-position:top;border:3px solid white;border-radius:18px;box-shadow:0 6px 18px rgba(34,64,110,.12)}.helper{color:#68778f;font-weight:700;font-size:14px;margin:10px 0 0}
+.choice-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.choice{position:relative;border:2px solid #e9e1e5;border-radius:17px;background:#fff;cursor:pointer;overflow:hidden;transition:.17s;box-shadow:0 3px 9px rgba(0,0,0,.03);display:flex;flex-direction:column}.choice:hover{transform:translateY(-2px)}.choice:has(input:checked){border-color:#ff4e8a;box-shadow:0 0 0 4px rgba(255,78,138,.12)}.choice:has(input:focus-visible){outline:3px solid #218eda;outline-offset:2px}.choice input{position:absolute;top:6px;left:6px;opacity:0}.choice-visual{height:115px;display:grid;place-items:center;background:linear-gradient(140deg,#e8f4ff,#fff3f9);font-size:56px;text-shadow:0 4px 7px rgba(0,0,0,.08)}.choice:nth-child(2) .choice-visual{background:linear-gradient(140deg,#ffe9f1,#fff8e9)}.choice:nth-child(3) .choice-visual{background:linear-gradient(140deg,#eaf9ed,#f8f2ff)}.choice:nth-child(4) .choice-visual{background:linear-gradient(140deg,#f7ecff,#effaff)}.choice:nth-child(5) .choice-visual{background:linear-gradient(140deg,#fff4da,#ebf9ec)}.choice strong{padding:11px 8px 15px;text-align:center;display:block;font-size:19px;color:#172f5e;line-height:1.2}.choice .tick{position:absolute;right:8px;top:8px;border:2px solid #ff9dbc;border-radius:50%;background:#fff;color:#ff2e77;width:30px;height:30px;display:grid;place-items:center;font-size:18px;font-weight:900;opacity:0;transform:scale(.6);transition:.17s}.choice:has(input:checked) .tick{opacity:1;transform:scale(1)}
+.copy-card{background:#fff;border:2px solid #e9e1e5;border-radius:19px;padding:20px}.copy-head{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}.copy-kicker{color:#9a6b0b;font-size:14px;font-weight:900}.copy-title{font-size:clamp(22px,3vw,30px);font-weight:900;color:#f22b7b;margin:7px 0 5px;line-height:1.2;word-break:keep-all}.copy-sub{color:#4c6082;font-weight:780;margin:0}.copy-highlights{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.copy-highlights span{display:inline-block;border-radius:999px;padding:8px 12px;background:#fff7d7;border:1px solid #f4e4a3;color:#715425;font-weight:800;font-size:15px}.shuffle{border:2px solid #ffb5d0;border-radius:999px;padding:10px 14px;background:#fff;color:#ba3364;font-weight:900}.shuffle:hover{background:#fff0f5}
+.targets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.target{position:relative;display:flex;align-items:center;gap:10px;cursor:pointer;background:#fff;border:2px solid #e9e1e5;border-radius:15px;padding:14px 13px;min-height:90px;line-height:1.28;font-weight:850;color:#263954;font-size:17px}.target input{position:absolute;opacity:0}.target:has(input:checked){border-color:#30ae65;background:#f3fff5;box-shadow:0 0 0 3px rgba(48,174,101,.08)}.target:has(input:focus-visible){outline:3px solid #208dd1;outline-offset:2px}.target-icon{font-size:29px;flex:0 0 34px;text-align:center}.target-check{margin-left:auto;color:#2eaa62;font-size:22px;opacity:0}.target:has(input:checked) .target-check{opacity:1}
+.summary{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.summary .box{background:#fff;border:2px solid #dceafb;border-radius:17px;padding:13px;min-height:115px}.summary .box h3{margin:0 0 7px;color:#1e5fae;font-size:18px}.summary .box p{margin:0;white-space:pre-line;overflow-wrap:anywhere;font-weight:750;color:#344762}.closing{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;border-radius:15px;padding:12px 14px;background:#fff8e7;border:1px solid #f3d899;color:#715b1f;font-weight:900}.closing .shuffle{margin-left:auto;padding:7px 12px;font-size:15px}
+.cta{display:grid;grid-template-columns:86px 1fr 230px;gap:14px;align-items:center;border:4px solid #f2d7e3;border-radius:27px;background:linear-gradient(135deg,#fff,#fff4f9);padding:18px}.robot{font-size:58px;text-align:center}.cta h3{margin:0;color:#2151aa;font-size:30px}.cta p{margin:4px 0 0;color:#ff2e77;font-weight:900}.go{border:0;border-radius:999px;background:linear-gradient(#ff69a1,#ff2e77);color:#fff;padding:16px 18px;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 7px 0 #d91e60}.go:active{transform:translateY(3px);box-shadow:0 4px 0 #d91e60}
+.result{display:none;margin-top:16px;background:#203252;color:#fff;border-radius:26px;padding:20px}.result.show{display:block}.result h3{margin:0 0 10px;color:#ffe37b}.prompt{display:block;max-height:420px;overflow:auto;white-space:pre-wrap;background:#2b4269;border:1px solid #4b648f;border-radius:16px;padding:15px;line-height:1.72;font-size:15px}.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}.copy,.openai{border:0;border-radius:14px;padding:12px 18px;font-weight:900;cursor:pointer;text-decoration:none}.copy{background:#42bdb5;color:#fff}.openai{background:#fff;color:#203252}.note{margin-top:10px;background:#fff7e5;border:1px solid #f0d28e;color:#715b1f;border-radius:12px;padding:9px 11px;font-size:14px;font-weight:700}
+.activity-home{display:inline-flex;align-items:center;gap:8px;margin:16px 0 0;text-decoration:none;color:#25518c;background:#eef6ff;border:1px solid #d0e4ff;padding:10px 14px;border-radius:999px;font-weight:850}.creator-signature{margin:24px auto 0;text-align:center;color:#7b879c;font-size:13px;font-weight:800}.creator-signature strong{color:#50627f}.sr-only{position:absolute!important;clip:rect(0,0,0,0)!important;width:1px;height:1px;overflow:hidden;white-space:nowrap}
+@media(max-width:950px){.choice-grid{grid-template-columns:repeat(3,1fr)}.targets{grid-template-columns:repeat(2,1fr)}.summary,.cta{grid-template-columns:1fr}.robot{display:none}}@media(max-width:620px){body{font-size:16px}.wrap{padding:8px}.panel{padding:13px}.hero{padding:22px 12px}.choice-grid{grid-template-columns:repeat(2,1fr)}.choice-visual{height:105px}.choice strong{font-size:17px}.targets{grid-template-columns:1fr}.summary .box{min-height:90px}.num{width:48px;height:48px;font-size:25px}.basics{grid-template-columns:1fr 115px;gap:9px}.preview-img{max-height:155px}.head h2{font-size:25px}.go{width:100%}}
+</style>
 </head>
-<body>
-  <div class="wrap">
-    <div class="topbar">
-      <a class="brand" href="../" aria-label="모든 활동으로 돌아가기">← 전체 활동으로 돌아가기</a>
-      <div class="tag">📌 사진은 이 페이지에 업로드하지 않고, 프롬프트와 함께 ChatGPT에 첨부해 주세요.</div>
-    </div>
-
-    <section class="hero">
-      <div class="hero-copy">
-        <h1><span class="teal">AI로 만드는</span><br><span class="pink">치매안심센터 홍보 포스터</span></h1>
-        <p>어르신 사진 1장과 선택 항목만으로, <strong>화려하고 눈에 띄는 한국형 홍보 포스터 프롬프트</strong>를 쉽게 만들 수 있어요.</p>
-        <ul class="hero-list">
-          <li>세로 4:5 비율</li>
-          <li>예천군 치매안심센터 기본값</li>
-          <li>엄지척 포즈 기본</li>
-          <li>추천 문구 자동 조합</li>
-        </ul>
-        <div class="hero-actions">
-          <a class="btn primary" href="#builder">프롬프트 만들기</a>
-          <button class="btn secondary" type="button" id="copyPromptTop">프롬프트 복사</button>
-          <a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT 열기</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <img src="assets/cover.png" alt="치매안심센터 홍보 포스터 만들기 대표 이미지" />
-      </div>
-    </section>
-
-    <div class="grid" id="builder">
-      <section class="panel">
-        <h2>입력 항목</h2>
-        <p class="desc">센터명, 포즈, 추천 문구를 정하면 프롬프트가 자동으로 완성됩니다.</p>
-
-        <div class="section">
-          <h3><span class="badge">1</span> 기본 정보</h3>
-          <div class="field">
-            <label class="label" for="centerName">센터명</label>
-            <input type="text" id="centerName" value="예천군 치매안심센터" />
-          </div>
-          <div class="field">
-            <label class="label" for="posterType">포스터 종류</label>
-            <input type="text" id="posterType" class="readonly" value="치매안심센터 홍보 포스터" readonly />
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><span class="badge">2</span> 인물 표현 방식</h3>
-          <div class="field">
-            <label class="label">인물 표현 기본값</label>
-            <div class="muted-box">
-              원본 인물의 주요 특징은 유지하고, 전체적으로 40대 초반처럼 더 젊고 화사하고 생기 있게 보정합니다. 활짝 웃는 자신감 있는 홍보 모델 분위기, 풍성한 헤어스타일, 밝고 화려한 의상, 실사 사진 스타일로 표현합니다.
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">포즈 선택</label>
-            <div class="options">
-              <div class="option"><input type="radio" name="pose" id="pose1" value="엄지척" checked><label for="pose1"><span class="checkmark">✓</span>엄지척</label></div>
-              <div class="option"><input type="radio" name="pose" id="pose2" value="손하트"><label for="pose2"><span class="checkmark">✓</span>손하트</label></div>
-              <div class="option"><input type="radio" name="pose" id="pose3" value="브이 포즈"><label for="pose3"><span class="checkmark">✓</span>브이 포즈</label></div>
-              <div class="option"><input type="radio" name="pose" id="pose4" value="환하게 웃기"><label for="pose4"><span class="checkmark">✓</span>환하게 웃기</label></div>
-              <div class="option"><input type="radio" name="pose" id="pose5" value="손을 모으고 단정하게"><label for="pose5"><span class="checkmark">✓</span>손을 모으고 단정하게</label></div>
-            </div>
-            <span class="help">기본 포즈는 엄지척입니다.</span>
-          </div>
-          <div class="field">
-            <label class="label">보정 강도</label>
-            <input type="text" class="readonly" value="매우 화사하고 화려하게" readonly />
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><span class="badge">3</span> 홍보 문구 자동 추천</h3>
-          <div class="preset-card">
-            <div class="preset-kicker">랜덤 문구 세트</div>
-            <div class="preset-main" id="presetMain"></div>
-            <div class="preset-sub" id="presetSub"></div>
-            <div class="preset-lines">
-              <div class="pill-line"><strong>강조 문구 1</strong> <span id="highlight1"></span></div>
-              <div class="pill-line"><strong>강조 문구 2</strong> <span id="highlight2"></span></div>
-              <div class="pill-line"><strong>인물 옆 문구</strong> <span id="sideCopy"></span></div>
-            </div>
-          </div>
-          <div class="hero-actions" style="margin-top:12px">
-            <button class="btn primary" type="button" id="shuffleHeadline">다른 문구 조합</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><span class="badge">4</span> 추천 대상 / 안내 문구</h3>
-          <div class="field">
-            <label class="label">추천 대상 제목</label>
-            <input type="text" id="recommendTitle" class="readonly" readonly />
-            <span class="help">기본값 랜덤: 3개 문구 중 하나</span>
-          </div>
-          <div class="field">
-            <label class="label">추천 대상 항목</label>
-            <div class="check-grid">
-              <div class="check-item"><input type="checkbox" id="c1" value="건강한 노후를 준비하고 싶은 분" checked><label for="c1"><span class="checkmark">✓</span>건강한 노후를 준비하고 싶은 분</label></div>
-              <div class="check-item"><input type="checkbox" id="c2" value="기억력 관리가 걱정되는 분" checked><label for="c2"><span class="checkmark">✓</span>기억력 관리가 걱정되는 분</label></div>
-              <div class="check-item"><input type="checkbox" id="c3" value="생활습관을 점검하고 싶은 분" checked><label for="c3"><span class="checkmark">✓</span>생활습관을 점검하고 싶은 분</label></div>
-              <div class="check-item"><input type="checkbox" id="c4" value="가족과 오래 행복하게 지내고 싶은 분" checked><label for="c4"><span class="checkmark">✓</span>가족과 오래 행복하게 지내고 싶은 분</label></div>
-              <div class="check-item"><input type="checkbox" id="c5" value="치매예방 정보를 알고 싶은 분"><label for="c5"><span class="checkmark">✓</span>치매예방 정보를 알고 싶은 분</label></div>
-              <div class="check-item"><input type="checkbox" id="c6" value="가까운 곳에서 도움을 받고 싶은 분"><label for="c6"><span class="checkmark">✓</span>가까운 곳에서 도움을 받고 싶은 분</label></div>
-            </div>
-            <span class="help">너무 많으면 글자가 빽빽해질 수 있으니 4개 정도를 추천합니다.</span>
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><span class="badge">5</span> 하단 문구</h3>
-          <div class="field">
-            <label class="label">센터 표기 문구</label>
-            <input type="text" id="footerCenterName" value="예천군 치매안심센터" />
-          </div>
-          <div class="field">
-            <label class="label">하단 응원 문구</label>
-            <input type="text" id="footerClosing" class="readonly" readonly />
-          </div>
-          <div class="hero-actions">
-            <button class="btn secondary" type="button" id="shuffleFooter">응원 문구 바꾸기</button>
-            <button class="btn primary" type="button" id="generatePrompt">프롬프트 다시 생성</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel prompt-box">
-        <h2>생성 프롬프트</h2>
-        <p class="desc">이 프롬프트를 복사한 뒤, 새 ChatGPT 대화에서 <strong>어르신 사진 1장과 함께</strong> 넣어 주세요.</p>
-        <div class="field">
-          <textarea id="promptOutput" spellcheck="false"></textarea>
-        </div>
-        <div class="hero-actions">
-          <button class="btn primary" type="button" id="copyPrompt">프롬프트 복사</button>
-          <a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT 열기</a>
-        </div>
-        <div class="footer-note">
-          <strong>사용 방법</strong><br>
-          ① 이 페이지에서 프롬프트를 복사합니다.<br>
-          ② ChatGPT 새 대화를 엽니다.<br>
-          ③ 어르신 사진 1장을 첨부합니다.<br>
-          ④ 프롬프트를 붙여넣고 이미지 생성을 실행합니다.
-          <div class="tiny" style="margin-top:10px">사진 활용 및 외모 변형, 홍보물 공개는 당사자 동의를 받은 후 진행해 주세요.</div><div class="tiny" style="margin-top:8px">기획·제작 IZZYON · AI 강사 이지영</div>
-        </div>
-      </section>
-    </div>
-  </div>
-
-  <script>
-    const headlineSets = [
-      {
-        main: '예천군 치매안심센터와 함께해요!',
-        sub: '건강한 오늘, 행복한 내일을 함께 만들어가요.',
-        h1: '건강한 기억, 행복한 내일!',
-        h2: '뇌건강, 지금부터 챙겨요!',
-        side: '함께하면 더 든든해요 ♡'
-      },
-      {
-        main: '기억을 지키는 든든한 동행!',
-        sub: '예천군 치매안심센터가 여러분과 함께합니다.',
-        h1: '생활 속에서 함께 실천해요!',
-        h2: '작은 관심이 큰 건강을 만듭니다!',
-        side: '오늘도 건강한 하루 되세요 ♡'
-      },
-      {
-        main: '우리 동네 뇌건강, 함께 챙겨요!',
-        sub: '가까운 곳에서 시작하는 건강한 기억 습관.',
-        h1: '건강한 노후, 지금부터 준비해요!',
-        h2: '기억력 관리, 미리미리 시작해요!',
-        side: '웃음과 건강을 함께 응원해요 ♡'
-      },
-      {
-        main: '기억이 이어지는 행복한 예천!',
-        sub: '서로의 기억을 소중히 여기는 따뜻한 우리 동네.',
-        h1: '행복한 기억습관, 같이 만들어요!',
-        h2: '예천군 치매안심센터가 함께합니다!',
-        side: '우리 함께 뇌건강 챙겨요 ♡'
-      },
-      {
-        main: '건강한 기억, 행복한 내일!',
-        sub: '예천군 치매안심센터와 함께하는 건강한 일상.',
-        h1: '지금 뇌건강 챙길 때입니다!',
-        h2: '기억을 위한 좋은 습관, 오늘부터!',
-        side: '당신의 건강한 오늘을 응원해요 ♡'
-      }
-    ];
-
-    const recommendTitles = [
-      '이런 분께 추천해요!',
-      '이런 분과 함께하고 싶어요!',
-      '치매안심센터, 이런 분께 좋아요!'
-    ];
-
-    const footerClosings = [
-      '당신의 건강한 오늘을 응원합니다 :)',
-      '예천군 치매안심센터가 함께합니다 ♡',
-      '작은 관심이 큰 건강을 만듭니다 ♡'
-    ];
-
-    let currentHeadline = headlineSets[0];
-
-    const presetMain = document.getElementById('presetMain');
-    const presetSub = document.getElementById('presetSub');
-    const highlight1 = document.getElementById('highlight1');
-    const highlight2 = document.getElementById('highlight2');
-    const sideCopy = document.getElementById('sideCopy');
-    const recommendTitle = document.getElementById('recommendTitle');
-    const footerClosing = document.getElementById('footerClosing');
-    const promptOutput = document.getElementById('promptOutput');
-
-    function randomItem(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
-    function setHeadline(set){
-      currentHeadline = set;
-      presetMain.textContent = set.main;
-      presetSub.textContent = set.sub;
-      highlight1.textContent = set.h1;
-      highlight2.textContent = set.h2;
-      sideCopy.textContent = set.side;
-    }
-
-    function setRecommendTitle(value){ recommendTitle.value = value; }
-    function setFooterClosing(value){ footerClosing.value = value; }
-
-    function getSelectedPose(){
-      const checked = document.querySelector('input[name="pose"]:checked');
-      return checked ? checked.value : '엄지척';
-    }
-
-    function getCheckedTargets(){
-      return Array.from(document.querySelectorAll('.check-item input:checked')).map(el => el.value);
-    }
-
-    function buildPrompt(){
-      const centerName = document.getElementById('centerName').value.trim() || '예천군 치매안심센터';
-      const footerCenterName = document.getElementById('footerCenterName').value.trim() || centerName;
-      const pose = getSelectedPose();
-      const targets = getCheckedTargets();
-      const recommendTitleText = recommendTitle.value.trim() || '이런 분께 추천해요!';
-      const footerClosingText = footerClosing.value.trim() || '당신의 건강한 오늘을 응원합니다 :)';
-      const checkedLines = targets.length ? targets.map(t => '✓ ' + t).join('\n') : '선택한 추천 대상 없음';
-
-      const poseLineMap = {
-        '엄지척':'한 손으로 커다란 엄지척 포즈를 취하게 해 주세요.',
-        '손하트':'손하트 포즈를 취하게 해 주세요.',
-        '브이 포즈':'밝은 표정으로 브이 포즈를 취하게 해 주세요.',
-        '환하게 웃기':'포즈보다 표정이 강조되도록 활짝 웃는 모습을 표현해 주세요.',
-        '손을 모으고 단정하게':'손을 모으고 단정하고 친근한 포즈를 취하게 해 주세요.'
-      };
-
-      const prompt = `첨부한 인물 사진을 활용하여 **한국어로 된 세로형 4:5 비율의 '${centerName} 홍보 포스터' 이미지 1장**을 제작해 주세요.\n\n**[가장 중요한 제작 목표]**\n일반적인 보건소 안내문, 차분한 공공기관 포스터, 미니멀 인포그래픽이 아닙니다.\n한국의 유튜브 썸네일, 인기 강좌 홍보물, TV 예능형 광고 디자인처럼 **매우 화려하고 발랄하며, 강렬한 색상과 초대형 한글 타이포그래피가 특징인 프리미엄 상업 홍보 포스터**로 제작해 주세요.\n포스터를 보는 사람이 단 2초 만에 '${centerName}'를 홍보하는 이미지임을 알아볼 수 있어야 합니다.\n\n### 1. 인물 표현 — 가장 중요한 요소\n첨부한 실제 인물 사진을 주인공으로 사용합니다.\n- 원본 인물의 눈매, 코, 입, 얼굴형, 미소 등 알아볼 수 있는 주요 특징을 유지합니다.\n- 전체적인 외모는 40대 초반처럼 훨씬 젊고 화사하고 아름답고 생기 있게 표현합니다.\n- 깊은 주름, 팔자주름, 눈 밑 주름, 다크서클, 피부 처짐을 자연스럽고 매끄럽게 완화합니다.\n- 맑고 환한 피부, 또렷하고 반짝이는 눈빛, 자연스러운 윤기와 밝은 미소를 표현합니다.\n- 풍성하고 세련된 헤어스타일, 밝은 핑크·화이트·옐로 계열의 산뜻하고 화려한 의상으로 표현합니다.\n- 얼굴이 다른 사람처럼 완전히 바뀌지 않도록 원본의 인상과 개성을 최대한 유지합니다.\n\n인물은 포스터 오른쪽 중앙에 매우 크게 배치합니다. 상반신 중심의 실사 사진으로, 얼굴이 크고 뚜렷하게 보이게 합니다. ${poseLineMap[pose]} 전체적으로 밝고 자신감 넘치는 실제 광고 모델 촬영 사진처럼 표현합니다. 일러스트 인물이 아닌 **고급 실사 인물사진**이어야 합니다.\n\n### 2. 전체 디자인 — 한국형 초화려 광고 포스터\n- 배경은 쨍하고 맑은 하늘색과 밝은 자연광을 사용합니다.\n- 하단에는 노란색과 흰색의 화사한 꽃밭, 싱그러운 풀잎을 배치합니다.\n- 메인 강조색은 강렬한 핫핑크, 서브 강조색은 선명한 레몬옐로, 보조색은 화이트·블랙·청록색입니다.\n- 한국형 광고 디자인에서 사용하는 크고 굵은 손글씨형 타이포그래피를 사용합니다.\n- 핵심 제목은 매우 크게, 입체적인 핫핑크 글자와 두꺼운 흰색 외곽선, 검은 그림자로 표현합니다.\n- 제목 뒤에는 넓고 불규칙한 레몬옐로 형광펜 칠을 넣습니다.\n- 강조 문구는 진한 핫핑크 붓터치 배너 위에 흰색 또는 노란색 글자로 표현합니다.\n- 글자 주위에 손그림 밑줄, 왕관, 하트, 별, 반짝임, 작은 손그림 장식 요소를 풍성하게 넣습니다.\n- 평범한 정렬식 정보 카드, 미니멀 공공기관 안내문, 차분한 파스텔 포스터처럼 보이면 안 됩니다.\n\n### 3. 포스터 문구 — 아래 한국어를 정확히 사용\n**[최상단 작은 노란 형광펜 배너]**\n"우리 동네 뇌건강 응원단 ♡"\n\n**[왼쪽 상단 초대형 메인 제목]**\n"${currentHeadline.main}"\n\n선택된 메인 제목은 가장 크고 강렬한 핫핑크 입체 글자로 표현합니다. 기관명 '${centerName}'도 제목 바로 주변에 매우 크고 또렷하게 표시해 홍보 대상을 즉시 알 수 있게 하세요.\n\n**[메인 제목 바로 아래 서브 문구]**\n"${currentHeadline.sub}"\n\n**[중간 첫 번째 강조 문구]**\n"${currentHeadline.h1}"\n\n**[중간 두 번째 강조 문구]**\n"${currentHeadline.h2}"\n\n**[인물 옆 작은 손글씨 문구]**\n"${currentHeadline.side}"\n\n### 4. 추천 대상 체크리스트\n포스터 오른쪽 아래 또는 하단 중앙에 흰색의 살짝 기울어진 종이형 안내판을 배치합니다. 정보판 상단에는 강렬한 핫핑크 붓터치 배너를 넣고 다음 제목을 작성합니다.\n"${recommendTitleText}"\n\n그 아래에 진한 핑크 체크 표시와 함께 아래 문구를 정확히 넣습니다.\n${checkedLines}\n\n글자는 읽기 쉬운 진한 검정으로 작성하며, 각 항목 사이에 충분한 여유를 둡니다. 체크리스트는 인물의 얼굴을 가리지 않도록 배치합니다.\n\n### 5. 포스터 하단 마무리\n하단에는 진한 청록색 또는 핫핑크 붓터치 배너를 배치합니다.\n배너 안에 다음 문구를 적습니다.\n"${footerClosingText}"\n\n그 아래에는 기관명을 또렷하게 표시합니다.\n"${footerCenterName}"\n\n기관명은 반드시 정확히 표기하고, 다른 기관명이나 가상의 기관 로고를 만들지 마세요.\n\n### 6. 화면 구성 및 완성도 지침\n- 상단 왼쪽: 노란 형광펜 문구 + 거대한 핫핑크 메인 제목\n- 상단 오른쪽~중앙: 밝고 화사한 인물 얼굴과 풍성한 헤어스타일\n- 중앙 왼쪽: 핑크 붓터치 홍보 문구와 레몬옐로 강조 문구\n- 중앙 오른쪽: 인물의 자연스러운 ${pose}\n- 하단 오른쪽: 흰색 종이형 추천 대상 체크리스트\n- 하단 왼쪽: 응원 문구, 꽃 장식, 밝은 홍보 배너\n- 최하단: '${footerCenterName}' 기관명\n\n사진, 초대형 손글씨, 형광펜, 붓터치, 배너, 귀여운 광고 장식들이 하나의 완성된 홍보물처럼 자연스럽게 어우러져야 합니다. 화면은 풍성하게 사용하되, 제목·얼굴·주요 홍보 문구의 가독성은 반드시 확보합니다.\n\n**최종 품질 기준**\n1. 한눈에 보이는 강렬하고 화려한 한국형 광고 포스터\n2. 원본 인물을 알아볼 수 있으면서 훨씬 젊고 화사한 실사 인물\n3. 큼직하고 입체적인 핫핑크·검정 한글 제목\n4. 여러 겹의 형광펜·붓터치 배너와 발랄한 손그림 장식\n5. 실제로 읽을 수 있는 센터 홍보 문구와 추천 대상 문구\n6. 선명한 고해상도 결과물, 세로 4:5\n7. 한글 오타, 깨진 글자, 글자 잘림, 중복 문구, 워터마크 금지\n\n**이미지 1장만 완성해 주세요. 설명이나 별도의 텍스트 출력은 필요하지 않습니다.**`;
-
-      promptOutput.value = prompt;
-    }
-
-    function shuffleHeadline(){
-      setHeadline(randomItem(headlineSets));
-      buildPrompt();
-    }
-    function shuffleRecommend(){
-      setRecommendTitle(randomItem(recommendTitles));
-      buildPrompt();
-    }
-    function shuffleFooter(){
-      setFooterClosing(randomItem(footerClosings));
-      buildPrompt();
-    }
-
-    function copyPrompt(){
-      const legacyCopy = () => {
-        promptOutput.focus();
-        promptOutput.select();
-        const done = document.execCommand('copy');
-        if (done) alert('프롬프트가 복사되었습니다. ChatGPT에 사진과 함께 붙여넣어 주세요.');
-        else alert('자동 복사가 차단되었습니다. 프롬프트를 길게 누르거나 Ctrl+C로 복사해 주세요.');
-      };
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(promptOutput.value).then(() => {
-          alert('프롬프트가 복사되었습니다. ChatGPT에 사진과 함께 붙여넣어 주세요.');
-        }).catch(legacyCopy);
-      } else legacyCopy();
-    }
-
-    document.getElementById('shuffleHeadline').addEventListener('click', shuffleHeadline);
-    document.getElementById('shuffleFooter').addEventListener('click', shuffleFooter);
-    document.getElementById('generatePrompt').addEventListener('click', buildPrompt);
-    document.getElementById('copyPrompt').addEventListener('click', copyPrompt);
-    document.getElementById('copyPromptTop').addEventListener('click', copyPrompt);
-    document.querySelectorAll('input, select').forEach(el=>{
-      el.addEventListener('change', buildPrompt);
-      el.addEventListener('input', buildPrompt);
-    });
-
-    setHeadline(randomItem(headlineSets));
-    setRecommendTitle(randomItem(recommendTitles));
-    setFooterClosing(randomItem(footerClosings));
-    buildPrompt();
-  </script>
-</body>
-</html>
+<body><div class="wrap">
+<header class="hero"><h1><span class="a">AI로 만드는</span><br><span class="b">치매안심센터</span> <span class="c">홍보 포스터</span></h1><p>우리 센터를 알리는 멋진 홍보 포스터를 만들어 봐요!</p></header>
+<div class="topnav"><a class="home" href="../">🏠 처음으로</a><button type="button" class="reset" id="resetBtn">↻ 선택 초기화</button></div>
+<section class="panel p1" id="step1"><div class="head"><div class="num n1">1</div><div><h2>어느 센터를 소개할까요?</h2><p class="sub">센터 이름이 포스터에 크게 들어가요.</p></div></div>
+<div class="basics"><div><label class="field-title" for="centerName">🏡 센터 이름</label><input id="centerName" class="text-field" value="예천군 치매안심센터" maxlength="60" /><div class="fixed">📌 치매안심센터 홍보 포스터</div><p class="helper">예시처럼 화려한 한국형 홍보 포스터로 만들어져요.</p></div><img class="preview-img" src="assets/cover.png" alt="화려한 한국형 홍보 포스터 스타일의 예시 이미지"></div></section>
+<section class="panel p2"><div class="head"><div class="num n2">2</div><div><h2>사진 속 나는 어떤 포즈를 해볼까요?</h2><p class="sub">마음에 드는 포즈 하나를 눌러주세요.</p></div></div>
+<div class="choice-grid" id="poseGrid" role="radiogroup" aria-label="포스터 포즈 선택">
+<label class="choice"><input type="radio" name="pose" value="엄지척" checked><span class="choice-visual" aria-hidden="true">👍</span><strong>엄지척</strong><span class="tick">✓</span></label>
+<label class="choice"><input type="radio" name="pose" value="손하트"><span class="choice-visual" aria-hidden="true">🫶</span><strong>손하트</strong><span class="tick">✓</span></label>
+<label class="choice"><input type="radio" name="pose" value="브이 포즈"><span class="choice-visual" aria-hidden="true">✌️</span><strong>브이 포즈</strong><span class="tick">✓</span></label>
+<label class="choice"><input type="radio" name="pose" value="환하게 웃기"><span class="choice-visual" aria-hidden="true">😊</span><strong>환하게 웃기</strong><span class="tick">✓</span></label>
+<label class="choice"><input type="radio" name="pose" value="손을 모으고 단정하게"><span class="choice-visual" aria-hidden="true">🙆‍♀️</span><strong>단정한 포즈</strong><span class="tick">✓</span></label>
+</div><div class="note">🌸 원본 얼굴의 주요 특징을 유지하고, 전체적으로 매우 화사하고 화려하게 표현해요. 별도 분위기 선택은 필요 없어요.</div></section>
+<section class="panel p3"><div class="head"><div class="num n3">3</div><div><h2>어떤 홍보 문구가 들어갈까요?</h2><p class="sub">서로 어울리는 문구가 자동으로 추천돼요.</p></div></div>
+<div class="copy-card"><div class="copy-head"><div class="copy-kicker">✨ 자동으로 완성되는 홍보 문구</div><button class="shuffle" type="button" id="shuffleHeadline">↻ 다른 문구 추천</button></div><div id="presetMain" class="copy-title"></div><p id="presetSub" class="copy-sub"></p><div class="copy-highlights"><span id="highlight1"></span><span id="highlight2"></span><span id="sideCopy"></span></div></div></section>
+<section class="panel p4"><div class="head"><div class="num n4">4</div><div><h2>어떤 분들에게 알리고 싶으세요?</h2><p class="sub">홍보 포스터에 넣고 싶은 항목을 골라주세요. (여러 개 가능해요!)</p></div></div>
+<div class="targets" id="targetGrid">
+<label class="target"><input type="checkbox" value="건강한 노후를 준비하고 싶은 분" checked><span class="target-icon">🌷</span><span>건강한 노후를 준비하고 싶은 분</span><span class="target-check">✓</span></label>
+<label class="target"><input type="checkbox" value="기억력 관리가 걱정되는 분" checked><span class="target-icon">💗</span><span>기억력 관리가 걱정되는 분</span><span class="target-check">✓</span></label>
+<label class="target"><input type="checkbox" value="생활습관을 점검하고 싶은 분" checked><span class="target-icon">🌿</span><span>생활습관을 점검하고 싶은 분</span><span class="target-check">✓</span></label>
+<label class="target"><input type="checkbox" value="가족과 오래 행복하게 지내고 싶은 분" checked><span class="target-icon">👨‍👩‍👧</span><span>가족과 오래 행복하게 지내고 싶은 분</span><span class="target-check">✓</span></label>
+<label class="target"><input type="checkbox" value="치매예방 정보를 알고 싶은 분"><span class="target-icon">📖</span><span>치매예방 정보를 알고 싶은 분</span><span class="target-check">✓</span></label>
+<label class="target"><input type="checkbox" value="가까운 곳에서 도움을 받고 싶은 분"><span class="target-icon">🏠</span><span>가까운 곳에서 도움을 받고 싶은 분</span><span class="target-check">✓</span></label>
+</div><div class="note">💡 글자가 너무 많아지지 않도록 3~4개 선택을 추천해요.</div></section>
+<section class="panel p5"><div class="head"><div class="num n5">5</div><div><h2>나의 홍보 포스터를 확인해 봐요!</h2><p class="sub">지금까지 고른 내용이 자동으로 정리돼요.</p></div></div>
+<div class="summary"><div class="box"><h3>🏡 우리 센터</h3><p id="sumCenter"></p></div><div class="box"><h3>🙋 사진 속 포즈</h3><p id="sumPose"></p></div><div class="box"><h3>💬 홍보 문구</h3><p id="sumCopies"></p></div><div class="box"><h3>✅ 추천 대상</h3><p id="sumTargets"></p></div></div>
+<div class="closing"><span>💖 포스터 하단: <span id="closingText"></span></span><button class="shuffle" type="button" id="shuffleFooter">↻ 다른 응원 문구</button></div>
+<div class="note">📷 본인 사진은 사이트에 올리지 않아요. 프롬프트를 복사한 뒤 ChatGPT에 사진과 함께 넣어주세요. 사진 활용·보정에 대한 당사자 동의를 확인해 주세요.</div></section>
+<section class="cta"><div class="robot">🤖</div><div><h3>AI야!</h3><p>내 사진으로 화사한 치매안심센터 홍보 포스터를 만들어 줘!</p></div><button class="go" id="generatePrompt" type="button">이미지 프롬프트 만들기 →</button></section>
+<section class="result" id="result" aria-live="polite"><h3>🖼️ 완성된 이미지 생성 프롬프트</h3><div class="prompt" id="promptOutput" tabindex="0"></div><div class="result-actions"><button class="copy" type="button" id="copyPrompt">📋 프롬프트 복사</button><button class="openai" type="button" id="copyAndOpen">🤖 ChatGPT 열기 ↗</button></div><div class="note">ChatGPT에서 새 채팅을 열고, 본인 사진 1장을 첨부한 후 복사한 프롬프트를 붙여넣어 주세요.</div></section>
+<a class="activity-home" href="../">← 다른 활동 고르기</a><footer class="creator-signature">기획·제작 <strong>IZZYON</strong> · AI 강사 <strong>이지영</strong></footer>
+</div>
+<script>
+const headlineSets=[
+{main:'예천군 치매안심센터와 함께해요!',sub:'건강한 오늘, 행복한 내일을 함께 만들어가요.',h1:'건강한 기억, 행복한 내일!',h2:'뇌건강, 지금부터 챙겨요!',side:'함께하면 더 든든해요 ♡'},
+{main:'기억을 지키는 든든한 동행!',sub:'예천군 치매안심센터가 여러분과 함께합니다.',h1:'생활 속에서 함께 실천해요!',h2:'작은 관심이 큰 건강을 만듭니다!',side:'오늘도 건강한 하루 되세요 ♡'},
+{main:'우리 동네 뇌건강, 함께 챙겨요!',sub:'가까운 곳에서 시작하는 건강한 기억 습관.',h1:'건강한 노후, 지금부터 준비해요!',h2:'기억력 관리, 미리미리 시작해요!',side:'웃음과 건강을 함께 응원해요 ♡'},
+{main:'기억이 이어지는 행복한 예천!',sub:'서로의 기억을 소중히 여기는 따뜻한 우리 동네.',h1:'행복한 기억습관, 같이 만들어요!',h2:'예천군 치매안심센터가 함께합니다!',side:'우리 함께 뇌건강 챙겨요 ♡'},
+{main:'건강한 기억, 행복한 내일!',sub:'예천군 치매안심센터와 함께하는 건강한 일상.',h1:'지금 뇌건강 챙길 때입니다!',h2:'기억을 위한 좋은 습관, 오늘부터!',side:'당신의 건강한 오늘을 응원해요 ♡'}
+];
+const recommendTitles=['이런 분께 추천해요!','이런 분과 함께하고 싶어요!','치매안심센터, 이런 분께 좋아요!'];
+const footerClosings=['당신의 건강한 오늘을 응원합니다 :)','예천군 치매안심센터가 함께합니다 ♡','작은 관심이 큰 건강을 만듭니다 ♡'];
+let currentHeadline=headlineSets[0],currentRecommend=recommendTitles[0],currentClosing=footerClosings[0];
+const $=(id)=>document.getElementById(id);
+function rand(a){return a[Math.floor(Math.random()*a.length)];}
+function pose(){return document.querySelector('input[name="pose"]:checked')?.value||'엄지척';}
+function targets(){return [...document.querySelectorAll('.target input:checked')].map(x=>x.value);}
+function updateUI(){
+ $('presetMain').textContent=currentHeadline.main;$('presetSub').textContent=currentHeadline.sub;$('highlight1').textContent=currentHeadline.h1;$('highlight2').textContent=currentHeadline.h2;$('sideCopy').textContent=currentHeadline.side;
+ $('sumCenter').textContent=$('centerName').value.trim()||'예천군 치매안심센터';$('sumPose').textContent=pose();$('sumCopies').textContent=currentHeadline.main+'\n'+currentHeadline.sub;$('sumTargets').textContent=targets().map(x=>'• '+x).join('\n')||'선택하지 않았어요.';$('closingText').textContent=currentClosing;
+ // Prevent a stale generated prompt after inputs change.
+ $('result').classList.remove('show');
+}
+function makePrompt(){
+ const centerName=$('centerName').value.trim()||'예천군 치매안심센터';
+ const footerCenterName=centerName;
+ const pose=getSelectedPose();
+ const targets=getCheckedTargets();
+ const recommendTitleText=currentRecommend;
+ const footerClosingText=currentClosing;
+ const checkedLines=targets.length?targets.map(t=>'✓ '+t).join('\n'):'✓ 건강한 노후를 준비하고 싶은 분\n✓ 기억력 관리가 걱정되는 분\n✓ 생활습관을 점검하고 싶은 분\n✓ 가족과 오래 행복하게 지내고 싶은 분';
+ const poseLineMap={
+ '엄지척':'한 손으로 커다란 엄지척 포즈를 취하게 해 주세요.',
+ '손하트':'손하트 포즈를 취하게 해 주세요.',
+ '브이 포즈':'밝은 표정으로 브이 포즈를 취하게 해 주세요.',
+ '환하게 웃기':'포즈보다 표정이 강조되도록 활짝 웃는 모습을 표현해 주세요.',
+ '손을 모으고 단정하게':'손을 모으고 단정하고 친근한 포즈를 취하게 해 주세요.'};
+ const prompt=`첨부한 인물 사진을 활용하여 **한국어로 된 세로형 4:5 비율의 '${centerName} 홍보 포스터' 이미지 1장**을 제작해 주세요.\n\n**[가장 중요한 제작 목표]**\n일반적인 보건소 안내문, 차분한 공공기관 포스터, 미니멀 인포그래픽이 아닙니다.\n한국의 유튜브 썸네일, 인기 강좌 홍보물, TV 예능형 광고 디자인처럼 **매우 화려하고 발랄하며, 강렬한 색상과 초대형 한글 타이포그래피가 특징인 프리미엄 상업 홍보 포스터**로 제작해 주세요.\n포스터를 보는 사람이 단 2초 만에 '${centerName}'를 홍보하는 이미지임을 알아볼 수 있어야 합니다.\n\n### 1. 인물 표현 — 가장 중요한 요소\n첨부한 실제 인물 사진을 주인공으로 사용합니다.\n- 원본 인물의 눈매, 코, 입, 얼굴형, 미소 등 알아볼 수 있는 주요 특징을 유지합니다.\n- 전체적인 외모는 40대 초반처럼 훨씬 젊고 화사하고 아름답고 생기 있게 표현합니다.\n- 깊은 주름, 팔자주름, 눈 밑 주름, 다크서클, 피부 처짐을 자연스럽고 매끄럽게 완화합니다.\n- 맑고 환한 피부, 또렷하고 반짝이는 눈빛, 자연스러운 윤기와 밝은 미소를 표현합니다.\n- 풍성하고 세련된 헤어스타일, 밝은 핑크·화이트·옐로 계열의 산뜻하고 화려한 의상으로 표현합니다.\n- 얼굴이 다른 사람처럼 완전히 바뀌지 않도록 원본의 인상과 개성을 최대한 유지합니다.\n\n인물은 포스터 오른쪽 중앙에 매우 크게 배치합니다. 상반신 중심의 실사 사진으로, 얼굴이 크고 뚜렷하게 보이게 합니다. ${poseLineMap[pose]} 전체적으로 밝고 자신감 넘치는 실제 광고 모델 촬영 사진처럼 표현합니다. 일러스트 인물이 아닌 **고급 실사 인물사진**이어야 합니다.\n\n### 2. 전체 디자인 — 한국형 초화려 광고 포스터\n- 배경은 쨍하고 맑은 하늘색과 밝은 자연광을 사용합니다.\n- 하단에는 노란색과 흰색의 화사한 꽃밭, 싱그러운 풀잎을 배치합니다.\n- 메인 강조색은 강렬한 핫핑크, 서브 강조색은 선명한 레몬옐로, 보조색은 화이트·블랙·청록색입니다.\n- 한국형 광고 디자인에서 사용하는 크고 굵은 손글씨형 타이포그래피를 사용합니다.\n- 핵심 제목은 매우 크게, 입체적인 핫핑크 글자와 두꺼운 흰색 외곽선, 검은 그림자로 표현합니다.\n- 제목 뒤에는 넓고 불규칙한 레몬옐로 형광펜 칠을 넣습니다.\n- 강조 문구는 진한 핫핑크 붓터치 배너 위에 흰색 또는 노란색 글자로 표현합니다.\n- 글자 주위에 손그림 밑줄, 왕관, 하트, 별, 반짝임, 작은 손그림 장식 요소를 풍성하게 넣습니다.\n- 평범한 정렬식 정보 카드, 미니멀 공공기관 안내문, 차분한 파스텔 포스터처럼 보이면 안 됩니다.\n\n### 3. 포스터 문구 — 아래 한국어를 정확히 사용\n**[최상단 작은 노란 형광펜 배너]**\n"우리 동네 뇌건강 응원단 ♡"\n\n**[왼쪽 상단 초대형 메인 제목]**\n"${currentHeadline.main}"\n\n선택된 메인 제목은 가장 크고 강렬한 핫핑크 입체 글자로 표현합니다. 기관명 '${centerName}'도 제목 바로 주변에 매우 크고 또렷하게 표시해 홍보 대상을 즉시 알 수 있게 하세요.\n\n**[메인 제목 바로 아래 서브 문구]**\n"${currentHeadline.sub}"\n\n**[중간 첫 번째 강조 문구]**\n"${currentHeadline.h1}"\n\n**[중간 두 번째 강조 문구]**\n"${currentHeadline.h2}"\n\n**[인물 옆 작은 손글씨 문구]**\n"${currentHeadline.side}"\n\n### 4. 추천 대상 체크리스트\n포스터 오른쪽 아래 또는 하단 중앙에 흰색의 살짝 기울어진 종이형 안내판을 배치합니다. 정보판 상단에는 강렬한 핫핑크 붓터치 배너를 넣고 다음 제목을 작성합니다.\n"${recommendTitleText}"\n\n그 아래에 진한 핑크 체크 표시와 함께 아래 문구를 정확히 넣습니다.\n${checkedLines}\n\n글자는 읽기 쉬운 진한 검정으로 작성하며, 각 항목 사이에 충분한 여유를 둡니다. 체크리스트는 인물의 얼굴을 가리지 않도록 배치합니다.\n\n### 5. 포스터 하단 마무리\n하단에는 진한 청록색 또는 핫핑크 붓터치 배너를 배치합니다.\n배너 안에 다음 문구를 적습니다.\n"${footerClosingText}"\n\n그 아래에는 기관명을 또렷하게 표시합니다.\n"${footerCenterName}"\n\n기관명은 반드시 정확히 표기하고, 다른 기관명이나 가상의 기관 로고를 만들지 마세요.\n\n### 6. 화면 구성 및 완성도 지침\n- 상단 왼쪽: 노란 형광펜 문구 + 거대한 핫핑크 메인 제목\n- 상단 오른쪽~중앙: 밝고 화사한 인물 얼굴과 풍성한 헤어스타일\n- 중앙 왼쪽: 핑크 붓터치 홍보 문구와 레몬옐로 강조 문구\n- 중앙 오른쪽: 인물의 자연스러운 ${pose}\n- 하단 오른쪽: 흰색 종이형 추천 대상 체크리스트\n- 하단 왼쪽: 응원 문구, 꽃 장식, 밝은 홍보 배너\n- 최하단: '${footerCenterName}' 기관명\n\n사진, 초대형 손글씨, 형광펜, 붓터치, 배너, 귀여운 광고 장식들이 하나의 완성된 홍보물처럼 자연스럽게 어우러져야 합니다. 화면은 풍성하게 사용하되, 제목·얼굴·주요 홍보 문구의 가독성은 반드시 확보합니다.\n\n**최종 품질 기준**\n1. 한눈에 보이는 강렬하고 화려한 한국형 광고 포스터\n2. 원본 인물을 알아볼 수 있으면서 훨씬 젊고 화사한 실사 인물\n3. 큼직하고 입체적인 핫핑크·검정 한글 제목\n4. 여러 겹의 형광펜·붓터치 배너와 발랄한 손그림 장식\n5. 실제로 읽을 수 있는 센터 홍보 문구와 추천 대상 문구\n6. 선명한 고해상도 결과물, 세로 4:5\n7. 한글 오타, 깨진 글자, 글자 잘림, 중복 문구, 워터마크 금지\n\n**이미지 1장만 완성해 주세요. 설명이나 별도의 텍스트 출력은 필요하지 않습니다.**`;
+ $('promptOutput').textContent=prompt;
+ $('result').classList.add('show');
+ $('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function getSelectedPose(){return pose();}
+function getCheckedTargets(){return targets();}
+function resetAll(){
+ $('centerName').value='예천군 치매안심센터';document.querySelector('input[name="pose"][value="엄지척"]').checked=true;
+ document.querySelectorAll('.target input').forEach((e,i)=>e.checked=i<4);
+ currentHeadline=rand(headlineSets);currentRecommend=rand(recommendTitles);currentClosing=rand(footerClosings);updateUI();window.scrollTo({top:0,behavior:'smooth'});
+}
+async function copyPrompt(){
+ if(!$('result').classList.contains('show'))makePrompt();
+ const prompt=$('promptOutput').textContent;
+ try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(prompt)}else{throw new Error('clipboard unavailable')} alert('프롬프트를 복사했어요! ChatGPT에서 사진과 함께 붙여넣어 주세요.');}
+ catch(e){const area=document.createElement('textarea');area.value=prompt;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();let ok=false;try{ok=document.execCommand('copy')}catch(_){}area.remove();if(ok)alert('프롬프트를 복사했어요!');else alert('자동 복사가 안 되면 프롬프트를 선택해 복사해 주세요.');}
+}
+async function copyAndOpen(){const newTab=window.open('https://chatgpt.com/','_blank','noopener');if(!$('result').classList.contains('show'))makePrompt();await copyPrompt();if(!newTab)alert('ChatGPT 새 창이 차단되었다면 직접 chatgpt.com을 열어주세요.');}
+$('centerName').addEventListener('input',updateUI);
+document.querySelectorAll('input[name="pose"],.target input').forEach(e=>e.addEventListener('change',updateUI));
+$('shuffleHeadline').addEventListener('click',()=>{const options=headlineSets.filter(x=>x!==currentHeadline);currentHeadline=rand(options);updateUI()});
+$('shuffleFooter').addEventListener('click',()=>{const options=footerClosings.filter(x=>x!==currentClosing);currentClosing=rand(options);currentRecommend=rand(recommendTitles);updateUI()});
+$('generatePrompt').addEventListener('click',makePrompt);$('copyPrompt').addEventListener('click',copyPrompt);$('copyAndOpen').addEventListener('click',copyAndOpen);$('resetBtn').addEventListener('click',resetAll);
+currentHeadline=rand(headlineSets);currentRecommend=rand(recommendTitles);currentClosing=rand(footerClosings);updateUI();
+</script></body></html>
